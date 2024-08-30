@@ -1,7 +1,11 @@
 import { IcMainCharacter } from "@svg";
 
 const Home = () => {
-  return <div><IcMainCharacter /></div>;
+  return (
+    <>
+      <IcMainCharacter />
+    </>
+  );
 };
 
 export default Home;
