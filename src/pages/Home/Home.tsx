@@ -1,10 +1,27 @@
 import { IcMainCharacter } from "@svg";
+import { chracterDivStyle, layoutStyle, titleStyle } from "./Home.style";
+import Button from "src/components/common/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const handleButtonClick = () => {
+    navigate("/order-info/sender");
+  };
   return (
-    <>
-      <IcMainCharacter />
-    </>
+    <div css={layoutStyle}>
+      <h1 css={titleStyle}>
+        나무와 열매 체험 농장
+        <br />
+        주문서 작성
+      </h1>
+      <div css={chracterDivStyle}>
+        <IcMainCharacter />
+      </div>
+      <Button variant="fill" onClick={handleButtonClick}>
+        작성하기
+      </Button>
+    </div>
   );
 };
 
