@@ -1,3 +1,4 @@
 import homeRoutes from "./homeRoutes";
+import orderInfoRoutes from "./orderInfoRoutes";
 
-export { homeRoutes };
+export { homeRoutes, orderInfoRoutes };
