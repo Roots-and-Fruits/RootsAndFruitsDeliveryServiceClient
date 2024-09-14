@@ -3,10 +3,10 @@ const homePages = {
 };
 
 const orderInfoPages = {
-  ORDER_INFO: '/order-info/:step'
-}
+  ORDER_INFO: "/order-info/:step",
+};
 
 export default {
   ...homePages,
-  ...orderInfoPages
+  ...orderInfoPages,
 };
