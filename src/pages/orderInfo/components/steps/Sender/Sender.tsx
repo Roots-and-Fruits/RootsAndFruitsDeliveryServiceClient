@@ -1,12 +1,11 @@
+import { Header, ProgressBar } from "@components";
 import { StepProps } from "@types";
-import Header from "src/components/common/Header/Header";
-import ProgressBar from "src/components/common/ProgressBar/ProgressBar";
 
 const Sender = ({ onNext }: StepProps) => {
   return (
     <div onClick={onNext}>
-      <Header text="보내는분" />
-      <ProgressBar progress={14.28}/>
+      <Header text="보내는 분" />
+      <ProgressBar progress={14.28} />
     </div>
   );
 };

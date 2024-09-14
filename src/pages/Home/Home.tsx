@@ -1,7 +1,7 @@
 import { IcMainCharacter } from "@svg";
 import { chracterDivStyle, layoutStyle, titleStyle } from "./Home.style";
-import Button from "src/components/common/Button/Button";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@components";
 
 const Home = () => {
   const navigate = useNavigate();
