@@ -1,5 +1,10 @@
 import { IcBack } from "@svg";
-import { headerContainer, iconStyle, textStyle } from "./Header.style";
+import {
+  headerContainer,
+  headerWrapper,
+  iconStyle,
+  textStyle,
+} from "./Header.style";
 
 interface HeaderProps {
   text: string;
@@ -8,10 +13,12 @@ interface HeaderProps {
 const Header = ({ text }: HeaderProps) => {
   return (
     <header css={headerContainer}>
-      <span css={iconStyle}>
-        <IcBack />
-      </span>
-      <h4 css={textStyle}>{text}</h4>
+      <div css={headerWrapper}>
+        <span css={iconStyle}>
+          <IcBack />
+        </span>
+        <h4 css={textStyle}>{text}</h4>
+      </div>
     </header>
   );
 };
