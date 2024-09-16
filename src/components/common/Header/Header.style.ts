@@ -2,7 +2,15 @@ import { Theme } from "@emotion/react";
 import { css } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
-export const headerContainer = css`
+export const headerContainer = (theme: Theme) => css`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 6rem;
+  background-color: ${theme.color.white};
+`;
+
+export const headerWrapper = css`
   ${flexGenerator()}
   width: 100%;
   height: 6rem;

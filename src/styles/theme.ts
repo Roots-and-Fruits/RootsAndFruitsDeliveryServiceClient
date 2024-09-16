@@ -22,73 +22,73 @@ const theme = {
       ${PretendardFont}
       font-size: 2.4rem;
       font-weight: 700;
-      line-height: normal;
+      line-height: 140%;
     `,
     "head02-b-20": css`
       ${PretendardFont}
       font-size: 2rem;
       font-weight: 700;
-      line-height: normal;
+      line-height: 140%;
     `,
     "head03-b-15": css`
       ${PretendardFont}
       font-size: 1.5rem;
       font-weight: 700;
-      line-height: normal;
+      line-height: 140%;
     `,
     "head04-sb-18": css`
       ${PretendardFont}
       font-size: 1.8rem;
       font-weight: 600;
-      line-height: normal;
+      line-height: 140%;
     `,
     "head05-n-24": css`
       ${PretendardFont}
       font-size: 2.4rem;
       font-weight: 400;
-      line-height: normal;
+      line-height: 140%;
     `,
     "subhead-b-14": css`
       ${PretendardFont}
       font-size: 1.4rem;
       font-weight: 700;
-      line-height: normal;
+      line-height: 140%;
     `,
     "subhead-m-18": css`
       ${PretendardFont}
       font-size: 1.8rem;
       font-weight: 500;
-      line-height: normal;
+      line-height: 140%;
     `,
     "subhead-n-16": css`
       ${PretendardFont}
       font-size: 1.6rem;
       font-weight: 400;
-      line-height: normal;
+      line-height: 140%;
     `,
     "subhead-n-14": css`
       ${PretendardFont}
       font-size: 1.4rem;
       font-weight: 400;
-      line-height: normal;
+      line-height: 140%;
     `,
     "subhead-m-16": css`
       ${PretendardFont}
       font-size: 1.6rem;
       font-weight: 500;
-      line-height: normal;
+      line-height: 140%;
     `,
     "subhead-m-14": css`
       ${PretendardFont}
       font-size: 1.4rem;
       font-weight: 500;
-      line-height: normal;
+      line-height: 140%;
     `,
     "pretendard-01": css`
       ${PretendardFont}
       font-size: 1.5rem;
       font-weight: 400;
-      line-height: normal;
+      line-height: 140%;
     `,
   },
 };
