@@ -1,4 +1,4 @@
-import { Button, Header, ProgressBar } from "@components";
+import { Button, CheckBox, Header, Input, ProgressBar } from "@components";
 import { StepProps } from "@types";
 import {
   buttonSectionStyle,
@@ -9,21 +9,28 @@ import {
   sectionStyle,
   textStyle,
 } from "./Sender.style";
-import Input from "src/components/common/Input/Input";
+import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
+import useOrderPostDataValidation from "@pages/orderInfo/hooks/useOrderPostDataValidation";
 import { useState } from "react";
-import CheckBox from "src/components/common/CheckBox/CheckBox";
 
 const Sender = ({ onNext }: StepProps) => {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState<number>();
-  const handleNameChange = (e) => {
-    setName(e.target.value);
+  const { orderPostDataState, handleInputChange, handleOptinalAgreementClick } =
+    useOrderPostDataChange();
+  const { validateSender } = useOrderPostDataValidation();
+
+  const [requiredCheck, setRequiredCheck] = useState(false);
+
+  const handleRequiredCheckClick = () => {
+    setRequiredCheck((prev) => !prev);
   };
-  const handleNumberChange = (e) => {
-    setNumber(e.target.value);
-  };
-  const handleButtonClick = () => {
-    onNext();
+
+  const { isAllValid: isInputValid } = validateSender(orderPostDataState);
+  const isAllValid = isInputValid && requiredCheck;
+
+  const handleNextClick = () => {
+    if (isAllValid) {
+      onNext();
+    }
   };
   return (
     <>
@@ -39,26 +46,40 @@ const Sender = ({ onNext }: StepProps) => {
         </section>
         <section css={mainSectionStyle}>
           <Input
-            value={name}
-            onChange={handleNameChange}
+            value={orderPostDataState.senderName}
+            onChange={(e) => handleInputChange(e, "senderName")}
             type="name"
             placeholder="이름을 입력하세요"
             inputLabel="이름"
           />
           <Input
-            value={number}
-            onChange={handleNumberChange}
+            value={orderPostDataState.senderPhone}
+            onChange={(e) => handleInputChange(e, "senderPhone")}
             type="text"
             placeholder="휴대폰 번호를 입력하세요"
             inputLabel="휴대폰 번호"
           />
           <div css={checkboxWrapper}>
-            <CheckBox>[필수] 개인정보 수집 및 이용 동의</CheckBox>
-            <CheckBox>[선택] 마케팅 활용 동의</CheckBox>
+            <CheckBox
+              isChecked={requiredCheck}
+              onClick={handleRequiredCheckClick}
+            >
+              [필수] 개인정보 수집 및 이용 동의
+            </CheckBox>
+            <CheckBox
+              isChecked={orderPostDataState.optinalAgreement}
+              onClick={handleOptinalAgreementClick}
+            >
+              [선택] 마케팅 활용 동의
+            </CheckBox>
           </div>
         </section>
         <footer css={buttonSectionStyle}>
-          <Button variant="fill" onClick={handleButtonClick}>
+          <Button
+            variant="fill"
+            onClick={handleNextClick}
+            disabled={!isAllValid}
+          >
             다음
           </Button>
         </footer>

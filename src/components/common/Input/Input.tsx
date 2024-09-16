@@ -19,6 +19,7 @@ const Input = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e);
   };
+
   return (
     <div css={inputWrapper}>
       {inputLabel && <span css={labelStyle}>{inputLabel}</span>}

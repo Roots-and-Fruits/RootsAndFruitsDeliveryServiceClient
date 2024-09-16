@@ -6,6 +6,7 @@ export const headerContainer = (theme: Theme) => css`
   position: fixed;
   top: 0;
   width: 100%;
+  max-width: 43rem;
   height: 6rem;
   background-color: ${theme.color.white};
 `;
