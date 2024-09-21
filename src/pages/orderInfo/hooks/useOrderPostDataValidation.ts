@@ -35,9 +35,25 @@ const useOrderPostDataValidation = () => {
     };
   };
 
+  const validateReceiver2 = (state: {
+    recipientAddress: string;
+    recipientAddressDetail: string;
+  }) => {
+    const isRecipientAddressValid = validateLength(state.recipientAddress);
+    const isRecipientAddressDetailValid = validateLength(
+      state.recipientAddressDetail
+    );
+    const isAllValid = isRecipientAddressValid && isRecipientAddressDetailValid;
+
+    return {
+      isAllValid,
+    };
+  };
+
   return {
     validateSender,
     validateReceiver1,
+    validateReceiver2,
   };
 };
 

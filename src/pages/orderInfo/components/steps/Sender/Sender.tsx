@@ -2,13 +2,14 @@ import { Button, CheckBox, Header, Input, ProgressBar } from "@components";
 import { StepProps } from "@types";
 import {
   buttonSectionStyle,
-  checkboxWrapper,
   layoutStyle,
   mainSectionStyle,
   orangeTextStyle,
   sectionStyle,
   textStyle,
-} from "./Sender.style";
+} from "@pages/orderInfo/styles";
+import { checkboxWrapper } from "./Sender.style";
+
 import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import useOrderPostDataValidation from "@pages/orderInfo/hooks/useOrderPostDataValidation";
 import { useState } from "react";
