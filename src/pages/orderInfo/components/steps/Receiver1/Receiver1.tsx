@@ -7,7 +7,7 @@ import {
   orangeTextStyle,
   sectionStyle,
   textStyle,
-} from "./Receiver1.style";
+} from "@pages/orderInfo/styles";
 import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import { useState } from "react";
 import useOrderPostDataValidation from "@pages/orderInfo/hooks/useOrderPostDataValidation";
