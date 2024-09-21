@@ -67,7 +67,7 @@ const Sender = ({ onNext }: StepProps) => {
               [필수] 개인정보 수집 및 이용 동의
             </CheckBox>
             <CheckBox
-              isChecked={orderPostDataState.optinalAgreement}
+              isChecked={orderPostDataState.isMarketingConsent}
               onClick={handleOptinalAgreementClick}
             >
               [선택] 마케팅 활용 동의

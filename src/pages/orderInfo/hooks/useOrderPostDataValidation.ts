@@ -22,8 +22,22 @@ const useOrderPostDataValidation = () => {
     };
   };
 
+  const validateReceiver1 = (state: {
+    recipientName: string;
+    recipientPhone: string;
+  }) => {
+    const isRecipientNameValid = validateLength(state.recipientName);
+    const isRecipientPhoneValid = validatePhone(state.recipientPhone);
+    const isAllValid = isRecipientNameValid && isRecipientPhoneValid;
+
+    return {
+      isAllValid,
+    };
+  };
+
   return {
     validateSender,
+    validateReceiver1,
   };
 };
 
