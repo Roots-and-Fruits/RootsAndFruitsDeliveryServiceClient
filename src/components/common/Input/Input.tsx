@@ -2,9 +2,10 @@ import React, { HTMLAttributes } from "react";
 import { inputStyle, inputWrapper, labelStyle } from "./Input.style";
 
 export interface InputProps extends HTMLAttributes<HTMLInputElement> {
-  value: string;
+  value: string | number;
   placeholder?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
   type: string;
   inputLabel?: string;
 }
@@ -13,11 +14,14 @@ const Input = ({
   value,
   placeholder,
   onChange,
+  name,
   type,
   inputLabel,
 }: InputProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e);
+    if (onChange) {
+      onChange(e);
+    }
   };
 
   return (
@@ -25,6 +29,7 @@ const Input = ({
       {inputLabel && <span css={labelStyle}>{inputLabel}</span>}
       <input
         css={inputStyle}
+        name={name}
         type={type}
         value={value}
         placeholder={placeholder}
