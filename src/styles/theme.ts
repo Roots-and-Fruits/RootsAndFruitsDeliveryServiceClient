@@ -48,6 +48,12 @@ const theme = {
       font-weight: 400;
       line-height: 140%;
     `,
+    "head06-b-16": css`
+      ${PretendardFont}
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 140%;
+    `,
     "subhead-b-14": css`
       ${PretendardFont}
       font-size: 1.4rem;
