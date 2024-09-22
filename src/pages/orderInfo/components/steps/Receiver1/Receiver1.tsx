@@ -38,6 +38,7 @@ const Receiver1 = ({ onNext }: StepProps) => {
       onNext();
     }
   };
+
   return (
     <>
       <Header text="받는 분" />

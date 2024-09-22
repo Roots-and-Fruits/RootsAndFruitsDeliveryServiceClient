@@ -1,12 +1,13 @@
-import { orderPostAtom } from "@stores";
+import { currentRecipient, orderPostAtom } from "@stores";
 import { formatPhoneNumber } from "@utils";
 import { useAtom } from "jotai";
-import React, { useState } from "react";
+import React from "react";
 import { OrderPostDataType, RecipientInfo } from "src/stores/orderPostData";
 
 export const useOrderPostDataChange = () => {
   const [orderPostDataState, setOrderPostDataState] = useAtom(orderPostAtom);
-  const [currentRecipientIndex, setCurrentRecipientIndex] = useState(0);
+  const [currentRecipientIndex, setCurrentRecipientIndex] =
+    useAtom(currentRecipient);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -59,11 +60,33 @@ export const useOrderPostDataChange = () => {
     });
   };
 
+  const handleAddReceiver = () => {
+    const newRecipient: RecipientInfo = {
+      recipientName: "",
+      recipientPhone: "",
+      recipientAddress: "",
+      recipientAddressDetail: "",
+      deliveryDate: "",
+      productInfo: [],
+    };
+
+    setOrderPostDataState((prevState) => ({
+      ...prevState,
+      recipientInfo: [...prevState.recipientInfo, newRecipient],
+    }));
+  };
+
+  const handleSetIndex = () => {
+    setCurrentRecipientIndex((prevIndex) => prevIndex + 1);
+  };
+
   return {
     orderPostDataState,
     currentRecipientIndex,
     handleInputChange,
     handleOptinalAgreementClick,
     handleRecipientInputChange,
+    handleAddReceiver,
+    handleSetIndex,
   };
 };

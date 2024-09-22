@@ -30,6 +30,8 @@ export const mainSectionStyle = css`
 `;
 
 export const buttonSectionStyle = css`
+  ${flexGenerator("column")};
+  gap: 1rem;
   width: 100%;
   margin-top: auto;
 `;
