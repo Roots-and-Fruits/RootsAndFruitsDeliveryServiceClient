@@ -13,10 +13,22 @@ import {
   senderSectionRight,
   textSection,
 } from "./CheckInfo.style";
+import { useNavigate } from "react-router-dom";
 
 const CheckInfo = ({ onNext }: StepProps) => {
-  const { orderPostDataState } = useOrderPostDataChange();
+  const { orderPostDataState, handleAddReceiver, handleSetIndex } =
+    useOrderPostDataChange();
   const receivers = orderPostDataState.recipientInfo;
+  const navigate = useNavigate();
+
+  const handleAddReceiverClick = () => {
+    handleAddReceiver();
+    handleSetIndex();
+    navigate("/order-info/receiver1");
+  };
+  const handleNextClick = () => {
+    onNext();
+  };
   return (
     <>
       <Header text="입력 정보 확인" />
@@ -39,7 +51,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
         </section>
         <section css={receiverListSection}>
           {receivers.map((receiver, i) => (
-            <article css={orderItemWrapper}>
+            <article css={orderItemWrapper} key={i}>
               <span>주문{i + 1}</span>
               <div css={orderItemInfoWrapper}>
                 <span css={fixButtonSpanStyle}>
@@ -68,8 +80,12 @@ const CheckInfo = ({ onNext }: StepProps) => {
           ))}
         </section>
         <footer css={buttonSectionStyle}>
-          <Button variant="stroke">택배 추가 접수하기</Button>
-          <Button variant="fill">주문하기</Button>
+          <Button variant="stroke" onClick={handleAddReceiverClick}>
+            택배 추가 접수하기
+          </Button>
+          <Button variant="fill" onClick={handleNextClick}>
+            주문하기
+          </Button>
         </footer>
       </div>
     </>

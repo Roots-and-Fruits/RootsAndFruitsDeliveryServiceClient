@@ -1,3 +1,4 @@
 import { orderPostAtom } from "./orderPostData";
+import { currentRecipient } from "./currentRecipientIndex";
 
-export { orderPostAtom };
+export { orderPostAtom, currentRecipient };
