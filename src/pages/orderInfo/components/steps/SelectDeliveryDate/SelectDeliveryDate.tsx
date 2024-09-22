@@ -1,4 +1,10 @@
-import { Button, Header, ProgressBar, RadioInput } from "@components";
+import {
+  Button,
+  CustomCalendar,
+  Header,
+  ProgressBar,
+  RadioInput,
+} from "@components";
 import {
   buttonSectionStyle,
   layoutStyle,
@@ -15,14 +21,26 @@ import {
   textWrapper,
 } from "./SelectDeliveryDate.style";
 import React, { useState } from "react";
+import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 
 const SelectDeliveryDate = ({ onNext }: StepProps) => {
+  const { handleRecipientInputChange } = useOrderPostDataChange();
   const [selectedOption, setSelectedOption] = useState("regular");
+  const [selectedDate, setSelectedDate] = useState("");
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
   };
+  const handleDateChange = (date: string) => {
+    setSelectedDate(date);
+  };
   const handleNextClick = () => {
+    if (selectedOption !== "regular" && selectedDate.length < 1) {
+      alert("희망 배송일자를 선택해주세요");
+      return;
+    }
+
+    handleRecipientInputChange(selectedDate, "deliveryDate");
     onNext();
   };
   return (
@@ -72,6 +90,9 @@ const SelectDeliveryDate = ({ onNext }: StepProps) => {
               </span>
             </span>
           </section>
+          {selectedOption === "scheduled" && (
+            <CustomCalendar onDateChange={handleDateChange} />
+          )}
         </main>
         <footer css={buttonSectionStyle}>
           <Button variant="fill" onClick={handleNextClick}>

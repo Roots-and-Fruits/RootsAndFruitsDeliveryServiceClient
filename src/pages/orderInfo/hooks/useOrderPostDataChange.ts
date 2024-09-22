@@ -32,11 +32,17 @@ export const useOrderPostDataChange = () => {
   };
 
   const handleRecipientInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement> | string,
     key: keyof RecipientInfo
   ) => {
-    let value = e.target.value;
-    
+    let value: string;
+
+    if (typeof e === "string") {
+      value = e;
+    } else {
+      value = e.target.value;
+    }
+
     if (key === "recipientPhone") {
       value = formatPhoneNumber(value);
     }
