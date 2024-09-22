@@ -24,15 +24,32 @@ export const buttonVariant = {
     width: 100%;
     height: 4.8rem;
 
+    border: 1px solid ${theme.color.orange};
     border-radius: 5px;
 
     ${theme.font["pretendard-01"]}
     color: ${theme.color.orange};
     background-color: ${theme.color.white};
   `,
+  smallStroke: (theme: Theme) => css`
+    width: 100%;
+    height: 3rem;
+
+    border: 1px solid ${theme.color.orange};
+    border-radius: 4px;
+
+    ${theme.font["subhead-m-14"]}
+    color: ${theme.color.orange};
+    background-color: transparent;
+  `,
 };
 
 export const disabledStyle = (theme: Theme) => css`
   color: ${theme.color.midgray1};
   background-color: ${theme.color.lightgray1};
+`;
+
+export const iconStyle = css`
+  width: 1.6rem;
+  height: 1.6rem;
 `;

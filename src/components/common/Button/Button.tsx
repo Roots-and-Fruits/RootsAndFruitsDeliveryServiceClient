@@ -1,12 +1,25 @@
 import { ButtonHTMLAttributes } from "react";
-import { buttonStyle, buttonVariant, disabledStyle } from "./Button.style";
+import {
+  buttonStyle,
+  buttonVariant,
+  disabledStyle,
+  iconStyle,
+} from "./Button.style";
+import { IcFix } from "@svg";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: "fill" | "stroke";
+  variant: "fill" | "stroke" | "smallStroke";
   disabled?: boolean;
+  isIcon?: boolean;
 }
 
-const Button = ({ variant, disabled, onClick, children }: ButtonProps) => {
+const Button = ({
+  variant,
+  disabled,
+  isIcon,
+  onClick,
+  children,
+}: ButtonProps) => {
   return (
     <button
       css={[buttonStyle, buttonVariant[variant], disabled && disabledStyle]}
@@ -14,6 +27,7 @@ const Button = ({ variant, disabled, onClick, children }: ButtonProps) => {
       disabled={disabled}
     >
       {children}
+      {isIcon && <IcFix css={iconStyle} />}
     </button>
   );
 };
