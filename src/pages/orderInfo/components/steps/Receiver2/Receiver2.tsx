@@ -24,11 +24,8 @@ interface DaumPostcodeData {
 }
 
 const Receiver2 = ({ onNext }: StepProps) => {
-  const {
-    // orderPostDataState,
-    // currentRecipientIndex,
-    handleRecipientInputChange,
-  } = useOrderPostDataChange();
+  const { currentRecipientIndex, handleRecipientInputChange } =
+    useOrderPostDataChange();
 
   const [form, setForm] = useState({
     address: "",
@@ -70,13 +67,15 @@ const Receiver2 = ({ onNext }: StepProps) => {
       {
         target: { value: form.address },
       } as React.ChangeEvent<HTMLInputElement>,
-      "recipientAddress"
+      "recipientAddress",
+      currentRecipientIndex
     );
     handleRecipientInputChange(
       {
         target: { value: form.addressDetail },
       } as React.ChangeEvent<HTMLInputElement>,
-      "recipientAddressDetail"
+      "recipientAddressDetail",
+      currentRecipientIndex
     );
     onNext();
   };
