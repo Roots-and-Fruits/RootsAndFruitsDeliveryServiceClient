@@ -21,6 +21,12 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const receivers = orderPostDataState.recipientInfo;
   const navigate = useNavigate();
 
+  const handleSenderEdit = () => {
+    navigate("/order-info/check-info/edit", { state: "sender" });
+  };
+  const handleReceiverEdit = () => {
+    navigate("/order-info/check-info/edit", { state: "receiver" });
+  };
   const handleAddReceiverClick = () => {
     handleAddReceiver();
     handleSetIndex();
@@ -44,7 +50,11 @@ const CheckInfo = ({ onNext }: StepProps) => {
             <span>{orderPostDataState.senderPhone}</span>
           </div>
           <div css={senderSectionRight}>
-            <Button variant="smallStroke" isIcon={true}>
+            <Button
+              variant="smallStroke"
+              isIcon={true}
+              onClick={handleSenderEdit}
+            >
               수정하기
             </Button>
           </div>
@@ -55,7 +65,11 @@ const CheckInfo = ({ onNext }: StepProps) => {
               <span>주문{i + 1}</span>
               <div css={orderItemInfoWrapper}>
                 <span css={fixButtonSpanStyle}>
-                  <Button variant="smallStroke" isIcon={true}>
+                  <Button
+                    variant="smallStroke"
+                    isIcon={true}
+                    onClick={handleReceiverEdit}
+                  >
                     수정하기
                   </Button>
                 </span>
