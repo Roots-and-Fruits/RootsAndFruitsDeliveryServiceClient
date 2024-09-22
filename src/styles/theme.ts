@@ -42,7 +42,7 @@ const theme = {
       ${PretendardFont}
       font-size: 1.8rem;
       font-weight: 600;
-      line-height: 140%;
+      line-height: normal;
     `,
     "head05-n-24": css`
       ${PretendardFont}

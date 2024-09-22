@@ -22,10 +22,12 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const navigate = useNavigate();
 
   const handleSenderEdit = () => {
-    navigate("/order-info/check-info/edit", { state: "sender" });
+    navigate("/order-info/check-info/edit", { state: { type: "sender" } });
   };
-  const handleReceiverEdit = () => {
-    navigate("/order-info/check-info/edit", { state: "receiver" });
+  const handleReceiverEdit = (index: number) => {
+    navigate("/order-info/check-info/edit", {
+      state: { type: "receiver", index },
+    });
   };
   const handleAddReceiverClick = () => {
     handleAddReceiver();
@@ -68,7 +70,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
                   <Button
                     variant="smallStroke"
                     isIcon={true}
-                    onClick={handleReceiverEdit}
+                    onClick={() => handleReceiverEdit(i)}
                   >
                     수정하기
                   </Button>

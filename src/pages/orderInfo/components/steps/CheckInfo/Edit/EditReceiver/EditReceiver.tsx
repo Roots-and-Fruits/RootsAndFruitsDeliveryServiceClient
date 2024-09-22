@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Button, Header, Input, ProgressBar } from "@components";
-import {
-  buttonSectionStyle,
-  layoutStyle,
-  orangeTextStyle,
-  sectionStyle,
-  textStyle,
-} from "@pages/orderInfo/styles";
-import { StepProps } from "@types";
-import { mainSectionStyle, zonecodeWrapper } from "./Receiver2.style";
+import { Button, Input } from "@components";
 import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
+import {
+  addressFormWrapper,
+  editReceiverLayout,
+  mainSectionStyle,
+  receiverSpan,
+  zonecodeWrapper,
+} from "./EditReceiver.style";
+import { buttonSectionStyle } from "@pages/orderInfo/styles";
+import { useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import { useNavigate } from "react-router-dom";
 
 const scriptUrl =
   "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
@@ -22,14 +22,20 @@ interface DaumPostcodeData {
   buildingName: string;
   zonecode: string;
 }
+interface EditReceiverProps {
+  receiverIndex: number;
+}
 
-const Receiver2 = ({ onNext }: StepProps) => {
-  const { currentRecipientIndex, handleRecipientInputChange } =
+const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
+  console.log(receiverIndex);
+  const { orderPostDataState, handleRecipientInputChange } =
     useOrderPostDataChange();
+  const receiver = orderPostDataState.recipientInfo[receiverIndex];
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    address: "",
-    addressDetail: "",
+    address: receiver?.recipientAddress || "",
+    addressDetail: receiver?.recipientAddressDetail || "",
     zonecode: "",
   });
 
@@ -57,7 +63,7 @@ const Receiver2 = ({ onNext }: StepProps) => {
     }));
   };
 
-  const handleNextClick = () => {
+  const handleButtonClick = () => {
     if (!form.address || !form.addressDetail || !form.zonecode) {
       alert("주소와 상세주소를 모두 입력해주세요.");
       return;
@@ -68,35 +74,45 @@ const Receiver2 = ({ onNext }: StepProps) => {
         target: { value: form.address },
       } as React.ChangeEvent<HTMLInputElement>,
       "recipientAddress",
-      currentRecipientIndex
+      receiverIndex
     );
     handleRecipientInputChange(
       {
         target: { value: form.addressDetail },
       } as React.ChangeEvent<HTMLInputElement>,
       "recipientAddressDetail",
-      currentRecipientIndex
+      receiverIndex
     );
-    onNext();
+    navigate("/order-info/check-info");
   };
 
   const handleClick = () => {
     open({ onComplete: handleComplete });
   };
-
   return (
-    <>
-      <Header text="받는 분 정보 입력" />
-      <ProgressBar progress={42.84} />
-      <div css={layoutStyle}>
-        <section css={sectionStyle}>
-          <div css={textStyle}>
-            <span css={orangeTextStyle}>받는 분</span>의
-            <br />
-            주소를 입력해주세요
-          </div>
-        </section>
-        <section css={mainSectionStyle}>
+    <div css={editReceiverLayout}>
+      <span css={receiverSpan}>받는 분</span>
+      <section css={mainSectionStyle}>
+        <Input
+          value={
+            orderPostDataState.recipientInfo[receiverIndex]?.recipientName || ""
+          }
+          onChange={(e) => handleRecipientInputChange(e, "recipientName")}
+          type="text"
+          placeholder="이름을 입력하세요"
+          inputLabel="이름"
+        />
+        <Input
+          value={
+            orderPostDataState.recipientInfo[receiverIndex]?.recipientPhone ||
+            ""
+          }
+          onChange={(e) => handleRecipientInputChange(e, "recipientPhone")}
+          type="text"
+          placeholder="휴대폰 번호를 입력하세요"
+          inputLabel="휴대폰 번호"
+        />
+        <div css={addressFormWrapper}>
           <div css={zonecodeWrapper}>
             <Input
               value={form.zonecode}
@@ -125,15 +141,16 @@ const Receiver2 = ({ onNext }: StepProps) => {
             type="text"
             placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
           />
-        </section>
-        <footer css={buttonSectionStyle}>
-          <Button variant="fill" onClick={handleNextClick}>
-            다음
-          </Button>
-        </footer>
-      </div>
-    </>
+        </div>
+        {/* 선택 상품 넣어야함 */}
+      </section>
+      <footer css={buttonSectionStyle}>
+        <Button variant="fill" onClick={handleButtonClick}>
+          수정 완료
+        </Button>
+      </footer>
+    </div>
   );
 };
 
-export default Receiver2;
+export default EditReceiver;

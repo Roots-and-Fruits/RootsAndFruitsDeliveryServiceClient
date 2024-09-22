@@ -34,7 +34,8 @@ export const useOrderPostDataChange = () => {
 
   const handleRecipientInputChange = (
     e: React.ChangeEvent<HTMLInputElement> | string,
-    key: keyof RecipientInfo
+    key: keyof RecipientInfo,
+    index?: number
   ) => {
     let value: string;
 
@@ -49,8 +50,11 @@ export const useOrderPostDataChange = () => {
     }
     setOrderPostDataState((prevState) => {
       const updatedRecipientInfo = [...prevState.recipientInfo];
-      updatedRecipientInfo[currentRecipientIndex] = {
-        ...updatedRecipientInfo[currentRecipientIndex],
+      const recipientIndex =
+        index !== undefined ? index : currentRecipientIndex;
+
+      updatedRecipientInfo[recipientIndex] = {
+        ...updatedRecipientInfo[recipientIndex],
         [key]: value,
       };
       return {
