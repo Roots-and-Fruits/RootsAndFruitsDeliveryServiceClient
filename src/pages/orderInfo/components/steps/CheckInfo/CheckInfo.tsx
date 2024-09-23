@@ -37,6 +37,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const handleNextClick = () => {
     onNext();
   };
+  console.log(orderPostDataState);
   return (
     <>
       <Header text="입력 정보 확인" />

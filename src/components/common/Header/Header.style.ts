@@ -5,6 +5,7 @@ import { flexGenerator } from "@styles/generator";
 export const headerContainer = (theme: Theme) => css`
   position: fixed;
   top: 0;
+  z-index: 2;
   width: 100%;
   max-width: 43rem;
   height: 6rem;

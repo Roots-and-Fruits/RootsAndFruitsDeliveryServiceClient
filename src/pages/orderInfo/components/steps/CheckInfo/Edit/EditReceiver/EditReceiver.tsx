@@ -1,10 +1,14 @@
-import { Button, Input } from "@components";
+import { Button, CustomCalendar, Input, RadioInput } from "@components";
 import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import {
   addressFormWrapper,
+  deliveryDateContainer,
   editReceiverLayout,
   mainSectionStyle,
+  radioWrapper,
   receiverSpan,
+  selectProductContainer,
+  subTitleSpan,
   zonecodeWrapper,
 } from "./EditReceiver.style";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
@@ -38,6 +42,8 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     addressDetail: receiver?.recipientAddressDetail || "",
     zonecode: "",
   });
+  const [selectedOption, setSelectedOption] = useState("regular");
+  const [selectedDate, setSelectedDate] = useState("");
 
   const open = useDaumPostcodePopup(scriptUrl);
 
@@ -67,6 +73,9 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     if (!form.address || !form.addressDetail || !form.zonecode) {
       alert("주소와 상세주소를 모두 입력해주세요.");
       return;
+    } else if (selectedOption !== "regular" && selectedDate.length < 1) {
+      alert("희망 배송일자를 선택해주세요");
+      return;
     }
 
     handleRecipientInputChange(
@@ -83,11 +92,20 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
       "recipientAddressDetail",
       receiverIndex
     );
+    handleRecipientInputChange(selectedDate, "deliveryDate", receiverIndex);
+
     navigate("/order-info/check-info");
   };
 
   const handleClick = () => {
     open({ onComplete: handleComplete });
+  };
+
+  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedOption(e.target.value);
+  };
+  const handleDateChange = (date: string) => {
+    setSelectedDate(date);
   };
   return (
     <div css={editReceiverLayout}>
@@ -97,7 +115,9 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
           value={
             orderPostDataState.recipientInfo[receiverIndex]?.recipientName || ""
           }
-          onChange={(e) => handleRecipientInputChange(e, "recipientName")}
+          onChange={(e) =>
+            handleRecipientInputChange(e, "recipientName", receiverIndex)
+          }
           type="text"
           placeholder="이름을 입력하세요"
           inputLabel="이름"
@@ -107,7 +127,9 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
             orderPostDataState.recipientInfo[receiverIndex]?.recipientPhone ||
             ""
           }
-          onChange={(e) => handleRecipientInputChange(e, "recipientPhone")}
+          onChange={(e) =>
+            handleRecipientInputChange(e, "recipientPhone", receiverIndex)
+          }
           type="text"
           placeholder="휴대폰 번호를 입력하세요"
           inputLabel="휴대폰 번호"
@@ -142,7 +164,32 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
             placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
           />
         </div>
-        {/* 선택 상품 넣어야함 */}
+        <div css={selectProductContainer}>
+          <span css={subTitleSpan}>선택 상품</span>
+          {/* 선택 상품 넣어야함 */}
+        </div>
+        <div css={deliveryDateContainer}>
+          <span css={subTitleSpan}>배송 날짜</span>
+          <div css={radioWrapper}>
+            <RadioInput
+              name="delivery"
+              value="regular"
+              checked={selectedOption === "regular"}
+              onChange={handleOptionChange}
+              label="빠른배송"
+            />
+            <RadioInput
+              name="delivery"
+              value="scheduled"
+              checked={selectedOption === "scheduled"}
+              onChange={handleOptionChange}
+              label="예약 배송"
+            />
+          </div>
+          {selectedOption === "scheduled" && (
+            <CustomCalendar onDateChange={handleDateChange} />
+          )}
+        </div>
       </section>
       <footer css={buttonSectionStyle}>
         <Button variant="fill" onClick={handleButtonClick}>

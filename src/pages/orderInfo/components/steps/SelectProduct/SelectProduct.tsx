@@ -11,7 +11,7 @@ import { StepProps } from "@types";
 import { mainSectionStyle } from "./SelectProduct.style";
 
 const SelectProduct = ({ onNext }: StepProps) => {
-  const { orderPostDataState } = useOrderPostDataChange();
+  // const { orderPostDataState } = useOrderPostDataChange();
 
   const handleNextClick = () => {
     onNext();

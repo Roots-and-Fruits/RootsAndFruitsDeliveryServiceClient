@@ -6,6 +6,8 @@ import CheckBox from "./CheckBox/CheckBox";
 import CountProduct from "./CountProduct/CountProduct";
 import RadioInput from "./RadioInput/RadioInput";
 import CustomCalendar from "./CustomCalendar/CustomCalendar";
+import Toast from "./Toast/Toast";
+import ClipboardButton from "./ClipboardButton/ClipboardButton";
 
 export {
   Button,
@@ -16,4 +18,6 @@ export {
   CountProduct,
   RadioInput,
   CustomCalendar,
+  Toast,
+  ClipboardButton,
 };
