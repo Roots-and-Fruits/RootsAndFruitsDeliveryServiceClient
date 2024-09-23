@@ -32,3 +32,28 @@ export const zonecodeWrapper = css`
   gap: 1rem;
   width: 100%;
 `;
+
+export const selectProductContainer = css`
+  ${flexGenerator("column", "start", "start")};
+  width: 100%;
+`;
+
+export const deliveryDateContainer = css`
+  ${flexGenerator("column", "start", "start")};
+  width: 100%;
+  margin-bottom: 2.6rem;
+`;
+
+export const subTitleSpan = (theme: Theme) => css`
+  ${theme.font["head04-sb-18"]};
+  color: ${theme.color.black};
+  margin-left: 0.5rem;
+`;
+
+export const radioWrapper = css`
+  ${flexGenerator()};
+  gap: 1rem;
+  padding: 0.5rem 0 0.8rem 0;
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+`;
