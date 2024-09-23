@@ -77,6 +77,13 @@ const Receiver2 = ({ onNext }: StepProps) => {
       "recipientAddressDetail",
       currentRecipientIndex
     );
+    handleRecipientInputChange(
+      {
+        target: { value: form.zonecode },
+      } as React.ChangeEvent<HTMLInputElement>,
+      "recipientPostCode",
+      currentRecipientIndex
+    );
     onNext();
   };
 

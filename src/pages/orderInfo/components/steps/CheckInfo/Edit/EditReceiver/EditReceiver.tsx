@@ -31,7 +31,6 @@ interface EditReceiverProps {
 }
 
 const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
-  console.log(receiverIndex);
   const { orderPostDataState, handleRecipientInputChange } =
     useOrderPostDataChange();
   const receiver = orderPostDataState.recipientInfo[receiverIndex];
@@ -40,7 +39,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
   const [form, setForm] = useState({
     address: receiver?.recipientAddress || "",
     addressDetail: receiver?.recipientAddressDetail || "",
-    zonecode: "",
+    zonecode: receiver?.recipientPostCode || "",
   });
   const [selectedOption, setSelectedOption] = useState("regular");
   const [selectedDate, setSelectedDate] = useState("");
@@ -90,6 +89,13 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
         target: { value: form.addressDetail },
       } as React.ChangeEvent<HTMLInputElement>,
       "recipientAddressDetail",
+      receiverIndex
+    );
+    handleRecipientInputChange(
+      {
+        target: { value: form.zonecode },
+      } as React.ChangeEvent<HTMLInputElement>,
+      "recipientPostCode",
       receiverIndex
     );
     handleRecipientInputChange(selectedDate, "deliveryDate", receiverIndex);
