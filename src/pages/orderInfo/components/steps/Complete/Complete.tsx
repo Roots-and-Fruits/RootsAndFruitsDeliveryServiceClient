@@ -1,7 +1,11 @@
-import { Button, Header, ProgressBar } from "@components";
+import { Button, ClipboardButton, Header, ProgressBar } from "@components";
 import { IcComplete } from "@svg";
 import { useNavigate } from "react-router-dom";
 import {
+  accountInfoContainer,
+  accountInfoNSpan,
+  accountInfoSbSpan,
+  accountInfoStyle,
   iconStyle,
   lastSpanWrapper,
   layoutStyle,
@@ -9,10 +13,15 @@ import {
   spanStyle,
 } from "./Complete.style";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
+import { useState } from "react";
 
 const Complete = () => {
+  const [showAccountInfo, setShowAccountInfo] = useState(false);
   const navigate = useNavigate();
 
+  const handleAccountClick = () => {
+    setShowAccountInfo(true);
+  };
   const handleButtonClick = () => {
     navigate("/");
   };
@@ -34,6 +43,22 @@ const Complete = () => {
           </span>
         </div>
         <footer css={buttonSectionStyle}>
+          {!showAccountInfo && (
+            <Button variant="stroke" onClick={handleAccountClick}>
+              계좌번호로 입금하시겠어요?
+            </Button>
+          )}
+          {showAccountInfo && (
+            <div css={accountInfoContainer}>
+              <div css={accountInfoStyle}>
+                <span css={accountInfoSbSpan}>픽플은행</span>
+                <ClipboardButton />
+              </div>
+              <span css={accountInfoNSpan}>
+                예금주 <span css={accountInfoSbSpan}>홍길동</span>
+              </span>
+            </div>
+          )}
           <Button variant="fill" onClick={handleButtonClick}>
             홈으로
           </Button>

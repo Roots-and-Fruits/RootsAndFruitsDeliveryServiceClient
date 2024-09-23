@@ -15,7 +15,10 @@ const theme = {
     lightgray2: "#D9D9D9",
     midgray1: "#9FA4AE",
     midgray2: "#F1F1F1",
+    midgray3: "#6B6F77",
+    darkgray: "#3E3F45",
     background: "#F6F6F6",
+    background2: "#F5F5F5",
 
     orange: "#EC6732",
   },
@@ -62,6 +65,12 @@ const theme = {
       font-weight: 700;
       line-height: 140%;
     `,
+    "subhead-sb-15": css`
+      ${PretendardFont}
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 140%;
+    `,
     "subhead-m-18": css`
       ${PretendardFont}
       font-size: 1.8rem;
@@ -71,6 +80,12 @@ const theme = {
     "subhead-n-16": css`
       ${PretendardFont}
       font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 140%;
+    `,
+    "subhead-n-15": css`
+      ${PretendardFont}
+      font-size: 1.5rem;
       font-weight: 400;
       line-height: 140%;
     `,
