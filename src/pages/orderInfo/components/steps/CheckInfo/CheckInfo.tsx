@@ -89,7 +89,15 @@ const CheckInfo = ({ onNext }: StepProps) => {
                 </div>
                 <div>
                   <span>선택상품</span>
-                  <div>{/* 상품 정보 올 예정 */}</div>
+                  <div>
+                    {receiver.productInfo
+                      .filter((product) => product.productCount > 0)
+                      .map((product, j) => (
+                        <div key={j}>
+                          <span>{product.productId}개</span>
+                        </div>
+                      ))}
+                  </div>
                 </div>
                 <div>
                   <span>희망 배송일자</span>

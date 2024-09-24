@@ -1,5 +1,5 @@
 import { Button, CountProduct, Header, ProgressBar } from "@components";
-// import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
+import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import {
   buttonSectionStyle,
   layoutStyle,
@@ -9,10 +9,54 @@ import {
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
 import { mainSectionStyle } from "./SelectProduct.style";
+// import { useFetchProductList } from "@apis/domains/service/useFetchProductList";
+
+const productList = [
+  {
+    prodcutId: 1,
+    productName: "귤 5kg",
+    productPrice: 18000,
+  },
+  {
+    prodcutId: 2,
+    productName: "귤 5kg (2박스)",
+    productPrice: 18000,
+  },
+  {
+    prodcutId: 3,
+    productName: "귤 10kg",
+    productPrice: 10,
+  },
+];
 
 const SelectProduct = ({ onNext }: StepProps) => {
-  // const { orderPostDataState } = useOrderPostDataChange();
+  const {
+    orderPostDataState,
+    currentRecipientIndex,
+    handleRecipientInputChange,
+  } = useOrderPostDataChange();
+  // const {data: productList} = useFetchProductList();
 
+  const handleCountChange = (productIndex: number, newCount: number) => {
+    const currentProductInfo =
+      orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo ||
+      [];
+    const updatedProductInfo = [...currentProductInfo];
+    if (updatedProductInfo[productIndex]) {
+      updatedProductInfo[productIndex].productCount = newCount;
+    } else {
+      updatedProductInfo[productIndex] = {
+        productId: productList[productIndex].prodcutId,
+        productCount: newCount,
+      };
+    }
+
+    handleRecipientInputChange(
+      updatedProductInfo,
+      "productInfo",
+      currentRecipientIndex
+    );
+  };
   const handleNextClick = () => {
     onNext();
   };
@@ -29,11 +73,19 @@ const SelectProduct = ({ onNext }: StepProps) => {
           </div>
         </section>
         <section css={mainSectionStyle}>
-          <CountProduct
-            productName="귤 5kg - 18,000원"
-            count={0}
-            onCountChange={() => {}}
-          />
+          {productList.map((product, i) => {
+            const productCount =
+              orderPostDataState.recipientInfo[currentRecipientIndex]
+                ?.productInfo?.[i]?.productCount ?? 0;
+            return (
+              <CountProduct
+                key={i}
+                productName={product.productName}
+                count={productCount}
+                onCountChange={(newCount) => handleCountChange(i, newCount)}
+              />
+            );
+          })}
         </section>
         <footer css={buttonSectionStyle}>
           <Button variant="fill" onClick={handleNextClick}>

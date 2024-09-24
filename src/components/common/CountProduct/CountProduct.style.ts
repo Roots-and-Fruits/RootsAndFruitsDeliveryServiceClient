@@ -17,11 +17,13 @@ export const productCountWrapper = css`
   ${flexGenerator("row", "space-between", "center")};
   gap: 1.5rem;
   width: 12rem;
+  min-width: 12rem;
 `;
 
 export const iconStyle = css`
   width: 3.6rem;
   height: 3.6rem;
+  cursor: pointer;
 `;
 
 export const countStyle = (theme: Theme) => css`

@@ -22,7 +22,7 @@ const CountProduct = ({
     onCountChange(count + 1);
   };
   const handleDecrease = () => {
-    if (count > 1) {
+    if (count > 0) {
       onCountChange(count - 1);
     }
   };
