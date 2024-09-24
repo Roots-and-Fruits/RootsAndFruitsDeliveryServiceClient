@@ -1,6 +1,3 @@
-import DeliveryCheck from "@pages/Admin/components/DeliveryCheck/DeliveryCheck";
-import OrderCheck from "@pages/Admin/components/OrderCheck/OrderCheck";
-import ProductCheck from "@pages/Admin/components/ProductCheck/ProductCheck";
 import {
   activeTabButtonStyle,
   AdminLayout,
@@ -8,26 +5,17 @@ import {
   tabTextStyle,
   tapLayoutStyle,
 } from "@pages/Admin/page/AdminPage/AdminPage.style";
-import { useState } from "react";
-
-type AdminType = "order" | "product" | "delivery";
+import { useNavigate, useParams } from "react-router-dom";
+import { OrderCheck, ProductCheck, DeliveryCheck } from "./";
 
 const Admin = () => {
-  const [pages, setPages] = useState<AdminType>("order");
+  const { tab = "order" } = useParams<{ tab: string }>();
+  const navigate = useNavigate();
 
-  const handleButtonClick = (pages: AdminType) => {
-    setPages(pages);
-  };
-
-  const switchTab = (pages: string) => {
-    switch (pages) {
-      case "order":
-        return <OrderCheck />;
-      case "product":
-        return <ProductCheck />;
-      case "delivery":
-        return <DeliveryCheck />;
-    }
+  const handleButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
+    navigate(`/admin/${event.currentTarget.name}`);
   };
 
   return (
@@ -35,26 +23,33 @@ const Admin = () => {
       <div css={tapLayoutStyle}>
         <h1 css={tabTextStyle}>Course</h1>
         <button
-          css={[tabButtonStyle, pages === "order" && activeTabButtonStyle]}
-          onClick={() => handleButtonClick("order")}
+          css={[tabButtonStyle, tab === "order" && activeTabButtonStyle]}
+          onClick={handleButtonClick}
+          name="order"
         >
           주문 조회
         </button>
         <button
-          css={[tabButtonStyle, pages === "product" && activeTabButtonStyle]}
-          onClick={() => handleButtonClick("product")}
+          css={[tabButtonStyle, tab === "product" && activeTabButtonStyle]}
+          onClick={handleButtonClick}
+          name="product"
         >
           상품 조회
         </button>
         <button
-          css={[tabButtonStyle, pages === "delivery" && activeTabButtonStyle]}
-          onClick={() => handleButtonClick("delivery")}
+          css={[tabButtonStyle, tab === "delivery" && activeTabButtonStyle]}
+          onClick={handleButtonClick}
+          name="delivery"
         >
           배송 가능 날짜
         </button>
       </div>
 
-      <div>{switchTab(pages)}</div>
+      <div>
+        {tab === "order" && <OrderCheck />}
+        {tab === "product" && <ProductCheck />}
+        {tab === "delivery" && <DeliveryCheck />}
+      </div>
     </div>
   );
 };

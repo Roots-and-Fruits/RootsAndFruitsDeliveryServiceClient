@@ -9,6 +9,7 @@ const orderInfoPages = {
 
 const adminPages = {
   ADMIN: "/admin",
+  ADMIN_TAB: "/admin/:tab",
 };
 
 export default {
