@@ -24,13 +24,17 @@ interface DaumPostcodeData {
 }
 
 const Receiver2 = ({ onNext }: StepProps) => {
-  const { currentRecipientIndex, handleRecipientInputChange } =
-    useOrderPostDataChange();
+  const {
+    orderPostDataState,
+    currentRecipientIndex,
+    handleRecipientInputChange,
+  } = useOrderPostDataChange();
+  const receiver = orderPostDataState.recipientInfo[currentRecipientIndex];
 
   const [form, setForm] = useState({
-    address: "",
-    addressDetail: "",
-    zonecode: "",
+    address: receiver?.recipientAddress || "",
+    addressDetail: receiver?.recipientAddressDetail || "",
+    zonecode: receiver?.recipientPostCode || "",
   });
 
   const open = useDaumPostcodePopup(scriptUrl);
