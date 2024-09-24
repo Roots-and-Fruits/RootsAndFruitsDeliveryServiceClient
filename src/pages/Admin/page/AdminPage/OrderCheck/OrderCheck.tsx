@@ -1,15 +1,14 @@
-import { sectionTitle } from "./OrderCheck.style";
+import { Filter } from "@pages/Admin/components";
+import { pageLayout, sectionStyle, sectionTitle } from "./OrderCheck.style";
 
 const OrderCheck = () => {
   return (
-    <div>
-      <section>
+    <div css={pageLayout}>
+      <section css={sectionStyle}>
         <h3 css={sectionTitle}>검색필터</h3>
-        <div>
-          
-        </div>
+        <Filter />
       </section>
-      <section>
+      <section css={sectionStyle}>
         <h3 css={sectionTitle}>주문내역</h3>
       </section>
     </div>

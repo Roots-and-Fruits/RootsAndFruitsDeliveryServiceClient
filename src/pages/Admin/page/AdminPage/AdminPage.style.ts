@@ -43,5 +43,6 @@ export const activeTabButtonStyle = (theme: Theme) => css`
 `;
 
 export const pageLayout = () => css`
+  width: 100%;
   padding: 10rem;
 `;

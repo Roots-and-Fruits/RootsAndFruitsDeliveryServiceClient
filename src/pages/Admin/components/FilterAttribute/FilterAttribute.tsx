@@ -1,7 +1,22 @@
-interface FilterAttributeProps {}
+import { HTMLAttributes } from "react";
+import {
+  attributeBox,
+  attributeContent,
+  attributeLabel,
+} from "./FilterAttribute.style";
 
-const FilterAttribute = (props: FilterAttributeProps) => {
-  return <div>FilterAttribute</div>;
+interface FilterAttributeProps extends HTMLAttributes<HTMLDivElement> {
+  label: string;
+  children: React.ReactNode;
+}
+
+const FilterAttribute = ({ label, children }: FilterAttributeProps) => {
+  return (
+    <div css={attributeBox}>
+      <div css={attributeLabel}>{label}</div>
+      <div css={attributeContent}>{children}</div>
+    </div>
+  );
 };
 
 export default FilterAttribute;
