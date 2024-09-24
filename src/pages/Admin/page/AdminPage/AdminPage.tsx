@@ -1,10 +1,11 @@
 import {
   activeTabButtonStyle,
   AdminLayout,
+  pageLayout,
   tabButtonStyle,
   tabTextStyle,
   tapLayoutStyle,
-} from "@pages/Admin/page/AdminPage/AdminPage.style";
+} from "./AdminPage.style";
 import { useNavigate, useParams } from "react-router-dom";
 import { OrderCheck, ProductCheck, DeliveryCheck } from "./";
 
@@ -45,7 +46,7 @@ const Admin = () => {
         </button>
       </div>
 
-      <div>
+      <div css={pageLayout}>
         {tab === "order" && <OrderCheck />}
         {tab === "product" && <ProductCheck />}
         {tab === "delivery" && <DeliveryCheck />}

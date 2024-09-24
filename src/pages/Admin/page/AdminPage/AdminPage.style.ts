@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
 export const AdminLayout = (theme: Theme) => css`
-  ${flexGenerator("row", "flex-start", "flex-start")}
+  ${flexGenerator("row", "flex-start", "flex-start")};
   position: absolute;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@ export const AdminLayout = (theme: Theme) => css`
 `;
 
 export const tapLayoutStyle = (theme: Theme) => css`
-  ${flexGenerator("column", "flex-start", "flex-start")}
+  ${flexGenerator("column", "flex-start", "flex-start")};
   min-width: 20rem;
   height: 100%;
   background-color: ${theme.color.background2};
@@ -37,7 +37,11 @@ export const tabButtonStyle = (theme: Theme) => css`
   }
 `;
 
-export const activeTabButtonStyle = (theme:Theme) => css`
-    background-color: ${theme.color.orange};
-    color: ${theme.color.white};
-`
+export const activeTabButtonStyle = (theme: Theme) => css`
+  background-color: ${theme.color.orange};
+  color: ${theme.color.white};
+`;
+
+export const pageLayout = () => css`
+  padding: 10rem;
+`;
