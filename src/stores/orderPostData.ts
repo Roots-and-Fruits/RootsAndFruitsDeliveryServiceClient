@@ -9,6 +9,7 @@ export interface RecipientInfo {
   recipientPhone: string;
   recipientAddress: string;
   recipientAddressDetail: string;
+  recipientPostCode: string;
   productInfo: ProductInfo[];
   deliveryDate: string;
 }

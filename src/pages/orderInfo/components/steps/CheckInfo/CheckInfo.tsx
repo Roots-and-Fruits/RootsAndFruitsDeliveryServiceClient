@@ -14,10 +14,12 @@ import {
   textSection,
 } from "./CheckInfo.style";
 import { useNavigate } from "react-router-dom";
+import { usePostOrder } from "@apis/domains/service/usePostOrder";
 
 const CheckInfo = ({ onNext }: StepProps) => {
   const { orderPostDataState, handleAddReceiver, handleSetIndex } =
     useOrderPostDataChange();
+  const { mutate } = usePostOrder();
   const receivers = orderPostDataState.recipientInfo;
   const navigate = useNavigate();
 
@@ -35,6 +37,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
     navigate("/order-info/receiver1");
   };
   const handleNextClick = () => {
+    mutate(orderPostDataState);
     onNext();
   };
   console.log(orderPostDataState);
