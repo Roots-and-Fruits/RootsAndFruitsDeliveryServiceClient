@@ -11,13 +11,7 @@ import {
 } from "./ProductTable.style";
 import { Button } from "@components";
 import Switch from "react-switch";
-
-interface Product {
-  productId: number;
-  productName: string;
-  productPrice: number;
-}
-
+import { Product } from "@types";
 interface ProductTableProps {
   title: string;
   products: Product[];

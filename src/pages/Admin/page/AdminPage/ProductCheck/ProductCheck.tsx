@@ -1,15 +1,6 @@
 import { ProductTable } from "@pages/Admin/components";
 import { pageLayout } from "./ProductCheck.style";
-
-interface Product {
-  productId: number;
-  productName: string;
-  productPrice: number;
-}
-interface ProductList {
-  trialProductList: Product[];
-  productList: Product[];
-}
+import { ProductList } from "@types";
 
 const products: ProductList = {
   trialProductList: [
