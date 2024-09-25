@@ -70,6 +70,7 @@ export const useOrderPostDataChange = () => {
       recipientPhone: "",
       recipientAddress: "",
       recipientAddressDetail: "",
+      recipientPostCode: "",
       deliveryDate: "",
       productInfo: [],
     };
