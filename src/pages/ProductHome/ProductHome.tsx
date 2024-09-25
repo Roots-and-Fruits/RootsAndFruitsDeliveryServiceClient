@@ -1,13 +1,25 @@
 import { IcMainCharacter } from "@svg";
 import { chracterDivStyle, layoutStyle, titleStyle } from "./ProductHome.style";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@components";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
+import { useEffect } from "react";
 
 const ProductHome = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [category, setCategory] = useAtom(categoryAtom);
+
+  useEffect(() => {
+    const pathSegments = location.pathname.split("/");
+    setCategory(pathSegments[1]);
+  }, [location.pathname, setCategory]);
+
   const handleButtonClick = () => {
-    navigate("/product/order-info/sender");
+    navigate(`/${category}/order-info/sender`);
   };
   return (
     <div css={layoutStyle}>

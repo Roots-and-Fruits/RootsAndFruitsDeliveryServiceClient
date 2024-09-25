@@ -23,6 +23,8 @@ import { useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { useNavigate } from "react-router-dom";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
 
 const scriptUrl =
   "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
@@ -43,6 +45,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     useOrderPostDataChange();
   const receiver = orderPostDataState.recipientInfo[receiverIndex];
   const navigate = useNavigate();
+  const [category] = useAtom(categoryAtom);
 
   const [form, setForm] = useState({
     address: receiver?.recipientAddress || "",
@@ -108,7 +111,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     );
     handleRecipientInputChange(selectedDate, "deliveryDate", receiverIndex);
 
-    navigate("/order-info/check-info");
+    navigate(`/${category}/order-info/check-info`);
   };
 
   const handleClick = () => {

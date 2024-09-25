@@ -12,7 +12,7 @@ import {
   senderSectionRight,
   textSection,
 } from "./CheckInfo.style";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { usePostOrder } from "@apis/domains/service/usePostOrder";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
@@ -22,12 +22,17 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const { mutateAsync } = usePostOrder();
   const receivers = orderPostDataState.recipientInfo;
   const navigate = useNavigate();
+  const location = useLocation();
+  const pathSegments = location.pathname.split("/");
+  const category = pathSegments[1];
 
   const handleSenderEdit = () => {
-    navigate("/order-info/check-info/edit", { state: { type: "sender" } });
+    navigate(`/${category}/order-info/check-info/edit`, {
+      state: { type: "sender" },
+    });
   };
   const handleReceiverEdit = (index: number) => {
-    navigate("/order-info/check-info/edit", {
+    navigate(`/${category}/order-info/check-info/edit`, {
       state: { type: "receiver", index },
     });
   };

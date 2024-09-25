@@ -7,13 +7,16 @@ import {
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
 import { useNavigate } from "react-router-dom";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
 
 const EditSender = () => {
   const { orderPostDataState, handleInputChange } = useOrderPostDataChange();
   const navigate = useNavigate();
+  const [category] = useAtom(categoryAtom);
 
   const handleButtonClick = () => {
-    navigate("/order-info/check-info");
+    navigate(`/${category}/order-info/check-info`);
   };
   return (
     <div css={editSenderLayout}>
