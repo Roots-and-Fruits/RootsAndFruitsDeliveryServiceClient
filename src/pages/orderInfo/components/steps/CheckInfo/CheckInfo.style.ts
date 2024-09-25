@@ -86,7 +86,10 @@ export const orderItemInfoWrapper = (theme: Theme) => css`
     div:nth-of-type(1) {
       ${flexGenerator("column", "start", "start")};
       gap: 0.4rem;
-      ${theme.font["subhead-n-16"]};
+
+      span {
+        ${theme.font["subhead-n-16"]};
+      }
     }
   }
 
@@ -98,6 +101,10 @@ export const orderItemInfoWrapper = (theme: Theme) => css`
       ${theme.font["subhead-n-16"]};
     }
   }
+`;
+
+export const productInfoWrapper = css`
+  ${flexGenerator("row", "start", "center")}
 `;
 
 export const fixButtonSpanStyle = css`

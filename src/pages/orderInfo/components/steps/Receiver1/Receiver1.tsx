@@ -32,6 +32,16 @@ const Receiver1 = ({ onNext }: StepProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckClick = () => {
     setIsChecked((prev) => !prev);
+    handleRecipientInputChange(
+      orderPostDataState.senderName,
+      "recipientName",
+      currentRecipientIndex
+    );
+    handleRecipientInputChange(
+      orderPostDataState.senderPhone,
+      "recipientPhone",
+      currentRecipientIndex
+    );
   };
   const handleNextClick = () => {
     if (isAllValid) {

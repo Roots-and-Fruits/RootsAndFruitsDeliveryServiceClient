@@ -2,7 +2,11 @@ import { currentRecipient, orderPostAtom } from "@stores";
 import { formatPhoneNumber } from "@utils";
 import { useAtom } from "jotai";
 import React from "react";
-import { OrderPostDataType, RecipientInfo } from "src/stores/orderPostData";
+import {
+  OrderPostDataType,
+  ProductInfo,
+  RecipientInfo,
+} from "src/stores/orderPostData";
 
 export const useOrderPostDataChange = () => {
   const [orderPostDataState, setOrderPostDataState] = useAtom(orderPostAtom);
@@ -33,20 +37,20 @@ export const useOrderPostDataChange = () => {
   };
 
   const handleRecipientInputChange = (
-    e: React.ChangeEvent<HTMLInputElement> | string,
+    e: React.ChangeEvent<HTMLInputElement> | string | ProductInfo[],
     key: keyof RecipientInfo,
     index?: number
   ) => {
-    let value: string;
+    let value: string | ProductInfo[];
 
-    if (typeof e === "string") {
+    if (typeof e === "string" || Array.isArray(e)) {
       value = e;
     } else {
       value = e.target.value;
     }
 
     if (key === "recipientPhone") {
-      value = formatPhoneNumber(value);
+      value = formatPhoneNumber(value as string);
     }
     setOrderPostDataState((prevState) => {
       const updatedRecipientInfo = [...prevState.recipientInfo];

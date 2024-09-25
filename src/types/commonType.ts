@@ -1,3 +1,8 @@
+export interface ApiResponseType<T> {
+  status: number;
+  message: string;
+  data: T;
+}
 export interface MutateResponseType {
   status: number;
   message: string;
@@ -10,4 +15,9 @@ export interface ErrorResponse {
       message: string;
     };
   };
+}
+
+export interface ErrorType {
+  status?: number;
+  message: string;
 }

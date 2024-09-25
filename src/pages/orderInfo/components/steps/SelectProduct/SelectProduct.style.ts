@@ -7,5 +7,4 @@ export const mainSectionStyle = css`
   width: 100%;
 
   margin-top: 2.8rem;
-  background-color: pink;
 `;

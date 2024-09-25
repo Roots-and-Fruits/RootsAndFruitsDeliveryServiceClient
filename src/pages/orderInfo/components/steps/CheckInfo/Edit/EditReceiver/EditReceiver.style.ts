@@ -38,6 +38,14 @@ export const selectProductContainer = css`
   width: 100%;
 `;
 
+export const selectProductWrapper = css`
+  ${flexGenerator("column")};
+  width: 100%;
+  gap: 2.5rem;
+
+  margin-top: 1rem;
+`;
+
 export const deliveryDateContainer = css`
   ${flexGenerator("column", "start", "start")};
   width: 100%;
@@ -45,6 +53,11 @@ export const deliveryDateContainer = css`
 `;
 
 export const subTitleSpan = (theme: Theme) => css`
+  ${theme.font["head04-sb-18"]};
+  color: ${theme.color.black};
+`;
+
+export const subTitle2Span = (theme: Theme) => css`
   ${theme.font["head04-sb-18"]};
   color: ${theme.color.black};
   margin-left: 0.5rem;
