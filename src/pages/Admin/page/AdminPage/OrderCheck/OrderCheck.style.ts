@@ -5,7 +5,6 @@ import { flexGenerator } from "@styles/generator";
 export const pageLayout = css`
   width: 100%;
   ${flexGenerator("column")};
-  gap: 3rem;
 `;
 
 export const sectionStyle = css`

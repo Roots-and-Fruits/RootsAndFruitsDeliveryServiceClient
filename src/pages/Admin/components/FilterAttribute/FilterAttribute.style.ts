@@ -18,7 +18,7 @@ export const attributeLabel = (theme: Theme) => css`
 export const attributeContent = css`
   ${flexGenerator("row", "flex-start", "center")};
   flex: 1;
-  padding-left: 3rem;
+  padding: 1rem 3rem;
 
   height: 7rem;
 `;

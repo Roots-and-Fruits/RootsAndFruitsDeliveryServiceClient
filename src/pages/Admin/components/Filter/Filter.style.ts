@@ -6,6 +6,7 @@ export const filterContainer = css`
   ${flexGenerator("column")};
   gap: 2rem;
   width: 100%;
+  margin-bottom: 7.5rem;
 `;
 
 export const filterTable = (theme: Theme) => css`
@@ -22,6 +23,20 @@ export const rowStyle = (theme: Theme) => css`
   ${flexGenerator()};
   gap: 1px;
   background-color: ${theme.color.white};
+`;
+
+export const productSelectStyle = (theme: Theme) => css`
+  width: 40rem;
+  ${theme.font["subhead-m-14"]}
+
+  & #react-select-3-listbox {
+    max-height: 20rem;
+  }
+`;
+
+export const statusSelectStyle = (theme: Theme) => css`
+  width: 20rem;
+  ${theme.font["subhead-m-14"]}
 `;
 
 export const buttonContainer = css`
