@@ -8,7 +8,6 @@ export const AdminLayout = (theme: Theme) => css`
   top: 0;
   left: 0;
   width: 100vw;
-  max-width: calc(100vw - 20rem);
   height: 100%;
   background-color: ${theme.color.white};
 `;
@@ -44,6 +43,6 @@ export const activeTabButtonStyle = (theme: Theme) => css`
 `;
 
 export const pageLayout = () => css`
-  width: 100%;
+  width: calc(100vw - 20rem);
   padding: 10rem;
 `;

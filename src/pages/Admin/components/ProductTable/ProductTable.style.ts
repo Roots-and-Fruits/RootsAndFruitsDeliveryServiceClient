@@ -2,7 +2,7 @@ import { Theme } from "@emotion/react";
 import { css } from "@emotion/react";
 
 export const tableStyle = (theme: Theme) => css`
-  width: 170rem;
+  width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 
@@ -15,7 +15,6 @@ export const tableStyle = (theme: Theme) => css`
     line-height: 4rem;
     background-color: ${theme.color.background};
     padding: 0;
-    min-width: 12rem;
   }
   td {
     ${theme.font["subhead-m-14"]};
@@ -30,7 +29,14 @@ export const tableStyle = (theme: Theme) => css`
     background-color: ${theme.color.background};
     z-index: 2;
     border: 1px solid ${theme.color.black};
-    min-width: 0;
     width: 5rem;
   }
+`;
+
+export const productNameStyle = css`
+  flex: 1;
+`;
+
+export const cellWidth = (width: number) => css`
+  width: ${`${width}%`};
 `;

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { tableStyle } from "./OrderTable.style";
 
 interface Order {
@@ -19,12 +20,37 @@ interface OrderTableProps {
 }
 
 const OrderTable = ({ orders }: OrderTableProps) => {
+  const [selectedOrders, setSelectedOrders] = useState<number[]>([]);
+
+  const handleCheckboxChange = (id: number) => {
+    setSelectedOrders((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((orderId) => orderId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  const handleSelectAllChange = (isChecked: boolean) => {
+    if (isChecked) {
+      const allOrderIds = orders.map((order) => order.id);
+      setSelectedOrders(allOrderIds);
+    } else {
+      setSelectedOrders([]);
+    }
+  };
+
+  const isAllSelected = selectedOrders.length === orders.length;
+
   return (
     <table css={tableStyle}>
       <thead>
         <tr>
           <th>
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={isAllSelected}
+              onChange={(e) => handleSelectAllChange(e.target.checked)}
+            />
           </th>
           <th>접수 날짜</th>
           <th>주문 번호</th>
@@ -42,7 +68,11 @@ const OrderTable = ({ orders }: OrderTableProps) => {
         {orders.map((order) => (
           <tr key={order.id}>
             <td>
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={selectedOrders.includes(order.id)}
+                onChange={() => handleCheckboxChange(order.id)}
+              />
             </td>
             <td>{order.접수날짜}</td>
             <td>{order.주문번호}</td>
