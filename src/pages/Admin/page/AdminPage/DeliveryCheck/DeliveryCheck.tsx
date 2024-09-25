@@ -1,3 +1,4 @@
+import { useFetchDeliveryDate } from "@apis/domains/admin/useFetchDeliveryDate";
 import { Button, Input } from "@components";
 import {
   deliveryDateLayout,
@@ -10,8 +11,11 @@ import {
   deliveryDateInputStyle,
   deliveryDateButtonStyle,
 } from "@pages/Admin/page/AdminPage/DeliveryCheck/DeliveryCheck.style";
+import { useState } from "react";
 
 const DeliveryCheck = () => {
+  const { data: currentDeliveryDate } = useFetchDeliveryDate();
+  const [deliveryDate] = useState(String(currentDeliveryDate));
 
   return (
     <div css={deliveryDateLayout}>
@@ -25,7 +29,7 @@ const DeliveryCheck = () => {
       <div css={deliveryDateWrapper}>
         <div css={deliveryDateInputWrapper}>
           <div css={deliveryDateInputStyle}>
-            <Input />
+            <Input value={deliveryDate} type="text" />
           </div>
           <span css={deliveryDateInputTextStyle}>일</span>
         </div>
