@@ -1,5 +1,5 @@
 import { ProductTable } from "@pages/Admin/components";
-import { pageLayout, sectionStyle, sectionTitle } from "./ProductCheck.style";
+import { pageLayout } from "./ProductCheck.style";
 
 interface Product {
   productId: number;
@@ -55,14 +55,8 @@ const products: ProductList = {
 const ProductCheck = () => {
   return (
     <div css={pageLayout}>
-      <section css={sectionStyle}>
-        <h3 css={sectionTitle}>체험 상품</h3>
-        <ProductTable products={products.trialProductList} />
-      </section>
-      <section css={sectionStyle}>
-        <h3 css={sectionTitle}>판매 상품</h3>
-        <ProductTable products={products.productList} />
-      </section>
+      <ProductTable title={`체험 상품`} products={products.trialProductList} />
+      <ProductTable title={`판매 상품`} products={products.productList} />
     </div>
   );
 };

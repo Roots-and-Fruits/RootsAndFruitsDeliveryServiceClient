@@ -1,5 +1,25 @@
 import { Theme } from "@emotion/react";
 import { css } from "@emotion/react";
+import { flexGenerator } from "@styles/generator";
+
+export const sectionStyle = css`
+  width: 100%;
+`;
+
+export const sectionTitle = (theme: Theme) => css`
+  ${theme.font["head02-b-20"]}
+  margin-bottom: 1.2rem;
+`;
+
+export const tableTitle = css`
+  ${flexGenerator("row", "space-between")};
+`;
+
+export const buttonContainer = css`
+  width: 15rem;
+  ${flexGenerator()};
+  gap: 0.5rem;
+`;
 
 export const tableStyle = (theme: Theme) => css`
   width: 100%;
@@ -31,6 +51,11 @@ export const tableStyle = (theme: Theme) => css`
     border: 1px solid ${theme.color.black};
     width: 5rem;
   }
+`;
+
+export const checkboxStyle = css`
+  width: 1.6rem;
+  height: 1.6rem;
 `;
 
 export const productNameStyle = css`
