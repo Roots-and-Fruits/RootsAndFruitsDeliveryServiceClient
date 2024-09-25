@@ -15,7 +15,7 @@ export const attributeLabel = (theme: Theme) => css`
   ${theme.font["head02-b-20"]};
 `;
 
-export const attributeContent = (theme: Theme) => css`
+export const attributeContent = css`
   ${flexGenerator("row", "flex-start", "center")};
   flex: 1;
   padding-left: 3rem;

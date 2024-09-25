@@ -2,7 +2,7 @@ import { Theme } from "@emotion/react";
 import { css } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
-export const filterContainer = (theme: Theme) => css`
+export const filterContainer = css`
   ${flexGenerator("column")};
   gap: 2rem;
   width: 100%;
@@ -24,7 +24,7 @@ export const rowStyle = (theme: Theme) => css`
   background-color: ${theme.color.white};
 `;
 
-export const buttonContainer = (theme: Theme) => css`
+export const buttonContainer = css`
   ${flexGenerator()};
   gap: 1rem;
   width: 21rem;
