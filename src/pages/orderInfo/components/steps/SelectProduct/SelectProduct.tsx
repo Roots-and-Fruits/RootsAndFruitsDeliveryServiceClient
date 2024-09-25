@@ -32,8 +32,6 @@ const SelectProduct = ({ onNext }: StepProps) => {
   useEffect(() => {
     const currentProductInfo =
       orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo;
-    console.log(currentProductInfo);
-    console.log(productListState);
     if (
       productListState &&
       productListState.length > 0 &&
@@ -84,7 +82,6 @@ const SelectProduct = ({ onNext }: StepProps) => {
   if (isLoading || productList === undefined) {
     return <div>Loading...</div>;
   }
-  console.log(orderPostDataState);
   return (
     <>
       <Header text="상품 선택" />

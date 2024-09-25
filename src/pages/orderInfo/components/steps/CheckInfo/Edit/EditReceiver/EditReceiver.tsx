@@ -123,7 +123,6 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
       }
       return product;
     });
-    console.log(updatedProductInfo);
 
     handleRecipientInputChange(
       updatedProductInfo,

@@ -46,7 +46,6 @@ const SelectDeliveryDate = ({ onNext }: StepProps) => {
       alert("희망 배송일자를 선택해주세요");
       return;
     }
-    console.log(selectedDate);
     handleRecipientInputChange(selectedDate, "deliveryDate");
     onNext();
   };
