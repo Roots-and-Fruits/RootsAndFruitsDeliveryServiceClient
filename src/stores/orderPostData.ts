@@ -2,6 +2,7 @@ import { atom } from "jotai";
 
 export interface ProductInfo {
   productId: number;
+  productName: string;
   productCount: number;
 }
 export interface RecipientInfo {

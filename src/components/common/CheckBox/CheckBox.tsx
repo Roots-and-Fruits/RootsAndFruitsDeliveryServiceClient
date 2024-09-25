@@ -10,8 +10,8 @@ export interface CheckBoxProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const CheckBox = ({ isChecked, onClick, children }: CheckBoxProps) => {
   return (
-    <div css={checkboxWrapper}>
-      <span css={iconStyle} onClick={onClick}>
+    <div css={checkboxWrapper} onClick={onClick}>
+      <span css={iconStyle}>
         {isChecked ? <IcCheckedTrue /> : <IcCheckbox />}
       </span>
       <span css={textStyle}>{children}</span>

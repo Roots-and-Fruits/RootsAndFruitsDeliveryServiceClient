@@ -1,6 +1,6 @@
 import { Button, Header, ProgressBar } from "@components";
 import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
-import { StepProps } from "@types";
+import { ErrorType, StepProps } from "@types";
 import { buttonSectionStyle, layoutStyle } from "@pages/orderInfo/styles";
 import {
   checkSpanText,
@@ -19,7 +19,7 @@ import { usePostOrder } from "@apis/domains/service/usePostOrder";
 const CheckInfo = ({ onNext }: StepProps) => {
   const { orderPostDataState, handleAddReceiver, handleSetIndex } =
     useOrderPostDataChange();
-  const { mutate } = usePostOrder();
+  const { mutateAsync } = usePostOrder();
   const receivers = orderPostDataState.recipientInfo;
   const navigate = useNavigate();
 
@@ -37,8 +37,13 @@ const CheckInfo = ({ onNext }: StepProps) => {
     navigate("/order-info/receiver1");
   };
   const handleNextClick = () => {
-    mutate(orderPostDataState);
-    onNext();
+    mutateAsync(orderPostDataState)
+      .then(() => {
+        onNext();
+      })
+      .catch((error: ErrorType) => {
+        alert(error.message);
+      });
   };
   console.log(orderPostDataState);
   return (
@@ -89,7 +94,15 @@ const CheckInfo = ({ onNext }: StepProps) => {
                 </div>
                 <div>
                   <span>선택상품</span>
-                  <div>{/* 상품 정보 올 예정 */}</div>
+                  <div>
+                    {receiver.productInfo
+                      .filter((product) => product.productCount > 0)
+                      .map((product, j) => (
+                        <div key={j}>
+                          <span>{`${product.productName} ${product.productCount}개`}</span>
+                        </div>
+                      ))}
+                  </div>
                 </div>
                 <div>
                   <span>희망 배송일자</span>

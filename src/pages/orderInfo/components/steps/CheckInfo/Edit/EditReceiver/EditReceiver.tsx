@@ -1,4 +1,10 @@
-import { Button, CustomCalendar, Input, RadioInput } from "@components";
+import {
+  Button,
+  CountProduct,
+  CustomCalendar,
+  Input,
+  RadioInput,
+} from "@components";
 import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import {
   addressFormWrapper,
@@ -8,6 +14,8 @@ import {
   radioWrapper,
   receiverSpan,
   selectProductContainer,
+  selectProductWrapper,
+  subTitle2Span,
   subTitleSpan,
   zonecodeWrapper,
 } from "./EditReceiver.style";
@@ -107,6 +115,21 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     open({ onComplete: handleComplete });
   };
 
+  const handleCountChange = (productIndex: number, newCount: number) => {
+    const currentProductInfo = receiver.productInfo;
+    const updatedProductInfo = currentProductInfo.map((product, index) => {
+      if (index === productIndex) {
+        return { ...product, productCount: newCount };
+      }
+      return product;
+    });
+
+    handleRecipientInputChange(
+      updatedProductInfo,
+      "productInfo",
+      receiverIndex
+    );
+  };
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
   };
@@ -172,10 +195,19 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
         </div>
         <div css={selectProductContainer}>
           <span css={subTitleSpan}>선택 상품</span>
-          {/* 선택 상품 넣어야함 */}
+          <div css={selectProductWrapper}>
+            {receiver.productInfo.map((product, i) => (
+              <CountProduct
+                key={i}
+                productName={product.productName}
+                count={product.productCount}
+                onCountChange={(newCount) => handleCountChange(i, newCount)}
+              />
+            ))}
+          </div>
         </div>
         <div css={deliveryDateContainer}>
-          <span css={subTitleSpan}>배송 날짜</span>
+          <span css={subTitle2Span}>배송 날짜</span>
           <div css={radioWrapper}>
             <RadioInput
               name="delivery"

@@ -6,12 +6,12 @@ export const checkboxWrapper = css`
   ${flexGenerator("row", "start", "center")};
   width: 100%;
   gap: 0.5rem;
+  cursor: pointer;
 `;
 
 export const iconStyle = css`
   width: 2.4rem;
   height: 2.4rem;
-  cursor: pointer;
 `;
 
 export const textStyle = (theme: Theme) => css`
