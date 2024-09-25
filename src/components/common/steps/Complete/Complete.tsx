@@ -23,7 +23,7 @@ const Complete = () => {
     setShowAccountInfo(true);
   };
   const handleButtonClick = () => {
-    navigate("/");
+    navigate("/product");
   };
   return (
     <>

@@ -1,5 +1,4 @@
 import { Button, Header, ProgressBar } from "@components";
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import { ErrorType, StepProps } from "@types";
 import { buttonSectionStyle, layoutStyle } from "@pages/orderInfo/styles";
 import {
@@ -15,6 +14,7 @@ import {
 } from "./CheckInfo.style";
 import { useNavigate } from "react-router-dom";
 import { usePostOrder } from "@apis/domains/service/usePostOrder";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const CheckInfo = ({ onNext }: StepProps) => {
   const { orderPostDataState, handleAddReceiver, handleSetIndex } =

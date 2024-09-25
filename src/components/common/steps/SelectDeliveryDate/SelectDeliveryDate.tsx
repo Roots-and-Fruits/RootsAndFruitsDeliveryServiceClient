@@ -21,8 +21,8 @@ import {
   textWrapper,
 } from "./SelectDeliveryDate.style";
 import React, { useState } from "react";
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import { getTwoDaysLaterDate } from "@utils";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const SelectDeliveryDate = ({ onNext }: StepProps) => {
   const { handleRecipientInputChange } = useOrderPostDataChange();

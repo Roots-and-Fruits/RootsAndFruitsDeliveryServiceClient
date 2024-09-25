@@ -1,5 +1,4 @@
 import { Button, CountProduct, Header, ProgressBar } from "@components";
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import {
   buttonSectionStyle,
   layoutStyle,
@@ -13,6 +12,7 @@ import { useEffect } from "react";
 import { useFetchProductList } from "@apis/domains/service/useFetchProductList";
 import { useAtom } from "jotai";
 import { productListAtom } from "@stores";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const SelectProduct = ({ onNext }: StepProps) => {
   const {

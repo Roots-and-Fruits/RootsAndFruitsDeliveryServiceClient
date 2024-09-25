@@ -1,28 +1,27 @@
+import React from "react";
 import {
   CheckInfo,
   Complete,
   Receiver1,
   Receiver2,
-  SelectDeliveryDate,
   SelectProduct,
   Sender,
 } from "@components";
-import React from "react";
 import { FunnelProps, StepProps } from "src/hooks/useFunnel";
 
-export interface OrderInfoProps {
+export interface ExperienceOrderInfoPros {
   steps: string[];
   nextClickHandler: (nextStep: string) => void;
   Funnel: React.ComponentType<FunnelProps>;
   Step: React.ComponentType<StepProps>;
 }
 
-const OrderInfo = ({
+const ExperienceOrderInfo = ({
   steps,
   nextClickHandler,
   Funnel,
   Step,
-}: OrderInfoProps) => {
+}: ExperienceOrderInfoPros) => {
   return (
     <Funnel>
       <Step name={steps[0]}>
@@ -38,16 +37,13 @@ const OrderInfo = ({
         <SelectProduct onNext={() => nextClickHandler(steps[4])} />
       </Step>
       <Step name={steps[4]}>
-        <SelectDeliveryDate onNext={() => nextClickHandler(steps[5])} />
-      </Step>
-      <Step name={steps[5]}>
         <CheckInfo onNext={() => nextClickHandler(steps[6])} />
       </Step>
-      <Step name={steps[6]}>
+      <Step name={steps[5]}>
         <Complete />
       </Step>
     </Funnel>
   );
 };
 
-export default OrderInfo;
+export default ExperienceOrderInfo;

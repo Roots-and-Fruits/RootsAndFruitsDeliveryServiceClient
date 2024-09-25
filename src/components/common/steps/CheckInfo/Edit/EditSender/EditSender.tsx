@@ -1,5 +1,4 @@
 import { Button, Input } from "@components";
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import {
   editSenderLayout,
   spanAndInputWrapper,
@@ -7,6 +6,7 @@ import {
 } from "./EditSender.style";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
 import { useNavigate } from "react-router-dom";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const EditSender = () => {
   const { orderPostDataState, handleInputChange } = useOrderPostDataChange();

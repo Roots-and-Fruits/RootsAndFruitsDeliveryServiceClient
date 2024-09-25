@@ -5,7 +5,6 @@ import {
   Input,
   RadioInput,
 } from "@components";
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import {
   addressFormWrapper,
   deliveryDateContainer,
@@ -23,6 +22,7 @@ import { buttonSectionStyle } from "@pages/orderInfo/styles";
 import { useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { useNavigate } from "react-router-dom";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const scriptUrl =
   "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";

@@ -1,5 +1,5 @@
+import { Edit } from "@components";
 import { routePath } from "@constants";
-import Edit from "@pages/orderInfo/components/steps/CheckInfo/Edit/Edit";
 import OrderInfoPage from "@pages/orderInfo/page/OrderInfoPage/OrderInfoPage";
 import { RouteType } from "@types";
 
