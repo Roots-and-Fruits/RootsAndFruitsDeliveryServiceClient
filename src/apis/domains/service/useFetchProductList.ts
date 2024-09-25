@@ -6,10 +6,10 @@ import { ProductList } from "src/stores/productList";
 
 const getProductList = async (): Promise<ProductList | null> => {
   try {
-    const response = await get<ApiResponseType<ProductList>>(
-      "api/v1/product/sailed"
-    );
-    return response.data.data;
+    const response = await get<
+      ApiResponseType<{ sailedProductList: ProductList }>
+    >("api/v1/product/sailed");
+    return response.data.data.sailedProductList;
   } catch (error) {
     console.log(error);
     return null;

@@ -16,3 +16,8 @@ export interface ErrorResponse {
     };
   };
 }
+
+export interface ErrorType {
+  status?: number;
+  message: string;
+}

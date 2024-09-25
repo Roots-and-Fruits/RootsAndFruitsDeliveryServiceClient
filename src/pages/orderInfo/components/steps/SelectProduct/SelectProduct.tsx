@@ -9,25 +9,10 @@ import {
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
 import { mainSectionStyle } from "./SelectProduct.style";
-// import { useFetchProductList } from "@apis/domains/service/useFetchProductList";
-
-const productList = [
-  {
-    prodcutId: 1,
-    productName: "귤 5kg",
-    productPrice: 18000,
-  },
-  {
-    prodcutId: 2,
-    productName: "귤 5kg (2박스)",
-    productPrice: 18000,
-  },
-  {
-    prodcutId: 3,
-    productName: "귤 10kg",
-    productPrice: 10,
-  },
-];
+import { useEffect } from "react";
+import { useFetchProductList } from "@apis/domains/service/useFetchProductList";
+import { useAtom } from "jotai";
+import { productListAtom } from "@stores";
 
 const SelectProduct = ({ onNext }: StepProps) => {
   const {
@@ -35,31 +20,71 @@ const SelectProduct = ({ onNext }: StepProps) => {
     currentRecipientIndex,
     handleRecipientInputChange,
   } = useOrderPostDataChange();
-  // const {data: productList} = useFetchProductList();
+  const { data: productList, isLoading } = useFetchProductList();
+  const [productListState, setProductListState] = useAtom(productListAtom);
+
+  useEffect(() => {
+    if (productList && productList.length > 0) {
+      setProductListState(productList);
+    }
+  }, [productList, setProductListState]);
+
+  useEffect(() => {
+    const currentProductInfo =
+      orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo;
+    console.log(currentProductInfo);
+    console.log(productListState);
+    if (
+      productListState &&
+      productListState.length > 0 &&
+      (!currentProductInfo || currentProductInfo.length === 0)
+    ) {
+      const initialProductInfo = productListState.map((product) => ({
+        productId: product.productId,
+        productName: product.productName,
+        productCount: 0,
+      }));
+
+      handleRecipientInputChange(
+        initialProductInfo,
+        "productInfo",
+        currentRecipientIndex
+      );
+    }
+  }, [currentRecipientIndex, productListState]);
 
   const handleCountChange = (productIndex: number, newCount: number) => {
     const currentProductInfo =
       orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo ||
       [];
     const updatedProductInfo = [...currentProductInfo];
-    if (updatedProductInfo[productIndex]) {
-      updatedProductInfo[productIndex].productCount = newCount;
-    } else {
-      updatedProductInfo[productIndex] = {
-        productId: productList[productIndex].prodcutId,
-        productCount: newCount,
-      };
-    }
 
-    handleRecipientInputChange(
-      updatedProductInfo,
-      "productInfo",
-      currentRecipientIndex
-    );
+    if (productList) {
+      const product = productListState[productIndex];
+
+      if (product) {
+        updatedProductInfo[productIndex] = {
+          productId: product.productId,
+          productName: product.productName,
+          productCount: newCount,
+        };
+
+        handleRecipientInputChange(
+          updatedProductInfo,
+          "productInfo",
+          currentRecipientIndex
+        );
+      }
+    }
   };
   const handleNextClick = () => {
     onNext();
   };
+
+  if (isLoading || productList === undefined) {
+    return <div>Loading...</div>;
+  }
+  console.log(orderPostDataState);
   return (
     <>
       <Header text="상품 선택" />
@@ -73,10 +98,15 @@ const SelectProduct = ({ onNext }: StepProps) => {
           </div>
         </section>
         <section css={mainSectionStyle}>
-          {productList.map((product, i) => {
+          {productListState.map((product, i) => {
             const productCount =
               orderPostDataState.recipientInfo[currentRecipientIndex]
                 ?.productInfo?.[i]?.productCount ?? 0;
+            // const productCount =
+            //   orderPostDataState.recipientInfo[
+            //     currentRecipientIndex
+            //   ]?.productInfo?.find((p) => p.productId === product.productId)
+            //     ?.productCount ?? 0;
             return (
               <CountProduct
                 key={i}

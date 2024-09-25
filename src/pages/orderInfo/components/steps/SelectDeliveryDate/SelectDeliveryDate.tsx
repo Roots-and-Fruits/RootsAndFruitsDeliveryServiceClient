@@ -22,14 +22,21 @@ import {
 } from "./SelectDeliveryDate.style";
 import React, { useState } from "react";
 import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
+import { getTwoDaysLaterDate } from "@utils";
 
 const SelectDeliveryDate = ({ onNext }: StepProps) => {
   const { handleRecipientInputChange } = useOrderPostDataChange();
   const [selectedOption, setSelectedOption] = useState("regular");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(getTwoDaysLaterDate());
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
+
+    if (e.target.value === "regular") {
+      setSelectedDate(getTwoDaysLaterDate());
+    } else {
+      setSelectedDate("");
+    }
   };
   const handleDateChange = (date: string) => {
     setSelectedDate(date);
@@ -39,10 +46,11 @@ const SelectDeliveryDate = ({ onNext }: StepProps) => {
       alert("희망 배송일자를 선택해주세요");
       return;
     }
-
+    console.log(selectedDate);
     handleRecipientInputChange(selectedDate, "deliveryDate");
     onNext();
   };
+
   return (
     <>
       <Header text="희망 배송일자 선택" />
