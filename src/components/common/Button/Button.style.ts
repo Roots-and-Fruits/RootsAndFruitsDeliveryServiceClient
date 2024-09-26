@@ -42,6 +42,17 @@ export const buttonVariant = {
     color: ${theme.color.orange};
     background-color: transparent;
   `,
+  smallFill: (theme: Theme) => css`
+    width: 100%;
+    height: 3rem;
+
+    border: 1px solid ${theme.color.orange};
+    border-radius: 4px;
+
+    ${theme.font["pretendard-01"]}
+    color: ${theme.color.white};
+    background-color: ${theme.color.orange};
+  `,
 };
 
 export const disabledStyle = (theme: Theme) => css`

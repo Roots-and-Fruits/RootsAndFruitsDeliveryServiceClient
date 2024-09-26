@@ -8,6 +8,8 @@ import RadioInput from "./RadioInput/RadioInput";
 import CustomCalendar from "./CustomCalendar/CustomCalendar";
 import Toast from "./Toast/Toast";
 import ClipboardButton from "./ClipboardButton/ClipboardButton";
+import DateSelect from "./DateSelect/DateSelect";
+import Modal from "./Modal/Modal";
 
 export {
   Button,
@@ -20,4 +22,6 @@ export {
   CustomCalendar,
   Toast,
   ClipboardButton,
+  DateSelect,
+  Modal,
 };
