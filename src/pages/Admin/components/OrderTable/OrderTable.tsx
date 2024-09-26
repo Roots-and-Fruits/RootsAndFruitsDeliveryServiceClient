@@ -1,19 +1,6 @@
 import { useState } from "react";
 import { tableStyle } from "./OrderTable.style";
-
-interface Order {
-  id: number;
-  접수날짜: string;
-  주문번호: string;
-  상품명: string;
-  보내는분: string;
-  보내는분전화번호: string;
-  받는분: string;
-  받는분전화번호: string;
-  받는분주소: string;
-  배송날짜: string;
-  결제내역: string;
-}
+import { Order } from "@types";
 
 interface OrderTableProps {
   orders: Order[];
@@ -32,7 +19,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
 
   const handleSelectAllChange = (isChecked: boolean) => {
     if (isChecked) {
-      const allOrderIds = orders.map((order) => order.id);
+      const allOrderIds = orders.map((order) => order.deliveryId);
       setSelectedOrders(allOrderIds);
     } else {
       setSelectedOrders([]);
@@ -60,30 +47,30 @@ const OrderTable = ({ orders }: OrderTableProps) => {
           <th>받는 분</th>
           <th>받는 분 전화번호</th>
           <th>받는 분 주소</th>
-          <th>배송 날짜</th>
+          <th>출발 날짜</th>
           <th>결제 내역</th>
         </tr>
       </thead>
       <tbody>
         {orders.map((order) => (
-          <tr key={order.id}>
+          <tr key={order.deliveryId}>
             <td>
               <input
                 type="checkbox"
-                checked={selectedOrders.includes(order.id)}
-                onChange={() => handleCheckboxChange(order.id)}
+                checked={selectedOrders.includes(order.deliveryId)}
+                onChange={() => handleCheckboxChange(order.deliveryId)}
               />
             </td>
-            <td>{order.접수날짜}</td>
-            <td>{order.주문번호}</td>
-            <td>{order.상품명}</td>
-            <td>{order.보내는분}</td>
-            <td>{order.보내는분전화번호}</td>
-            <td>{order.받는분}</td>
-            <td>{order.받는분전화번호}</td>
-            <td>{order.받는분주소}</td>
-            <td>{order.배송날짜}</td>
-            <td>{order.결제내역}</td>
+            <td>{order.orderReceivedDate}</td>
+            <td>{order.orderNumber}</td>
+            <td>{...order.productList}</td>
+            <td>{order.senderName}</td>
+            <td>{order.senderPhone}</td>
+            <td>{order.recipientName}</td>
+            <td>{order.recipientPhone}</td>
+            <td>{order.recipientAddress}</td>
+            <td>{order.deliveryDate}</td>
+            <td>{order.deliveryStatus}</td>
           </tr>
         ))}
       </tbody>

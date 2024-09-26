@@ -12,9 +12,8 @@ import {
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Dayjs } from "dayjs";
-import Select, { SingleValue } from "react-select";
+import Select from "react-select";
 import { useFetchSailedProduct } from "@apis/domains/admin/useFetchSailedProduct";
-import { useFetchOrders } from "@apis/domains/admin/useFetchOrders";
 
 interface Option {
   value: string;
@@ -28,49 +27,34 @@ const statusOptions: Option[] = [
   { value: "발송완료", label: "발송 완료" },
 ];
 
-const Filter = () => {
+interface FilterProps {
+  orderReceivedDateRef: React.MutableRefObject<Dayjs | null>;
+  deliveryDateRef: React.MutableRefObject<Dayjs | null>;
+  productRef: React.MutableRefObject<Option | null>;
+  statusRef: React.MutableRefObject<Option | null>;
+  handleSearchClick: () => void;
+  handleResetClick: () => void;
+}
+
+const Filter = ({
+  orderReceivedDateRef,
+  deliveryDateRef,
+  productRef,
+  statusRef,
+  handleSearchClick,
+  handleResetClick,
+}: FilterProps) => {
+  const [productOptions, setProductOptions] = useState<Option[]>([]);
+
   const [orderReceivedDate, setOrderReceivedDate] = useState<Dayjs | null>(
     null
   );
   const [deliveryDate, setDeliveryDate] = useState<Dayjs | null>(null);
-  const [status, setStatus] = useState<Option | null>(null);
   const [product, setProduct] = useState<Option | null>(null);
-
-  const [productOptions, setProductOptions] = useState<Option[]>([]);
+  const [status, setStatus] = useState<Option | null>(null);
 
   const { isSuccess: isSuccessProduct, data: productData } =
     useFetchSailedProduct();
-
-  const query = {
-    orderReceivedDate: orderReceivedDate?.format("YYYY-MM-DD") || "",
-    deliveryDate: deliveryDate?.format("YYYY-MM-DD") || "",
-    productName: product?.value || "",
-    deliveryStatus: status?.value || "",
-  };
-  const { refetch } = useFetchOrders(query);
-
-  const handleStatusChange = (selectedOption: SingleValue<Option>) => {
-    if (selectedOption) {
-      setStatus(selectedOption);
-    }
-  };
-
-  const handleProductChange = (selectedOption: SingleValue<Option>) => {
-    if (selectedOption) {
-      setProduct(selectedOption);
-    }
-  };
-
-  const handleResetClick = () => {
-    setOrderReceivedDate(null);
-    setDeliveryDate(null);
-    setStatus(statusOptions[1]);
-    setProduct(null);
-  };
-
-  const handleSearchClick = () => {
-    refetch();
-  };
 
   useEffect(() => {
     if (isSuccessProduct && productData) {
@@ -95,11 +79,20 @@ const Filter = () => {
           <FilterAttribute label="접수 날짜">
             <DateSelect
               selected={orderReceivedDate}
-              onChange={setOrderReceivedDate}
+              onChange={(date) => {
+                orderReceivedDateRef.current = date;
+                setOrderReceivedDate(date);
+              }}
             />
           </FilterAttribute>
-          <FilterAttribute label="배송 날짜">
-            <DateSelect selected={deliveryDate} onChange={setDeliveryDate} />
+          <FilterAttribute label="출발 날짜">
+            <DateSelect
+              selected={deliveryDate}
+              onChange={(date) => {
+                deliveryDateRef.current = date;
+                setDeliveryDate(date);
+              }}
+            />
           </FilterAttribute>
         </div>
         <div css={rowStyle}>
@@ -108,8 +101,12 @@ const Filter = () => {
               css={productSelectStyle}
               options={productOptions}
               placeholder="상품을 선택해주세요"
-              onChange={handleProductChange}
               value={product}
+              onChange={(selectedOption) => {
+                const selectValue = selectedOption as Option | null;
+                productRef.current = selectedOption as Option | null;
+                setProduct(selectValue);
+              }}
             />
           </FilterAttribute>
         </div>
@@ -120,7 +117,11 @@ const Filter = () => {
               options={statusOptions}
               placeholder="상태을 선택해주세요"
               value={status}
-              onChange={handleStatusChange}
+              onChange={(selectedOption) => {
+                const selectValue = selectedOption as Option | null;
+                statusRef.current = selectValue;
+                setStatus(selectValue);
+              }}
             />
           </FilterAttribute>
         </div>

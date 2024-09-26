@@ -1,60 +1,71 @@
 import { Filter, OrderTable } from "@pages/Admin/components";
 import { pageLayout, sectionStyle, sectionTitle } from "./OrderCheck.style";
+import { useRef, useState } from "react";
+import { Dayjs } from "dayjs";
+import { useFetchOrders } from "@apis/domains/admin/useFetchOrders";
 
-interface Order {
-  id: number;
-  접수날짜: string;
-  주문번호: string;
-  상품명: string;
-  보내는분: string;
-  보내는분전화번호: string;
-  받는분: string;
-  받는분전화번호: string;
-  받는분주소: string;
-  배송날짜: string;
-  결제내역: string;
+interface Option {
+  value: string;
+  label: string;
 }
-const orders: Order[] = [
-  {
-    id: 1,
-    접수날짜: "2024.09.25",
-    주문번호: "1009",
-    상품명: "",
-    보내는분: "유태승",
-    보내는분전화번호: "010 1234 5678",
-    받는분: "유태승",
-    받는분전화번호: "010 1234 5678",
-    받는분주소:
-      "서울시 광진구 구의동 광나루로 458, e편한세상 광진그랜드파크, 101동 1004호서울시 광진구 구의동 광나루로 458, e편한세상 광진그랜드파크, 101동 1004호",
-    배송날짜: "2024.09.28",
-    결제내역: "결제완료",
-  },
-  {
-    id: 2,
-    접수날짜: "2024.09.25",
-    주문번호: "1009",
-    상품명: "",
-    보내는분: "유태승",
-    보내는분전화번호: "010 1234 5678",
-    받는분: "유태승",
-    받는분전화번호: "010 1234 5678",
-    받는분주소:
-      "서울시 광진구 구의동 광나루로 458, e편한세상 광진그랜드파크, 101동 1004호",
-    배송날짜: "2024.09.28",
-    결제내역: "결제완료",
-  },
-];
 
 const OrderCheck = () => {
+  const orderReceivedDateRef = useRef<Dayjs | null>(null);
+  const deliveryDateRef = useRef<Dayjs | null>(null);
+  const productRef = useRef<Option | null>(null);
+  const statusRef = useRef<Option | null>(null);
+
+  const [query, setQuery] = useState({
+    orderReceivedDate: "",
+    deliveryDate: "",
+    productName: "",
+    deliveryStatus: "",
+  });
+
+  const { data: orderData } = useFetchOrders(query);
+
+  const handleSearchClick = () => {
+    const newQuery = {
+      orderReceivedDate:
+        orderReceivedDateRef.current?.format("YYYY-MM-DD") || "",
+      deliveryDate: deliveryDateRef.current?.format("YYYY-MM-DD") || "",
+      productName: productRef.current?.value || "",
+      deliveryStatus: statusRef.current?.value || "",
+    };
+
+    setQuery(newQuery);
+    // refetch();
+  };
+
+  const handleResetClick = () => {
+    orderReceivedDateRef.current = null;
+    deliveryDateRef.current = null;
+    statusRef.current = null;
+    productRef.current = null;
+    setQuery({
+      orderReceivedDate: "",
+      deliveryDate: "",
+      productName: "",
+      deliveryStatus: "",
+    });
+  };
+
   return (
     <div css={pageLayout}>
       <section css={sectionStyle}>
         <h3 css={sectionTitle}>검색필터</h3>
-        <Filter />
+        <Filter
+          orderReceivedDateRef={orderReceivedDateRef}
+          deliveryDateRef={deliveryDateRef}
+          productRef={productRef}
+          statusRef={statusRef}
+          handleSearchClick={handleSearchClick}
+          handleResetClick={handleResetClick}
+        />
       </section>
       <section css={sectionStyle}>
         <h3 css={sectionTitle}>주문내역</h3>
-        <OrderTable orders={orders} />
+        <OrderTable orders={orderData ?? []} />
       </section>
     </div>
   );
