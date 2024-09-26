@@ -14,8 +14,7 @@ const allRoutes = [
   ...homeRoutes,
   ...orderInfoRoutes,
   ...experienceOrderInfoRoutes,
-      ...adminRoutes,
-
+  ...adminRoutes,
 ];
 const router = createBrowserRouter([...allRoutes]);
 
