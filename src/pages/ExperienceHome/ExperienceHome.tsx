@@ -27,7 +27,7 @@ const ExperienceHome = () => {
   return (
     <div css={layoutStyle}>
       <h1 css={titleStyle}>
-        나무와 열매 체험 농장
+        제주체험농장
         <br />
         체험 과일 택배 접수
       </h1>

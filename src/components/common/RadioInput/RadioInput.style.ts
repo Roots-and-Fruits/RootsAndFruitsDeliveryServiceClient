@@ -20,6 +20,7 @@ export const radioLabelStyle = (theme: Theme) => css`
     width: 1.6rem;
     height: 1.6rem;
     cursor: pointer;
+    margin: 0 0.4rem 0 0;
   }
 
   input[type="radio"]:checked {

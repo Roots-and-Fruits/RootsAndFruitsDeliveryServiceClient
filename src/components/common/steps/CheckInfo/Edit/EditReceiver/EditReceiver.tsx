@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
+import { getTwoDaysLaterDate } from "@utils";
 
 const scriptUrl =
   "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
@@ -43,6 +44,7 @@ interface EditReceiverProps {
 const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
   const { orderPostDataState, handleRecipientInputChange } =
     useOrderPostDataChange();
+
   const receiver = orderPostDataState.recipientInfo[receiverIndex];
   const navigate = useNavigate();
   const [category] = useAtom(categoryAtom);
@@ -52,8 +54,8 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     addressDetail: receiver?.recipientAddressDetail || "",
     zonecode: receiver?.recipientPostCode || "",
   });
-  const [selectedOption, setSelectedOption] = useState("regular");
-  const [selectedDate, setSelectedDate] = useState("");
+  const selectedOption = receiver.selectedOption;
+  const selectedDate = receiver.deliveryDate;
 
   const open = useDaumPostcodePopup(scriptUrl);
 
@@ -133,11 +135,24 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
       receiverIndex
     );
   };
+
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(e.target.value);
+    handleRecipientInputChange(e, "selectedOption", receiverIndex);
+
+    if (e.target.value === "regular") {
+      handleRecipientInputChange(
+        getTwoDaysLaterDate(),
+        "deliveryDate",
+        receiverIndex
+      );
+    } else {
+      handleRecipientInputChange("", "deliveryDate", receiverIndex);
+    }
   };
+
   const handleDateChange = (date: string) => {
-    setSelectedDate(date);
+    handleRecipientInputChange(date, "deliveryDate", receiverIndex);
+    return;
   };
   return (
     <div css={editReceiverLayout}>
@@ -209,28 +224,30 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
             ))}
           </div>
         </div>
-        <div css={deliveryDateContainer}>
-          <span css={subTitle2Span}>배송 날짜</span>
-          <div css={radioWrapper}>
-            <RadioInput
-              name="delivery"
-              value="regular"
-              checked={selectedOption === "regular"}
-              onChange={handleOptionChange}
-              label="빠른배송"
-            />
-            <RadioInput
-              name="delivery"
-              value="scheduled"
-              checked={selectedOption === "scheduled"}
-              onChange={handleOptionChange}
-              label="예약 배송"
-            />
+        {category === "product" && (
+          <div css={deliveryDateContainer}>
+            <span css={subTitle2Span}>배송 날짜</span>
+            <div css={radioWrapper}>
+              <RadioInput
+                name="delivery"
+                value="regular"
+                checked={selectedOption === "regular"}
+                onChange={handleOptionChange}
+                label="일반 배송"
+              />
+              <RadioInput
+                name="delivery"
+                value="scheduled"
+                checked={selectedOption === "scheduled"}
+                onChange={handleOptionChange}
+                label="예약 배송"
+              />
+            </div>
+            {selectedOption === "scheduled" && (
+              <CustomCalendar onDateChange={handleDateChange} />
+            )}
           </div>
-          {selectedOption === "scheduled" && (
-            <CustomCalendar onDateChange={handleDateChange} />
-          )}
-        </div>
+        )}
       </section>
       <footer css={buttonSectionStyle}>
         <Button variant="fill" onClick={handleButtonClick}>

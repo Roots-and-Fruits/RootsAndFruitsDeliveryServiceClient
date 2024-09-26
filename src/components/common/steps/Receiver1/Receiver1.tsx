@@ -71,6 +71,7 @@ const Receiver1 = ({ onNext }: StepProps) => {
             type="text"
             placeholder="이름을 입력하세요"
             inputLabel="이름"
+            disabled={isChecked}
           />
           <Input
             value={
@@ -78,9 +79,10 @@ const Receiver1 = ({ onNext }: StepProps) => {
                 ?.recipientPhone || ""
             }
             onChange={(e) => handleRecipientInputChange(e, "recipientPhone")}
-            type="text"
+            type="tel"
             placeholder="휴대폰 번호를 입력하세요"
             inputLabel="휴대폰 번호"
+            disabled={isChecked}
           />
           <CheckBox isChecked={isChecked} onClick={handleCheckClick}>
             보내는 사람과 같아요

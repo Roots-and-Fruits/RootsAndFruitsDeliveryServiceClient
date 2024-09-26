@@ -11,22 +11,19 @@ import {
 import { checkboxWrapper } from "./Sender.style";
 
 import useOrderPostDataValidation from "src/hooks/useOrderPostDataValidation";
-import { useState } from "react";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const Sender = ({ onNext }: StepProps) => {
-  const { orderPostDataState, handleInputChange, handleOptinalAgreementClick } =
-    useOrderPostDataChange();
+  const {
+    orderPostDataState,
+    handleInputChange,
+    handleRequiredCheckClick,
+    handleOptinalAgreementClick,
+  } = useOrderPostDataChange();
   const { validateSender } = useOrderPostDataValidation();
 
-  const [requiredCheck, setRequiredCheck] = useState(false);
-
-  const handleRequiredCheckClick = () => {
-    setRequiredCheck((prev) => !prev);
-  };
-
   const { isAllValid: isInputValid } = validateSender(orderPostDataState);
-  const isAllValid = isInputValid && requiredCheck;
+  const isAllValid = isInputValid;
 
   const handleNextClick = () => {
     if (isAllValid) {
@@ -56,13 +53,13 @@ const Sender = ({ onNext }: StepProps) => {
           <Input
             value={orderPostDataState.senderPhone}
             onChange={(e) => handleInputChange(e, "senderPhone")}
-            type="text"
+            type="tel"
             placeholder="휴대폰 번호를 입력하세요"
             inputLabel="휴대폰 번호"
           />
           <div css={checkboxWrapper}>
             <CheckBox
-              isChecked={requiredCheck}
+              isChecked={orderPostDataState.isPersonalInfoConsent}
               onClick={handleRequiredCheckClick}
             >
               [필수] 개인정보 수집 및 이용 동의

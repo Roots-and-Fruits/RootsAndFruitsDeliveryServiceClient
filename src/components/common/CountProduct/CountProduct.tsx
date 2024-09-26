@@ -2,6 +2,7 @@ import { IcMinus, IcPlus } from "@svg";
 import {
   countProductContainer,
   countStyle,
+  disabledStyle,
   iconStyle,
   productCountWrapper,
   productNameStyle,
@@ -30,7 +31,10 @@ const CountProduct = ({
     <article css={countProductContainer}>
       <span css={productNameStyle}>{productName}</span>
       <div css={productCountWrapper}>
-        <IcMinus css={iconStyle} onClick={handleDecrease} />
+        <IcMinus
+          css={[iconStyle, count === 0 && disabledStyle]}
+          onClick={handleDecrease}
+        />
         <span css={countStyle}>{count}</span>
         <IcPlus css={iconStyle} onClick={handleIncrease} />
       </div>

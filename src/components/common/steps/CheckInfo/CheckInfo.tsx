@@ -39,7 +39,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const handleAddReceiverClick = () => {
     handleAddReceiver();
     handleSetIndex();
-    navigate("/order-info/receiver1");
+    navigate(`/${category}/order-info/receiver1`);
   };
   const handleNextClick = () => {
     mutateAsync(orderPostDataState)
@@ -50,7 +50,6 @@ const CheckInfo = ({ onNext }: StepProps) => {
         alert(error.message);
       });
   };
-  console.log(orderPostDataState);
   return (
     <>
       <Header text="입력 정보 확인" />
@@ -109,10 +108,16 @@ const CheckInfo = ({ onNext }: StepProps) => {
                       ))}
                   </div>
                 </div>
-                <div>
-                  <span>희망 배송일자</span>
-                  <span>{receiver.deliveryDate}</span>
-                </div>
+                {category === "product" && (
+                  <div>
+                    <span>희망 배송일자</span>
+                    <span>
+                      {receiver.selectedOption === "regular"
+                        ? "일반 배송"
+                        : receiver.deliveryDate}
+                    </span>
+                  </div>
+                )}
               </div>
             </article>
           ))}

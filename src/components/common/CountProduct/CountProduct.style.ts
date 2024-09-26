@@ -26,6 +26,15 @@ export const iconStyle = css`
   cursor: pointer;
 `;
 
+export const disabledStyle = (theme: Theme) => css`
+  & path {
+    fill: ${theme.color.lightgray2};
+  }
+  & circle {
+    stroke: ${theme.color.lightgray2};
+  }
+`;
+
 export const countStyle = (theme: Theme) => css`
   ${theme.font["head06-b-16"]};
   color: ${theme.color.black};

@@ -14,8 +14,11 @@ import {
 } from "./Complete.style";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
 import { useState } from "react";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
 
 const Complete = () => {
+  const [category] = useAtom(categoryAtom);
   const [showAccountInfo, setShowAccountInfo] = useState(false);
   const navigate = useNavigate();
 
@@ -23,7 +26,7 @@ const Complete = () => {
     setShowAccountInfo(true);
   };
   const handleButtonClick = () => {
-    navigate("/product");
+    navigate(`/${category}`);
   };
   return (
     <>
@@ -51,11 +54,11 @@ const Complete = () => {
           {showAccountInfo && (
             <div css={accountInfoContainer}>
               <div css={accountInfoStyle}>
-                <span css={accountInfoSbSpan}>픽플은행</span>
+                <span css={accountInfoSbSpan}>NH농협</span>
                 <ClipboardButton />
               </div>
               <span css={accountInfoNSpan}>
-                예금주 <span css={accountInfoSbSpan}>홍길동</span>
+                예금주 <span css={accountInfoSbSpan}>제주체험농장</span>
               </span>
             </div>
           )}

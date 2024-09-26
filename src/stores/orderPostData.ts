@@ -12,12 +12,14 @@ export interface RecipientInfo {
   recipientAddressDetail: string;
   recipientPostCode: string;
   productInfo: ProductInfo[];
+  selectedOption: "regular" | "scheduled";
   deliveryDate: string;
 }
 
 export interface OrderPostDataType {
   senderName: string;
   senderPhone: string;
+  isPersonalInfoConsent: boolean;
   isMarketingConsent: boolean;
   recipientInfo: RecipientInfo[];
 }
@@ -25,6 +27,7 @@ export interface OrderPostDataType {
 export const orderPostAtom = atom<OrderPostDataType>({
   senderName: "",
   senderPhone: "",
+  isPersonalInfoConsent: false,
   isMarketingConsent: false,
   recipientInfo: [],
 });

@@ -29,6 +29,12 @@ export const useOrderPostDataChange = () => {
     }));
   };
 
+  const handleRequiredCheckClick = () => {
+    setOrderPostDataState((prevState) => ({
+      ...prevState,
+      isPersonalInfoConsent: !prevState.isPersonalInfoConsent,
+    }));
+  };
   const handleOptinalAgreementClick = () => {
     setOrderPostDataState((prevState) => ({
       ...prevState,
@@ -75,6 +81,7 @@ export const useOrderPostDataChange = () => {
       recipientAddress: "",
       recipientAddressDetail: "",
       recipientPostCode: "",
+      selectedOption: "regular",
       deliveryDate: "",
       productInfo: [],
     };
@@ -93,6 +100,7 @@ export const useOrderPostDataChange = () => {
     orderPostDataState,
     currentRecipientIndex,
     handleInputChange,
+    handleRequiredCheckClick,
     handleOptinalAgreementClick,
     handleRecipientInputChange,
     handleAddReceiver,

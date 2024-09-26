@@ -14,6 +14,18 @@ const CustomCalendar = ({ onDateChange }: CustomCalendarProps) => {
 
   const { data: deliveryDate } = useFetchDeliveryDate();
 
+  const tileClassName = ({ date }: { date: Date }) => {
+    const day = date.getDay();
+
+    if (day === 6) return "saturday";
+
+    return "";
+  };
+
+  const disableSundays = ({ date }: { date: Date }) => {
+    return date.getDay() === 0;
+  };
+
   const formatDay = (_locale: string | undefined, date: Date): string =>
     date.getDate().toString();
 
@@ -48,6 +60,23 @@ const CustomCalendar = ({ onDateChange }: CustomCalendarProps) => {
   };
 
   const calendarStyles = {
+    "span, abbr, button": {
+      color: "#000",
+      fontWeight: "bold",
+    },
+    ".saturday abbr": {
+      color: "#4285F4",
+    },
+
+    ".sunday": {
+      color: "#EC6732",
+    },
+
+    "button:disabled abbr": {
+      color: "#d4d4d4",
+      cursor: "not-allowed",
+    },
+
     ".react-calendar": {
       width: "100%",
       border: "1px solid #000",
@@ -106,6 +135,8 @@ const CustomCalendar = ({ onDateChange }: CustomCalendarProps) => {
         locale="ko-KR"
         minDate={today.add(3, "day").toDate()}
         maxDate={today.add(deliveryDate ?? 14, "day").toDate()}
+        tileClassName={tileClassName}
+        tileDisabled={disableSundays}
       />
     </div>
   );

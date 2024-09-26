@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 import { Button, CountProduct, Header, ProgressBar } from "@components";
 import {
-  buttonSectionStyle,
   layoutStyle,
   orangeTextStyle,
   sectionStyle,
   textStyle,
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
-import { mainSectionStyle } from "./SelectProduct.style";
+import {
+  buttonSectionStyle,
+  mainSectionStyle,
+  totalPriceStyle,
+} from "./SelectProduct.style";
 import { useFetchProductList } from "@apis/domains/service/useFetchProductList";
 import { useAtom } from "jotai";
 import { categoryAtom, productListAtom } from "@stores";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { ProductList } from "src/stores/productList";
+import { OrderPostDataType } from "src/stores/orderPostData";
+import { getTwoDaysLaterDate } from "@utils";
 
 const SelectProduct = ({ onNext }: StepProps) => {
   const [category] = useAtom(categoryAtom);
@@ -27,6 +32,30 @@ const SelectProduct = ({ onNext }: StepProps) => {
   const [productListState, setProductListState] = useAtom(productListAtom);
   const [displayedProductList, setDisplayedProductList] = useState<ProductList>(
     []
+  );
+
+  const calculateTotalPrice = (
+    products: ProductList,
+    order: OrderPostDataType
+  ) => {
+    return order.recipientInfo.reduce((total, recipient) => {
+      (recipient.productInfo ?? []).forEach((orderProduct) => {
+        // productId를 기준으로 매칭되는 상품 찾기
+        const product = products.find(
+          (p) => p.productId === orderProduct.productId
+        );
+        if (product) {
+          // 가격 * 수량을 총 합계에 더하기
+          total += product.productPrice * orderProduct.productCount;
+        }
+      });
+      return total;
+    }, 0);
+  };
+
+  const totalPrice = calculateTotalPrice(
+    displayedProductList,
+    orderPostDataState
   );
 
   useEffect(() => {
@@ -93,6 +122,14 @@ const SelectProduct = ({ onNext }: StepProps) => {
   };
 
   const handleNextClick = () => {
+    if (category === "experience") {
+      handleRecipientInputChange(
+        getTwoDaysLaterDate(),
+        "deliveryDate",
+        currentRecipientIndex
+      );
+    }
+
     onNext();
   };
 
@@ -120,7 +157,9 @@ const SelectProduct = ({ onNext }: StepProps) => {
             return (
               <CountProduct
                 key={i}
-                productName={product.productName}
+                productName={`${
+                  product.productName
+                } - ${product.productPrice.toLocaleString()}원`}
                 count={productCount}
                 onCountChange={(newCount) => handleCountChange(i, newCount)}
               />
@@ -128,7 +167,14 @@ const SelectProduct = ({ onNext }: StepProps) => {
           })}
         </section>
         <footer css={buttonSectionStyle}>
-          <Button variant="fill" onClick={handleNextClick}>
+          <h3
+            css={totalPriceStyle}
+          >{`총 ${totalPrice.toLocaleString()} 원`}</h3>
+          <Button
+            variant="fill"
+            onClick={handleNextClick}
+            disabled={totalPrice === 0}
+          >
             다음
           </Button>
         </footer>
