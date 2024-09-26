@@ -1,4 +1,5 @@
 const productHomePages = {
+  HOME: "/",
   PRODUCT_HOME: "/product",
 };
 

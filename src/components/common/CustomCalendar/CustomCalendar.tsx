@@ -1,13 +1,18 @@
 import "react-calendar/dist/Calendar.css";
 import Calendar, { CalendarProps } from "react-calendar";
 import { useState } from "react";
+import dayjs from "dayjs";
+import { useFetchDeliveryDate } from "@apis/domains/admin/useFetchDeliveryDate";
 
 interface CustomCalendarProps {
   onDateChange: (date: string) => void;
 }
 
 const CustomCalendar = ({ onDateChange }: CustomCalendarProps) => {
+  const today = dayjs();
   const [date, setDate] = useState<Date | null>(new Date());
+
+  const { data: deliveryDate } = useFetchDeliveryDate();
 
   const formatDay = (_locale: string | undefined, date: Date): string =>
     date.getDate().toString();
@@ -98,6 +103,9 @@ const CustomCalendar = ({ onDateChange }: CustomCalendarProps) => {
         onChange={handleDateChange}
         value={date}
         formatDay={formatDay}
+        locale="ko-KR"
+        minDate={today.add(3, "day").toDate()}
+        maxDate={today.add(deliveryDate ?? 14, "day").toDate()}
       />
     </div>
   );
