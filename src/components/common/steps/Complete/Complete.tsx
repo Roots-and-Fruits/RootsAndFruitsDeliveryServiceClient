@@ -14,8 +14,11 @@ import {
 } from "./Complete.style";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
 import { useState } from "react";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
 
 const Complete = () => {
+  const [category] = useAtom(categoryAtom);
   const [showAccountInfo, setShowAccountInfo] = useState(false);
   const navigate = useNavigate();
 
@@ -23,7 +26,7 @@ const Complete = () => {
     setShowAccountInfo(true);
   };
   const handleButtonClick = () => {
-    navigate("/product");
+    navigate(`/${category}`);
   };
   return (
     <>

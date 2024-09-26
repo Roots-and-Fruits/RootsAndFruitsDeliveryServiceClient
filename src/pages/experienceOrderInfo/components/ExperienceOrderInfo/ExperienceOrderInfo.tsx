@@ -37,7 +37,7 @@ const ExperienceOrderInfo = ({
         <SelectProduct onNext={() => nextClickHandler(steps[4])} />
       </Step>
       <Step name={steps[4]}>
-        <CheckInfo onNext={() => nextClickHandler(steps[6])} />
+        <CheckInfo onNext={() => nextClickHandler(steps[5])} />
       </Step>
       <Step name={steps[5]}>
         <Complete />

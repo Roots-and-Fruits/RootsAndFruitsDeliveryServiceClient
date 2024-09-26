@@ -18,6 +18,7 @@ import { categoryAtom, productListAtom } from "@stores";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { ProductList } from "src/stores/productList";
 import { OrderPostDataType } from "src/stores/orderPostData";
+import { getTwoDaysLaterDate } from "@utils";
 
 const SelectProduct = ({ onNext }: StepProps) => {
   const [category] = useAtom(categoryAtom);
@@ -121,6 +122,14 @@ const SelectProduct = ({ onNext }: StepProps) => {
   };
 
   const handleNextClick = () => {
+    if (category === "experience") {
+      handleRecipientInputChange(
+        getTwoDaysLaterDate(),
+        "deliveryDate",
+        currentRecipientIndex
+      );
+    }
+
     onNext();
   };
 

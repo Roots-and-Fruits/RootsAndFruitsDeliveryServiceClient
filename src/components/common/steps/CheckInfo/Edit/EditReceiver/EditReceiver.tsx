@@ -44,7 +44,6 @@ interface EditReceiverProps {
 const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
   const { orderPostDataState, handleRecipientInputChange } =
     useOrderPostDataChange();
-  console.log("orderPostDataState", orderPostDataState);
 
   const receiver = orderPostDataState.recipientInfo[receiverIndex];
   const navigate = useNavigate();
@@ -225,28 +224,30 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
             ))}
           </div>
         </div>
-        <div css={deliveryDateContainer}>
-          <span css={subTitle2Span}>배송 날짜</span>
-          <div css={radioWrapper}>
-            <RadioInput
-              name="delivery"
-              value="regular"
-              checked={selectedOption === "regular"}
-              onChange={handleOptionChange}
-              label="일반 배송"
-            />
-            <RadioInput
-              name="delivery"
-              value="scheduled"
-              checked={selectedOption === "scheduled"}
-              onChange={handleOptionChange}
-              label="예약 배송"
-            />
+        {category === "product" && (
+          <div css={deliveryDateContainer}>
+            <span css={subTitle2Span}>배송 날짜</span>
+            <div css={radioWrapper}>
+              <RadioInput
+                name="delivery"
+                value="regular"
+                checked={selectedOption === "regular"}
+                onChange={handleOptionChange}
+                label="일반 배송"
+              />
+              <RadioInput
+                name="delivery"
+                value="scheduled"
+                checked={selectedOption === "scheduled"}
+                onChange={handleOptionChange}
+                label="예약 배송"
+              />
+            </div>
+            {selectedOption === "scheduled" && (
+              <CustomCalendar onDateChange={handleDateChange} />
+            )}
           </div>
-          {selectedOption === "scheduled" && (
-            <CustomCalendar onDateChange={handleDateChange} />
-          )}
-        </div>
+        )}
       </section>
       <footer css={buttonSectionStyle}>
         <Button variant="fill" onClick={handleButtonClick}>
