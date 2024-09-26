@@ -28,4 +28,9 @@ export const inputStyle = (theme: Theme) => css`
     outline: none;
     border: 1px solid ${theme.color.orange};
   }
+
+  &:disabled {
+    background-color: ${theme.color.background};
+    color: ${theme.color.midgray1};
+  }
 `;

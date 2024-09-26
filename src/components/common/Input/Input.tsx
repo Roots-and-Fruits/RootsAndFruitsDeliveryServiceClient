@@ -8,6 +8,7 @@ export interface InputProps extends HTMLAttributes<HTMLInputElement> {
   name?: string;
   type: string;
   inputLabel?: string;
+  disabled?: boolean;
 }
 
 const Input = ({
@@ -17,6 +18,7 @@ const Input = ({
   name,
   type,
   inputLabel,
+  disabled,
 }: InputProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
@@ -34,6 +36,7 @@ const Input = ({
         value={value}
         placeholder={placeholder}
         onChange={handleInputChange}
+        disabled={disabled}
       />
     </div>
   );
