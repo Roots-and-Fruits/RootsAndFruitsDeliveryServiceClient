@@ -9,18 +9,26 @@ import {
   tableStyle,
   tableTitle,
 } from "./ProductTable.style";
-import { Button } from "@components";
+import { Button, Modal } from "@components";
 import Switch from "react-switch";
 import { ProductWithSailed } from "@types";
-import { usePatchProduct } from "@apis/domains/admin/usePatchProductSail";
+import { usePatchProduct } from "@apis/domains/admin/usePatchProduct";
+import { useDeleteProduct } from "@apis/domains/admin/useDeleteProduct";
+import ProductAddModal from "../ProductAddModal/ProductAddModal";
 interface ProductTableProps {
   title: string;
   products: ProductWithSailed[];
 }
 
 const ProductTable = ({ title, products }: ProductTableProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
-  const { mutate } = usePatchProduct();
+  const { mutate: patchProduct } = usePatchProduct();
+  const { mutate: deleteProduct } = useDeleteProduct();
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   const handleCheckboxChange = (id: number) => {
     setSelectedProducts((prevSelected) =>
@@ -41,13 +49,21 @@ const ProductTable = ({ title, products }: ProductTableProps) => {
 
   const isAllSelected = selectedProducts.length === products.length;
 
+  const handleDeleteClick = () => {
+    deleteProduct(selectedProducts);
+  };
+
   return (
     <section css={sectionStyle}>
       <div css={tableTitle}>
         <h3 css={sectionTitle}>{title}</h3>
         <div css={buttonContainer}>
-          <Button variant="smallStroke">삭제</Button>
-          <Button variant="smallFill">추가</Button>
+          <Button variant="smallStroke" onClick={handleDeleteClick}>
+            삭제
+          </Button>
+          <Button variant="smallFill" onClick={() => setIsModalOpen(true)}>
+            추가
+          </Button>
         </div>
       </div>
       <table css={tableStyle}>
@@ -82,7 +98,7 @@ const ProductTable = ({ title, products }: ProductTableProps) => {
               <td css={cellWidth(15)}>
                 <Switch
                   checked={product.isSailed}
-                  onChange={() => mutate(product.productId)}
+                  onChange={() => patchProduct(product.productId)}
                   uncheckedIcon={false}
                   checkedIcon={false}
                   onColor="#EC6732"
@@ -92,6 +108,12 @@ const ProductTable = ({ title, products }: ProductTableProps) => {
           ))}
         </tbody>
       </table>
+
+      {isModalOpen && (
+        <Modal onClose={handleModalClose}>
+          <ProductAddModal onClose={handleModalClose} />
+        </Modal>
+      )}
     </section>
   );
 };

@@ -23,3 +23,9 @@ export interface ProductListWithSailed {
   trialProductList: ProductWithSailed[];
   productList: ProductWithSailed[];
 }
+
+export interface ProductAddType {
+  productName: string;
+  productPrice: number;
+  isTrial: boolean;
+}
