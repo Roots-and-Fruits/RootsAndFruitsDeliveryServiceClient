@@ -18,6 +18,7 @@ export interface RecipientInfo {
 export interface OrderPostDataType {
   senderName: string;
   senderPhone: string;
+  isPersonalInfoConsent: boolean;
   isMarketingConsent: boolean;
   recipientInfo: RecipientInfo[];
 }
@@ -25,6 +26,7 @@ export interface OrderPostDataType {
 export const orderPostAtom = atom<OrderPostDataType>({
   senderName: "",
   senderPhone: "",
+  isPersonalInfoConsent: false,
   isMarketingConsent: false,
   recipientInfo: [],
 });

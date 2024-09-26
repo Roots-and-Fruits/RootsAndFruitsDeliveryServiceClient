@@ -39,7 +39,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const handleAddReceiverClick = () => {
     handleAddReceiver();
     handleSetIndex();
-    navigate("/order-info/receiver1");
+    navigate(`/${category}/order-info/receiver1`);
   };
   const handleNextClick = () => {
     mutateAsync(orderPostDataState)

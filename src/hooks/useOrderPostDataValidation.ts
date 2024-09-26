@@ -12,10 +12,12 @@ const useOrderPostDataValidation = () => {
   const validateSender = (state: {
     senderName: string;
     senderPhone: string;
+    isPersonalInfoConsent: boolean;
   }) => {
     const isSenderNameValid = validateLength(state.senderName);
     const isSenderPhoneValid = validatePhone(state.senderPhone);
-    const isAllValid = isSenderNameValid && isSenderPhoneValid;
+    const isAllValid =
+      isSenderNameValid && isSenderPhoneValid && state.isPersonalInfoConsent;
 
     return {
       isAllValid,
