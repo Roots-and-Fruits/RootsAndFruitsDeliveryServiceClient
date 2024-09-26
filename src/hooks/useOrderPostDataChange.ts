@@ -81,6 +81,7 @@ export const useOrderPostDataChange = () => {
       recipientAddress: "",
       recipientAddressDetail: "",
       recipientPostCode: "",
+      selectedOption: "regular",
       deliveryDate: "",
       productInfo: [],
     };

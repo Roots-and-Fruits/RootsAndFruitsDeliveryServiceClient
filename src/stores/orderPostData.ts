@@ -12,6 +12,7 @@ export interface RecipientInfo {
   recipientAddressDetail: string;
   recipientPostCode: string;
   productInfo: ProductInfo[];
+  selectedOption: "regular" | "scheduled";
   deliveryDate: string;
 }
 

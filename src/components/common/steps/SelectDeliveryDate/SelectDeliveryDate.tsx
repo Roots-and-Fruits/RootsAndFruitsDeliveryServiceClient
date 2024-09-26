@@ -15,6 +15,7 @@ import {
 import { StepProps } from "@types";
 import {
   boldText,
+  calendarWrapper,
   mainSectionStyle,
   normalText,
   radioWrapper,
@@ -25,12 +26,19 @@ import { getTwoDaysLaterDate } from "@utils";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const SelectDeliveryDate = ({ onNext }: StepProps) => {
-  const { handleRecipientInputChange } = useOrderPostDataChange();
-  const [selectedOption, setSelectedOption] = useState("regular");
+  const {
+    orderPostDataState,
+    currentRecipientIndex,
+    handleRecipientInputChange,
+  } = useOrderPostDataChange();
+
+  const selectedOption =
+    orderPostDataState.recipientInfo[currentRecipientIndex].selectedOption ??
+    "regular";
   const [selectedDate, setSelectedDate] = useState(getTwoDaysLaterDate());
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(e.target.value);
+    handleRecipientInputChange(e, "selectedOption");
 
     if (e.target.value === "regular") {
       setSelectedDate(getTwoDaysLaterDate());
@@ -97,9 +105,11 @@ const SelectDeliveryDate = ({ onNext }: StepProps) => {
               </span>
             </span>
           </section>
-          {selectedOption === "scheduled" && (
-            <CustomCalendar onDateChange={handleDateChange} />
-          )}
+          <div css={calendarWrapper}>
+            {selectedOption === "scheduled" && (
+              <CustomCalendar onDateChange={handleDateChange} />
+            )}
+          </div>
         </main>
         <footer css={buttonSectionStyle}>
           <Button variant="fill" onClick={handleNextClick}>

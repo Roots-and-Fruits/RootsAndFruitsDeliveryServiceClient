@@ -110,7 +110,11 @@ const CheckInfo = ({ onNext }: StepProps) => {
                 </div>
                 <div>
                   <span>희망 배송일자</span>
-                  <span>{receiver.deliveryDate}</span>
+                  <span>
+                    {receiver.selectedOption === "regular"
+                      ? "일반 배송"
+                      : receiver.deliveryDate}
+                  </span>
                 </div>
               </div>
             </article>
