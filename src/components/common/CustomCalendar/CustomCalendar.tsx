@@ -60,7 +60,11 @@ const CustomCalendar = ({ onDateChange }: CustomCalendarProps) => {
   };
 
   const calendarStyles = {
-    ".saturday": {
+    "span, abbr, button": {
+      color: "#000",
+      fontWeight: "bold",
+    },
+    ".saturday abbr": {
       color: "#4285F4",
     },
 
@@ -68,7 +72,7 @@ const CustomCalendar = ({ onDateChange }: CustomCalendarProps) => {
       color: "#EC6732",
     },
 
-    "button:disabled": {
+    "button:disabled abbr": {
       color: "#d4d4d4",
       cursor: "not-allowed",
     },

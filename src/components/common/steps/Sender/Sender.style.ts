@@ -32,7 +32,7 @@ export const mainSectionStyle = css`
 export const checkboxWrapper = css`
   ${flexGenerator("column", "flex-start", "flex-start")}
   width: 100%;
-  gap: 0.9rem;
+  gap: 3rem;
 `;
 
 export const buttonSectionStyle = css`

@@ -115,6 +115,7 @@ const Receiver2 = ({ onNext }: StepProps) => {
               placeholder="우편번호"
               inputLabel="우편번호"
               aria-readonly
+              disabled
             />
             <Button variant="fill" onClick={handleClick}>
               주소 검색
@@ -126,6 +127,7 @@ const Receiver2 = ({ onNext }: StepProps) => {
             placeholder="건물, 지번 또는 도로명 검색"
             inputLabel="주소"
             aria-readonly
+            disabled
           />
           <Input
             value={form.addressDetail}

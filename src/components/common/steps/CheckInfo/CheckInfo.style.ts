@@ -37,7 +37,6 @@ export const senderSectionLeft = (theme: Theme) => css`
 `;
 
 export const senderSectionRight = css`
-  width: 8.2rem;
   height: 3rem;
 `;
 

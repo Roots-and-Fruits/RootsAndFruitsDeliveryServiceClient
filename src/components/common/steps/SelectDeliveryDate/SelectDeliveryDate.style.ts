@@ -20,6 +20,10 @@ export const textWrapper = css`
   width: 100%;
 `;
 
+export const calendarWrapper = css`
+  margin-bottom: 3rem;
+`;
+
 export const normalText = (theme: Theme) => css`
   ${theme.font["subhead-n-14"]}
   color: ${theme.color.black};
