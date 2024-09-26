@@ -1,11 +1,22 @@
 import { Global, ThemeProvider } from "@emotion/react";
-import { adminRoutes, homeRoutes, orderInfoRoutes } from "@routes";
+import {
+  experienceOrderInfoRoutes,
+  homeRoutes,
+  orderInfoRoutes,
+  adminRoutes,
+} from "@routes";
 import GlobalStyle from "@styles/global";
 import theme from "@styles/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const allRoutes = [...homeRoutes, ...orderInfoRoutes, ...adminRoutes];
+const allRoutes = [
+  ...homeRoutes,
+  ...orderInfoRoutes,
+  ...experienceOrderInfoRoutes,
+      ...adminRoutes,
+
+];
 const router = createBrowserRouter([...allRoutes]);
 
 function App() {

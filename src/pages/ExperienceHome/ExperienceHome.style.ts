@@ -4,6 +4,7 @@ import { flexGenerator } from "@styles/generator";
 export const layoutStyle = css`
   ${flexGenerator("column")}
   padding: 10rem 2rem 3rem;
+  min-height: 100dvh;
 `;
 
 export const titleStyle = (theme: Theme) => css`

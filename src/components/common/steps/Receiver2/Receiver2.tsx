@@ -9,8 +9,8 @@ import {
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
 import { mainSectionStyle, zonecodeWrapper } from "./Receiver2.style";
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const scriptUrl =
   "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";

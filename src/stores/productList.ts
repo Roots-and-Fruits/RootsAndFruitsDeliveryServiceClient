@@ -8,4 +8,9 @@ export interface Product {
 
 export type ProductList = Product[];
 
-export const productListAtom = atom<ProductList>([]);
+export interface ProductListResponse {
+  trialSailedProductList: ProductList;
+  sailedproductList: ProductList;
+}
+
+export const productListAtom = atom<ProductListResponse>();
