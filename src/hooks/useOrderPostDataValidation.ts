@@ -5,7 +5,7 @@ const useOrderPostDataValidation = () => {
 
   const validatePhone = (phone: string) => {
     const digitsOnly = phone.replace(/-/g, "");
-    const phoneRegex = /^[0-9]{10,11}$/;
+    const phoneRegex = /^[0-9]{11}$/;
     return phoneRegex.test(digitsOnly);
   };
 
