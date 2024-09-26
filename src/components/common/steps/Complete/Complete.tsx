@@ -51,11 +51,11 @@ const Complete = () => {
           {showAccountInfo && (
             <div css={accountInfoContainer}>
               <div css={accountInfoStyle}>
-                <span css={accountInfoSbSpan}>픽플은행</span>
+                <span css={accountInfoSbSpan}>NH농협</span>
                 <ClipboardButton />
               </div>
               <span css={accountInfoNSpan}>
-                예금주 <span css={accountInfoSbSpan}>홍길동</span>
+                예금주 <span css={accountInfoSbSpan}>제주체험농장</span>
               </span>
             </div>
           )}

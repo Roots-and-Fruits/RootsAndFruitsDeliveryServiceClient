@@ -24,7 +24,7 @@ const ProductHome = () => {
   return (
     <div css={layoutStyle}>
       <h1 css={titleStyle}>
-        나무와 열매 체험 농장
+        제주체험농장
         <br />
         상품 구매 주문서 작성
       </h1>

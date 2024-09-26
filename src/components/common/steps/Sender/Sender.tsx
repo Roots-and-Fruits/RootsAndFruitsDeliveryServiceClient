@@ -53,7 +53,7 @@ const Sender = ({ onNext }: StepProps) => {
           <Input
             value={orderPostDataState.senderPhone}
             onChange={(e) => handleInputChange(e, "senderPhone")}
-            type="text"
+            type="tel"
             placeholder="휴대폰 번호를 입력하세요"
             inputLabel="휴대폰 번호"
           />

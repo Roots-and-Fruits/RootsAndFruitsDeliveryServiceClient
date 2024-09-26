@@ -161,7 +161,11 @@ const SelectProduct = ({ onNext }: StepProps) => {
           <h3
             css={totalPriceStyle}
           >{`총 ${totalPrice.toLocaleString()} 원`}</h3>
-          <Button variant="fill" onClick={handleNextClick}>
+          <Button
+            variant="fill"
+            onClick={handleNextClick}
+            disabled={totalPrice === 0}
+          >
             다음
           </Button>
         </footer>

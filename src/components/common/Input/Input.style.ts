@@ -19,6 +19,7 @@ export const inputStyle = (theme: Theme) => css`
   border: 1px solid ${theme.color.lightgray1};
   border-radius: 10px;
   background-color: ${theme.color.white};
+  ${theme.font["subhead-n-16"]}
 
   &::placeholder {
     color: ${theme.color.midgray1};
