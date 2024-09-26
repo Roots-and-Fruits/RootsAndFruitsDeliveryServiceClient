@@ -3,6 +3,12 @@ export interface Product {
   productName: string;
   productPrice: number;
 }
+export interface ProductWithSailed {
+  productId: number;
+  productName: string;
+  productPrice: number;
+  isSailed: boolean;
+}
 
 export interface ProductList {
   trialProductList: Product[];
@@ -11,4 +17,9 @@ export interface ProductList {
 export interface SailedProductList {
   trialSailedProductList: Product[];
   sailedproductList: Product[];
+}
+
+export interface ProductListWithSailed {
+  trialProductList: ProductWithSailed[];
+  productList: ProductWithSailed[];
 }

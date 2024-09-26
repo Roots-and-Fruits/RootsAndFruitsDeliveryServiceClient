@@ -11,15 +11,16 @@ import {
 } from "./ProductTable.style";
 import { Button } from "@components";
 import Switch from "react-switch";
-import { Product } from "@types";
+import { ProductWithSailed } from "@types";
+import { usePatchProduct } from "@apis/domains/admin/usePatchProductSail";
 interface ProductTableProps {
   title: string;
-  products: Product[];
+  products: ProductWithSailed[];
 }
 
 const ProductTable = ({ title, products }: ProductTableProps) => {
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
-  const [toggle, setToggle] = useState(false);
+  const { mutate } = usePatchProduct();
 
   const handleCheckboxChange = (id: number) => {
     setSelectedProducts((prevSelected) =>
@@ -80,8 +81,8 @@ const ProductTable = ({ title, products }: ProductTableProps) => {
               <td css={cellWidth(15)}>{product.productPrice}</td>
               <td css={cellWidth(15)}>
                 <Switch
-                  checked={toggle}
-                  onChange={setToggle}
+                  checked={product.isSailed}
+                  onChange={() => mutate(product.productId)}
                   uncheckedIcon={false}
                   checkedIcon={false}
                   onColor="#EC6732"
