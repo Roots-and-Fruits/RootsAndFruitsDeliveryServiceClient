@@ -12,10 +12,8 @@ const postOrder = async (
       "api/v1/order",
       orderPostState
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
     const errorResponse = error as ErrorResponse;
     const errorData = errorResponse.response.data;
     throw errorData;

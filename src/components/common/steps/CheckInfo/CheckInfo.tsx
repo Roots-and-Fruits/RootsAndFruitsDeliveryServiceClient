@@ -50,7 +50,6 @@ const CheckInfo = ({ onNext }: StepProps) => {
         alert(error.message);
       });
   };
-  console.log(orderPostDataState);
   return (
     <>
       <Header text="입력 정보 확인" />

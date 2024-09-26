@@ -8,7 +8,7 @@ const getDeliveryDate = async (): Promise<number | null> => {
     const response = await get<ApiResponseType<number>>("api/v1/delivery/max");
     return response.data.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

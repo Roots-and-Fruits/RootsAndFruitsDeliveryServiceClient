@@ -38,7 +38,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
     order: OrderPostDataType
   ) => {
     return order.recipientInfo.reduce((total, recipient) => {
-      recipient.productInfo.forEach((orderProduct) => {
+      (recipient.productInfo ?? []).forEach((orderProduct) => {
         // productId를 기준으로 매칭되는 상품 찾기
         const product = products.find(
           (p) => p.productId === orderProduct.productId
