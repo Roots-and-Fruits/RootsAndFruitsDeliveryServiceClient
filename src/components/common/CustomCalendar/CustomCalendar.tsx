@@ -9,7 +9,7 @@ interface CustomCalendarProps {
 const CustomCalendar = ({ onDateChange }: CustomCalendarProps) => {
   const [date, setDate] = useState<Date | null>(new Date());
 
-  const formatDay = (locale: string | undefined, date: Date): string =>
+  const formatDay = (_locale: string | undefined, date: Date): string =>
     date.getDate().toString();
 
   const formatDate = (date: Date) => {
