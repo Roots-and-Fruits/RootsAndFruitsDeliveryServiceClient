@@ -18,6 +18,8 @@ import Complete from "./steps/Complete/Complete";
 import Edit from "./steps/CheckInfo/Edit/Edit";
 import EditSender from "./steps/CheckInfo/Edit/EditSender/EditSender";
 import EditReceiver from "./steps/CheckInfo/Edit/EditReceiver/EditReceiver";
+import DateSelect from "./DateSelect/DateSelect";
+import Modal from "./Modal/Modal";
 
 export {
   Button,
@@ -40,4 +42,6 @@ export {
   Edit,
   EditSender,
   EditReceiver,
+  DateSelect,
+  Modal,
 };

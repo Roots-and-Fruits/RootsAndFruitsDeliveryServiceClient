@@ -1,3 +1,5 @@
+export { default as IcArrowDown } from "./IcArrowDown";
+export { default as IcArrowUp } from "./IcArrowUp";
 export { default as IcBack } from "./IcBack";
 export { default as IcCheckbox } from "./IcCheckbox";
 export { default as IcCheckedTrue } from "./IcCheckedTrue";

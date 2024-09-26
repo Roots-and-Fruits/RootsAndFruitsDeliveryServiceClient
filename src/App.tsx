@@ -3,6 +3,7 @@ import {
   experienceOrderInfoRoutes,
   homeRoutes,
   orderInfoRoutes,
+  adminRoutes,
 } from "@routes";
 import GlobalStyle from "@styles/global";
 import theme from "@styles/theme";
@@ -13,6 +14,8 @@ const allRoutes = [
   ...homeRoutes,
   ...orderInfoRoutes,
   ...experienceOrderInfoRoutes,
+      ...adminRoutes,
+
 ];
 const router = createBrowserRouter([...allRoutes]);
 

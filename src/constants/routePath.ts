@@ -16,9 +16,15 @@ const experienceProductOrderInfoPages = {
   EXPERIENCE_ORDER_INFO_EDIT: "/experience/order-info/check-info/edit",
 };
 
+const adminPages = {
+  ADMIN: "/admin",
+  ADMIN_TAB: "/admin/:tab",
+};
+
 export default {
   ...productHomePages,
   ...experienceHomePages,
   ...orderInfoPages,
   ...experienceProductOrderInfoPages,
+  ...adminPages,
 };
