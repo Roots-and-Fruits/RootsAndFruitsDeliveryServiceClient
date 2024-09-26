@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import { Button, CountProduct, Header, ProgressBar } from "@components";
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import {
   buttonSectionStyle,
   layoutStyle,
@@ -9,12 +9,15 @@ import {
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
 import { mainSectionStyle } from "./SelectProduct.style";
-import { useEffect } from "react";
 import { useFetchProductList } from "@apis/domains/service/useFetchProductList";
 import { useAtom } from "jotai";
-import { productListAtom } from "@stores";
+import { categoryAtom, productListAtom } from "@stores";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
+import { ProductList } from "src/stores/productList";
 
 const SelectProduct = ({ onNext }: StepProps) => {
+  const [category] = useAtom(categoryAtom);
+
   const {
     orderPostDataState,
     currentRecipientIndex,
@@ -22,22 +25,35 @@ const SelectProduct = ({ onNext }: StepProps) => {
   } = useOrderPostDataChange();
   const { data: productList, isLoading } = useFetchProductList();
   const [productListState, setProductListState] = useAtom(productListAtom);
+  const [displayedProductList, setDisplayedProductList] = useState<ProductList>(
+    []
+  );
 
   useEffect(() => {
-    if (productList && productList.length > 0) {
+    if (productList) {
       setProductListState(productList);
     }
   }, [productList, setProductListState]);
 
   useEffect(() => {
+    if (productListState) {
+      const listToSet =
+        category === "experience"
+          ? productListState.trialSailedProductList
+          : productListState.sailedproductList;
+      setDisplayedProductList(listToSet);
+    }
+  }, [productListState, category]);
+
+  useEffect(() => {
     const currentProductInfo =
       orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo;
     if (
-      productListState &&
-      productListState.length > 0 &&
+      displayedProductList &&
+      displayedProductList.length > 0 &&
       (!currentProductInfo || currentProductInfo.length === 0)
     ) {
-      const initialProductInfo = productListState.map((product) => ({
+      const initialProductInfo = displayedProductList.map((product) => ({
         productId: product.productId,
         productName: product.productName,
         productCount: 0,
@@ -49,7 +65,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
         currentRecipientIndex
       );
     }
-  }, [currentRecipientIndex, productListState]);
+  }, [currentRecipientIndex, displayedProductList]);
 
   const handleCountChange = (productIndex: number, newCount: number) => {
     const currentProductInfo =
@@ -58,7 +74,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
     const updatedProductInfo = [...currentProductInfo];
 
     if (productList) {
-      const product = productListState[productIndex];
+      const product = displayedProductList[productIndex];
 
       if (product) {
         updatedProductInfo[productIndex] = {
@@ -75,6 +91,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
       }
     }
   };
+
   const handleNextClick = () => {
     onNext();
   };
@@ -82,6 +99,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
   if (isLoading || productList === undefined) {
     return <div>Loading...</div>;
   }
+
   return (
     <>
       <Header text="상품 선택" />
@@ -95,15 +113,10 @@ const SelectProduct = ({ onNext }: StepProps) => {
           </div>
         </section>
         <section css={mainSectionStyle}>
-          {productListState.map((product, i) => {
+          {displayedProductList.map((product, i) => {
             const productCount =
               orderPostDataState.recipientInfo[currentRecipientIndex]
                 ?.productInfo?.[i]?.productCount ?? 0;
-            // const productCount =
-            //   orderPostDataState.recipientInfo[
-            //     currentRecipientIndex
-            //   ]?.productInfo?.find((p) => p.productId === product.productId)
-            //     ?.productCount ?? 0;
             return (
               <CountProduct
                 key={i}

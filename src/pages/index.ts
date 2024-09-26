@@ -1,4 +1,5 @@
-import Home from "./Home/Home";
+import ProductHome from "./ProductHome/ProductHome";
+import ExperienceHome from "./ExperienceHome/ExperienceHome";
 import Admin from "./Admin/page/AdminPage/AdminPage";
 
-export { Home, Admin };
+export { ProductHome, ExperienceHome, Admin };

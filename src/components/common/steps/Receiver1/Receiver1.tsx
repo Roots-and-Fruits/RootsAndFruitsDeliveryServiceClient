@@ -8,9 +8,9 @@ import {
   sectionStyle,
   textStyle,
 } from "@pages/orderInfo/styles";
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
 import { useState } from "react";
-import useOrderPostDataValidation from "@pages/orderInfo/hooks/useOrderPostDataValidation";
+import useOrderPostDataValidation from "src/hooks/useOrderPostDataValidation";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const Receiver1 = ({ onNext }: StepProps) => {
   const {

@@ -10,9 +10,9 @@ import {
 } from "@pages/orderInfo/styles";
 import { checkboxWrapper } from "./Sender.style";
 
-import { useOrderPostDataChange } from "@pages/orderInfo/hooks/useOrderPostDataChange";
-import useOrderPostDataValidation from "@pages/orderInfo/hooks/useOrderPostDataValidation";
+import useOrderPostDataValidation from "src/hooks/useOrderPostDataValidation";
 import { useState } from "react";
+import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const Sender = ({ onNext }: StepProps) => {
   const { orderPostDataState, handleInputChange, handleOptinalAgreementClick } =

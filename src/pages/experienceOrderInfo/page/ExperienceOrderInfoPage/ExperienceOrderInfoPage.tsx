@@ -1,5 +1,5 @@
 import { useFunnel } from "@hooks";
-import OrderInfo from "@pages/orderInfo/components/OrderInfo/OrderInfo";
+import ExperienceOrderInfo from "@pages/experienceOrderInfo/components/ExperienceOrderInfo/ExperienceOrderInfo";
 import { useParams } from "react-router-dom";
 
 const steps = [
@@ -7,20 +7,19 @@ const steps = [
   "receiver1",
   "receiver2",
   "select-product",
-  "select-delivery-date",
   "check-info",
   "complete",
 ];
 
-const OrderInfoPage = () => {
+const ExperienceOrderInfoPage = () => {
   const { step } = useParams<{ step: string }>();
   const { Funnel, Step, nextStep } = useFunnel(
     step || steps[0],
-    "product/order-info"
+    "experience/order-info"
   );
   return (
     <>
-      <OrderInfo
+      <ExperienceOrderInfo
         steps={steps}
         nextClickHandler={nextStep}
         Funnel={Funnel}
@@ -30,4 +29,4 @@ const OrderInfoPage = () => {
   );
 };
 
-export default OrderInfoPage;
+export default ExperienceOrderInfoPage;
