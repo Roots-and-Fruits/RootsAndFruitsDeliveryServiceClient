@@ -63,10 +63,7 @@ const OrderCheck = () => {
           handleResetClick={handleResetClick}
         />
       </section>
-      <section css={sectionStyle}>
-        <h3 css={sectionTitle}>주문내역</h3>
-        <OrderTable orders={orderData ?? []} />
-      </section>
+      <OrderTable orders={orderData ?? []} />
     </div>
   );
 };

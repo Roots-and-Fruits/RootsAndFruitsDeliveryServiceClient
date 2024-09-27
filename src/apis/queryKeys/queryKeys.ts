@@ -1,5 +1,6 @@
 export const QUERY_KEY = {
   ORDER_POST: "orderPost",
+  ORDER_LIST: "orderList",
   DELIVERY_DATE: "deliveryDate",
   DELIVERY_DATE_MAX: "deliveryDate",
   PRODUCT_LIST: "productList",
