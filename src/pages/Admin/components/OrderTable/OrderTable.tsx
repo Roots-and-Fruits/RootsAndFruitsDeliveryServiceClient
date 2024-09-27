@@ -13,6 +13,7 @@ import { Order } from "@types";
 import { usePatchDeliveryShipped } from "@apis/domains/admin/usePatchDeliveryShipped";
 import { Button } from "@components";
 import { IcCheckedTrue, IcDownload } from "@svg";
+import * as XLSX from "xlsx";
 
 interface OrderTableProps {
   orders: Order[];
@@ -25,6 +26,55 @@ const OrderTable = ({ orders }: OrderTableProps) => {
 
   const handleShippedClick = () => {
     mutate(selectedOrders);
+  };
+
+  const exportToExcel = () => {
+    const selectedData = orders.filter((order) =>
+      selectedOrders.includes(order.deliveryId)
+    );
+
+    const data = selectedData.map((order) => {
+      return {
+        주문번호: "", // blank
+        "보내는사람(지정)": "문성규", // 고정 값
+        "전화번호1(지정)": "01071177469", // 고정 값
+        "전화번호2(지정)": "", // blank
+        "우편번호(지정)": "63527", // 우편번호(지정)
+        "주소(지정)": "제주특별자치도 서귀포시 안덕면 덕수동로25번길 42-8", // 고정 값
+        받는사람: order.recipientName,
+        전화번호1: order.recipientPhone,
+        전화번호2: "", // blank
+        우편번호: order.recipientPostCode,
+        주소: `${order.recipientAddress} ${order.recipientAddressDetail}`,
+        상품명1: order.productList.join(", "),
+        상품상세1: "", // blank
+        "수량(A타입)": order.productTotalCount,
+        배송메시지: "", // blank
+        운임구분: "", // blank
+        운임: "", // blank
+        운송장번호: "", // blank
+      };
+    });
+
+    // 워크시트 생성
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    // 워크북 생성
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // 워크북을 바이너리로 변환
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    // 엑셀 파일로 다운로드
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "export.xlsx";
+    link.click();
   };
 
   const handleCheckboxChange = (id: number) => {
@@ -61,7 +111,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
             <IcCheckedTrue css={iconStyle} />
             <span>선택 발송완료</span>
           </Button>
-          <Button variant="smallStroke">
+          <Button variant="smallStroke" onClick={exportToExcel}>
             <IcDownload css={iconStyle} />
             <span>엑셀 다운로드</span>
           </Button>
