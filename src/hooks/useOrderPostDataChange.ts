@@ -1,4 +1,4 @@
-import { currentRecipient, orderPostAtom } from "@stores";
+import { currentRecipient, orderNumber, orderPostAtom } from "@stores";
 import { formatPhoneNumber } from "@utils";
 import { useAtom } from "jotai";
 import React from "react";
@@ -12,6 +12,7 @@ export const useOrderPostDataChange = () => {
   const [orderPostDataState, setOrderPostDataState] = useAtom(orderPostAtom);
   const [currentRecipientIndex, setCurrentRecipientIndex] =
     useAtom(currentRecipient);
+  const [orderNumberState, setOrderNumberState] = useAtom(orderNumber);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -105,5 +106,7 @@ export const useOrderPostDataChange = () => {
     handleRecipientInputChange,
     handleAddReceiver,
     handleSetIndex,
+    orderNumberState,
+    setOrderNumberState,
   };
 };

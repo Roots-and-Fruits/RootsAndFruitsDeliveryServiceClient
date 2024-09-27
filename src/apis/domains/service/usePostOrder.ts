@@ -1,18 +1,18 @@
 import { post } from "@apis/api";
 import { QUERY_KEY } from "@apis/queryKeys/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ErrorResponse, MutateResponseType } from "@types";
+import { ErrorResponse, OrderNumberType } from "@types";
 import { OrderPostDataType } from "src/stores/orderPostData";
 
 const postOrder = async (
   orderPostState: OrderPostDataType
-): Promise<MutateResponseType> => {
+): Promise<number> => {
   try {
-    const response = await post<MutateResponseType>(
+    const response = await post<OrderNumberType>(
       "api/v1/order",
       orderPostState
     );
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const errorResponse = error as ErrorResponse;
     const errorData = errorResponse.response.data;

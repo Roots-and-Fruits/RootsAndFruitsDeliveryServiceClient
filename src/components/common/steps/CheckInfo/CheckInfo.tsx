@@ -19,8 +19,12 @@ import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
 
 const CheckInfo = ({ onNext }: StepProps) => {
-  const { orderPostDataState, handleAddReceiver, handleSetIndex } =
-    useOrderPostDataChange();
+  const {
+    orderPostDataState,
+    handleAddReceiver,
+    handleSetIndex,
+    setOrderNumberState,
+  } = useOrderPostDataChange();
   const { mutateAsync } = usePostOrder();
   const receivers = orderPostDataState.recipientInfo;
   const navigate = useNavigate();
@@ -43,7 +47,8 @@ const CheckInfo = ({ onNext }: StepProps) => {
   };
   const handleNextClick = () => {
     mutateAsync(orderPostDataState)
-      .then(() => {
+      .then((data) => {
+        setOrderNumberState(data);
         onNext();
       })
       .catch((error: ErrorType) => {
