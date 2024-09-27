@@ -17,7 +17,7 @@ import { useAtom } from "jotai";
 import { categoryAtom, productListAtom } from "@stores";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { ProductList } from "src/stores/productList";
-import { OrderPostDataType } from "src/stores/orderPostData";
+import { RecipientInfo } from "src/stores/orderPostData";
 import { getTwoDaysLaterDate } from "@utils";
 
 const SelectProduct = ({ onNext }: StepProps) => {
@@ -34,28 +34,23 @@ const SelectProduct = ({ onNext }: StepProps) => {
     []
   );
 
-  const calculateTotalPrice = (
-    products: ProductList,
-    order: OrderPostDataType
-  ) => {
-    return order.recipientInfo.reduce((total, recipient) => {
-      (recipient.productInfo ?? []).forEach((orderProduct) => {
-        // productId를 기준으로 매칭되는 상품 찾기
-        const product = products.find(
-          (p) => p.productId === orderProduct.productId
-        );
-        if (product) {
-          // 가격 * 수량을 총 합계에 더하기
-          total += product.productPrice * orderProduct.productCount;
-        }
-      });
+  const calculateTotalPrice = (products: ProductList, order: RecipientInfo) => {
+    return (order.productInfo || []).reduce((total, orderProduct) => {
+      const product = products.find(
+        (p) => p.productId === orderProduct.productId
+      );
+
+      if (product) {
+        total += product.productPrice * orderProduct.productCount;
+      }
+
       return total;
     }, 0);
   };
 
   const totalPrice = calculateTotalPrice(
     displayedProductList,
-    orderPostDataState
+    orderPostDataState.recipientInfo[currentRecipientIndex]
   );
 
   useEffect(() => {
