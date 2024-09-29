@@ -31,8 +31,29 @@ export const mainSectionStyle = css`
 
 export const checkboxWrapper = css`
   ${flexGenerator("column", "flex-start", "flex-start")}
-  width: 100%;
   gap: 3rem;
+`;
+
+export const consentDetail = (theme: Theme) => css`
+  margin-left: 0.5rem;
+  color: ${theme.color.midgray1};
+  text-decoration: underline;
+`;
+
+export const consentModalContainer = (theme: Theme) => css`
+  width: 30rem;
+  padding: 3rem;
+
+  & > p {
+    ${theme.font["subhead-m-14"]}
+    color: ${theme.color.midgray3};
+    margin: 2rem 0;
+  }
+`;
+
+export const consentTitle = (theme: Theme) => css`
+  ${theme.font["head06-b-16"]}
+  color: ${theme.color.black};
 `;
 
 export const buttonSectionStyle = css`
