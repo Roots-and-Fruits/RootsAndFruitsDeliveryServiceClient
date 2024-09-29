@@ -24,15 +24,9 @@ export const senderSection = (theme: Theme) => css`
 export const senderSectionLeft = (theme: Theme) => css`
   ${flexGenerator("column", "start", "start")}
   gap: 0.4rem;
-  color: ${theme.color.black};
-
-  span:nth-of-type(1) {
-    ${theme.font["head03-b-15"]}
-  }
-
-  span:nth-of-type(2),
-  span:nth-of-type(3) {
-    ${theme.font["subhead-n-16"]}
+  span {
+    ${theme.font["subhead-n-16"]};
+    color: ${theme.color.black};
   }
 `;
 
@@ -49,21 +43,15 @@ export const receiverListSection = css`
   margin-bottom: 2rem;
 `;
 
-export const orderItemWrapper = (theme: Theme) => css`
-  ${flexGenerator("column", "start", "start")};
-  gap: 0.7rem;
+export const orderItemWrapper = css`
   width: 100%;
-
-  span:nth-of-type(1) {
-    ${theme.font["head03-b-15"]}
-    color: ${theme.color.black};
-  }
 `;
 
 export const orderItemInfoWrapper = (theme: Theme) => css`
   ${flexGenerator("column", "start", "start")};
   gap: 2.5rem;
   width: 100%;
+  margin-top: 1rem;
   padding: 2rem;
   position: relative;
 
@@ -71,34 +59,31 @@ export const orderItemInfoWrapper = (theme: Theme) => css`
   border-radius: 10px;
 
   background-color: ${theme.color.background};
+`;
 
-  div:nth-of-type(1) {
-    ${flexGenerator("column", "start", "start")};
-    gap: 0.4rem;
+export const closeIconStyle = css`
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+
+  width: 2.4rem;
+  height: 2.4rem;
+
+  cursor: pointer;
+`;
+
+export const infoContainer = (theme: Theme) => css`
+  ${flexGenerator("column", "start", "start")};
+  gap: 0.4rem;
+  span {
     ${theme.font["subhead-n-16"]};
   }
+`;
 
-  div:nth-of-type(2) {
-    ${flexGenerator("column", "start", "start")};
-    gap: 1rem;
-
-    div:nth-of-type(1) {
-      ${flexGenerator("column", "start", "start")};
-      gap: 0.4rem;
-
-      span {
-        ${theme.font["subhead-n-16"]};
-      }
-    }
-  }
-
-  div:nth-of-type(3) {
-    ${flexGenerator("column", "start", "start")};
-    gap: 1rem;
-
-    span:nth-of-type(2) {
-      ${theme.font["subhead-n-16"]};
-    }
+export const editButtonWrapper = (theme: Theme) => css`
+  width: 100%;
+  button {
+    background-color: ${theme.color.background};
   }
 `;
 
@@ -106,8 +91,7 @@ export const productInfoWrapper = css`
   ${flexGenerator("row", "start", "center")}
 `;
 
-export const fixButtonSpanStyle = css`
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
+export const head03Style = (theme: Theme) => css`
+  ${theme.font["head03-b-15"]}
+  color: ${theme.color.black};
 `;

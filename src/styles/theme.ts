@@ -11,6 +11,7 @@ const theme = {
   color: {
     white: "#FFFFFF",
     black: "#000000",
+    red: "#ff2c2c",
     lightgray1: "#DFE2E7",
     lightgray2: "#D9D9D9",
     midgray1: "#9FA4AE",
