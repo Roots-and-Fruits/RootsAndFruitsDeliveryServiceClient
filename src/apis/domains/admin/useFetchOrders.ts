@@ -37,7 +37,7 @@ const getOrders = async (query: queryType): Promise<Order[] | null> => {
 
 export const useFetchOrders = (query: queryType) => {
   return useQuery({
-    queryKey: [QUERY_KEY.ORDER_LIST],
+    queryKey: [QUERY_KEY.ORDER_LIST, query],
     queryFn: () => getOrders(query),
   });
 };

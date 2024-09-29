@@ -32,9 +32,7 @@ const OrderCheck = () => {
       productName: productRef.current?.value || "",
       deliveryStatus: statusRef.current?.value || "",
     };
-
     setQuery(newQuery);
-    // refetch();
   };
 
   const handleResetClick = () => {
@@ -42,6 +40,7 @@ const OrderCheck = () => {
     deliveryDateRef.current = null;
     statusRef.current = null;
     productRef.current = null;
+
     setQuery({
       orderReceivedDate: "",
       deliveryDate: "",

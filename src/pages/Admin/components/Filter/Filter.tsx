@@ -90,6 +90,15 @@ const Filter = ({
     }
   }, [isSuccessProduct, productData]);
 
+  const handleResetState = () => {
+    setOrderReceivedDate(null);
+    setDeliveryDate(null);
+    setProduct(null);
+    setStatus(null);
+
+    handleResetClick();
+  };
+
   return (
     <article css={filterContainer}>
       <div css={filterTable}>
@@ -146,7 +155,7 @@ const Filter = ({
       </div>
 
       <div css={buttonContainer}>
-        <Button variant="stroke" onClick={handleResetClick}>
+        <Button variant="stroke" onClick={handleResetState}>
           초기화
         </Button>
         <Button variant="fill" onClick={handleSearchClick}>
