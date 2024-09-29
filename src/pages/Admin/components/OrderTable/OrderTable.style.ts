@@ -31,7 +31,7 @@ export const tableWrapper = css`
 `;
 
 export const tableStyle = (theme: Theme) => css`
-  width: 170rem;
+  width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 
@@ -61,6 +61,18 @@ export const tableStyle = (theme: Theme) => css`
     border: 1px solid ${theme.color.black};
     min-width: 0;
     width: 5rem;
+  }
+
+  /* 상품명 */
+  th:nth-of-type(4),
+  td:nth-of-type(4) {
+    min-width: 30rem;
+  }
+
+  /* 주소 */
+  th:nth-of-type(9),
+  td:nth-of-type(9) {
+    min-width: 30rem;
   }
 `;
 
