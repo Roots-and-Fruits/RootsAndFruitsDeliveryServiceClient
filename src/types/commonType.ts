@@ -27,3 +27,8 @@ export interface ErrorType {
   status?: number;
   message: string;
 }
+
+export interface OrderNumberType {
+  code: string;
+  data: number;
+}

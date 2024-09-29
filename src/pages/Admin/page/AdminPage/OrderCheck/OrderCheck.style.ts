@@ -9,7 +9,6 @@ export const pageLayout = css`
 
 export const sectionStyle = css`
   width: 100%;
-  overflow: auto;
 `;
 
 export const sectionTitle = (theme: Theme) => css`

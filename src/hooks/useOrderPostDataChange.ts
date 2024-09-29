@@ -1,4 +1,4 @@
-import { currentRecipient, orderPostAtom } from "@stores";
+import { currentRecipient, orderNumber, orderPostAtom } from "@stores";
 import { formatPhoneNumber } from "@utils";
 import { useAtom } from "jotai";
 import React from "react";
@@ -12,6 +12,7 @@ export const useOrderPostDataChange = () => {
   const [orderPostDataState, setOrderPostDataState] = useAtom(orderPostAtom);
   const [currentRecipientIndex, setCurrentRecipientIndex] =
     useAtom(currentRecipient);
+  const [orderNumberState, setOrderNumberState] = useAtom(orderNumber);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -90,10 +91,21 @@ export const useOrderPostDataChange = () => {
       ...prevState,
       recipientInfo: [...prevState.recipientInfo, newRecipient],
     }));
+    setCurrentRecipientIndex((prevIndex) => prevIndex + 1);
   };
 
-  const handleSetIndex = () => {
-    setCurrentRecipientIndex((prevIndex) => prevIndex + 1);
+  const handleDeleteClick = (index: number) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      setOrderPostDataState((prevState) => {
+        const updatedRecipientInfo = [...prevState.recipientInfo];
+        updatedRecipientInfo.splice(index, 1);
+        return {
+          ...prevState,
+          recipientInfo: updatedRecipientInfo,
+        };
+      });
+      setCurrentRecipientIndex((prevIndex) => prevIndex - 1);
+    }
   };
 
   return {
@@ -104,6 +116,8 @@ export const useOrderPostDataChange = () => {
     handleOptinalAgreementClick,
     handleRecipientInputChange,
     handleAddReceiver,
-    handleSetIndex,
+    orderNumberState,
+    setOrderNumberState,
+    handleDeleteClick,
   };
 };

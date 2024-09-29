@@ -13,7 +13,7 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 import { Dayjs } from "dayjs";
 import Select from "react-select";
-import { useFetchSailedProduct } from "@apis/domains/admin/useFetchSailedProduct";
+import { useFetchProductAll } from "@apis/domains/admin/useFetchProductAll";
 
 interface Option {
   value: string;
@@ -36,6 +36,11 @@ interface FilterProps {
   handleResetClick: () => void;
 }
 
+interface GroupedOption {
+  readonly label: string;
+  readonly options: readonly Option[];
+}
+
 const Filter = ({
   orderReceivedDateRef,
   deliveryDateRef,
@@ -44,7 +49,16 @@ const Filter = ({
   handleSearchClick,
   handleResetClick,
 }: FilterProps) => {
-  const [productOptions, setProductOptions] = useState<Option[]>([]);
+  const [groupedOptions, setGroupedOptions] = useState<GroupedOption[]>([
+    {
+      label: "체험 상품",
+      options: [],
+    },
+    {
+      label: "판매 상품",
+      options: [],
+    },
+  ]);
 
   const [orderReceivedDate, setOrderReceivedDate] = useState<Dayjs | null>(
     null
@@ -54,23 +68,36 @@ const Filter = ({
   const [status, setStatus] = useState<Option | null>(null);
 
   const { isSuccess: isSuccessProduct, data: productData } =
-    useFetchSailedProduct();
+    useFetchProductAll();
 
   useEffect(() => {
     if (isSuccessProduct && productData) {
-      const options: Option[] = [
-        ...productData.trialSailedProductList.map((product) => ({
-          value: product.productName,
-          label: product.productName,
-        })),
-        ...productData.sailedproductList.map((product) => ({
-          value: product.productName,
-          label: product.productName,
-        })),
-      ];
-      setProductOptions(options);
+      const prouctData = productData.productList.map((product) => ({
+        value: product.productName,
+        label: product.productName,
+      }));
+      const experienceData = productData.trialProductList.map((product) => ({
+        value: product.productName,
+        label: product.productName,
+      }));
+
+      setGroupedOptions((prev) => {
+        return [
+          { ...prev[0], options: experienceData },
+          { ...prev[1], options: prouctData },
+        ];
+      });
     }
   }, [isSuccessProduct, productData]);
+
+  const handleResetState = () => {
+    setOrderReceivedDate(null);
+    setDeliveryDate(null);
+    setProduct(null);
+    setStatus(null);
+
+    handleResetClick();
+  };
 
   return (
     <article css={filterContainer}>
@@ -99,7 +126,7 @@ const Filter = ({
           <FilterAttribute label="상품">
             <Select
               css={productSelectStyle}
-              options={productOptions}
+              options={groupedOptions}
               placeholder="상품을 선택해주세요"
               value={product}
               onChange={(selectedOption) => {
@@ -128,7 +155,7 @@ const Filter = ({
       </div>
 
       <div css={buttonContainer}>
-        <Button variant="stroke" onClick={handleResetClick}>
+        <Button variant="stroke" onClick={handleResetState}>
           초기화
         </Button>
         <Button variant="fill" onClick={handleSearchClick}>

@@ -32,9 +32,7 @@ const OrderCheck = () => {
       productName: productRef.current?.value || "",
       deliveryStatus: statusRef.current?.value || "",
     };
-
     setQuery(newQuery);
-    // refetch();
   };
 
   const handleResetClick = () => {
@@ -42,6 +40,7 @@ const OrderCheck = () => {
     deliveryDateRef.current = null;
     statusRef.current = null;
     productRef.current = null;
+
     setQuery({
       orderReceivedDate: "",
       deliveryDate: "",
@@ -63,10 +62,7 @@ const OrderCheck = () => {
           handleResetClick={handleResetClick}
         />
       </section>
-      <section css={sectionStyle}>
-        <h3 css={sectionTitle}>주문내역</h3>
-        <OrderTable orders={orderData ?? []} />
-      </section>
+      <OrderTable orders={orderData ?? []} />
     </div>
   );
 };

@@ -1,8 +1,37 @@
 import { Theme } from "@emotion/react";
 import { css } from "@emotion/react";
+import { flexGenerator } from "@styles/generator";
+
+export const sectionStyle = css`
+  width: 100%;
+`;
+
+export const tableHeader = css`
+  ${flexGenerator("row", "space-between")};
+`;
+
+export const sectionTitle = (theme: Theme) => css`
+  ${theme.font["head02-b-20"]}
+  margin-bottom: 1.2rem;
+`;
+
+export const buttonContainer = css`
+  width: 24.5rem;
+  ${flexGenerator()};
+  gap: 1rem;
+`;
+
+export const iconStyle = css`
+  width: 1.6rem;
+  height: 1.6rem;
+`;
+
+export const tableWrapper = css`
+  overflow-x: auto;
+`;
 
 export const tableStyle = (theme: Theme) => css`
-  width: 170rem;
+  width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 
@@ -33,4 +62,21 @@ export const tableStyle = (theme: Theme) => css`
     min-width: 0;
     width: 5rem;
   }
+
+  /* 상품명 */
+  th:nth-of-type(4),
+  td:nth-of-type(4) {
+    min-width: 30rem;
+  }
+
+  /* 주소 */
+  th:nth-of-type(9),
+  td:nth-of-type(9) {
+    min-width: 30rem;
+  }
+`;
+
+export const checkboxStyle = css`
+  width: 1.6rem;
+  height: 1.6rem;
 `;

@@ -3,7 +3,10 @@ import { ErrorType, StepProps } from "@types";
 import { buttonSectionStyle, layoutStyle } from "@pages/orderInfo/styles";
 import {
   checkSpanText,
-  fixButtonSpanStyle,
+  closeIconStyle,
+  editButtonWrapper,
+  head03Style,
+  infoContainer,
   orderItemInfoWrapper,
   orderItemWrapper,
   receiverListSection,
@@ -17,10 +20,15 @@ import { usePostOrder } from "@apis/domains/service/usePostOrder";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
+import { IcClose } from "@svg";
 
 const CheckInfo = ({ onNext }: StepProps) => {
-  const { orderPostDataState, handleAddReceiver, handleSetIndex } =
-    useOrderPostDataChange();
+  const {
+    orderPostDataState,
+    handleAddReceiver,
+    setOrderNumberState,
+    handleDeleteClick,
+  } = useOrderPostDataChange();
   const { mutateAsync } = usePostOrder();
   const receivers = orderPostDataState.recipientInfo;
   const navigate = useNavigate();
@@ -38,18 +46,19 @@ const CheckInfo = ({ onNext }: StepProps) => {
   };
   const handleAddReceiverClick = () => {
     handleAddReceiver();
-    handleSetIndex();
     navigate(`/${category}/order-info/receiver1`);
   };
   const handleNextClick = () => {
     mutateAsync(orderPostDataState)
-      .then(() => {
+      .then((data) => {
+        setOrderNumberState(data);
         onNext();
       })
       .catch((error: ErrorType) => {
         alert(error.message);
       });
   };
+
   return (
     <>
       <Header text="입력 정보 확인" />
@@ -60,7 +69,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
         </section>
         <section css={senderSection}>
           <div css={senderSectionLeft}>
-            <span>보내는 분</span>
+            <h6 css={head03Style}>보내는 분</h6>
             <span>{orderPostDataState.senderName}</span>
             <span>{orderPostDataState.senderPhone}</span>
           </div>
@@ -77,40 +86,35 @@ const CheckInfo = ({ onNext }: StepProps) => {
         <section css={receiverListSection}>
           {receivers.map((receiver, i) => (
             <article css={orderItemWrapper} key={i}>
-              <span>주문{i + 1}</span>
+              <h6 css={head03Style}>주문{i + 1}</h6>
               <div css={orderItemInfoWrapper}>
-                <span css={fixButtonSpanStyle}>
-                  <Button
-                    variant="smallStroke"
-                    isIcon={true}
-                    onClick={() => handleReceiverEdit(i)}
-                  >
-                    수정하기
-                  </Button>
-                </span>
-                <div>
-                  <span>받는 분</span>
+                <IcClose
+                  css={closeIconStyle}
+                  onClick={() => handleDeleteClick(i)}
+                />
+                <div css={infoContainer}>
+                  <h6 css={head03Style}>받는 분</h6>
                   <span>{receiver.recipientName}</span>
                   <span>{receiver.recipientPhone}</span>
                   <span>
                     {`${receiver.recipientAddress}, ${receiver.recipientAddressDetail}`}
                   </span>
                 </div>
-                <div>
-                  <span>선택상품</span>
+                <div css={infoContainer}>
+                  <h6 css={head03Style}>선택상품</h6>
                   <div>
                     {receiver.productInfo
                       .filter((product) => product.productCount > 0)
                       .map((product, j) => (
-                        <div key={j}>
-                          <span>{`${product.productName} ${product.productCount}개`}</span>
-                        </div>
+                        <span key={j}>
+                          {`${product.productName} ${product.productCount}개`}
+                        </span>
                       ))}
                   </div>
                 </div>
                 {category === "product" && (
-                  <div>
-                    <span>희망 배송일자</span>
+                  <div css={infoContainer}>
+                    <h6 css={head03Style}>희망 배송일자</h6>
                     <span>
                       {receiver.selectedOption === "regular"
                         ? "일반 배송"
@@ -118,6 +122,15 @@ const CheckInfo = ({ onNext }: StepProps) => {
                     </span>
                   </div>
                 )}
+                <span css={editButtonWrapper}>
+                  <Button
+                    variant="stroke"
+                    isIcon={true}
+                    onClick={() => handleReceiverEdit(i)}
+                  >
+                    수정하기
+                  </Button>
+                </span>
               </div>
             </article>
           ))}

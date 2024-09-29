@@ -20,14 +20,25 @@ export const spanContainer = css`
 `;
 
 export const spanStyle = (theme: Theme) => css`
-  ${theme.font["head05-n-24"]}
+  ${theme.font["head01-b-24"]}
   color: ${theme.color.black};
 `;
 
-export const lastSpanWrapper = css`
+export const orderNumberWrapper = css`
+  background-color: #ffede7;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+`;
+
+export const orderNumberStyle = (theme: Theme) => css`
+  color: ${theme.color.orange};
+`;
+
+export const lastSpanWrapper = (theme: Theme) => css`
   ${flexGenerator()};
   width: 100%;
   text-align: center;
+  ${theme.font["head04-sb-18"]}
 `;
 
 export const accountInfoContainer = (theme: Theme) => css`
