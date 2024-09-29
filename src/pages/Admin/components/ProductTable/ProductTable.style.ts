@@ -32,9 +32,9 @@ export const tableStyle = (theme: Theme) => css`
     text-align: center;
     height: 4rem;
     ${theme.font["subhead-b-14"]};
-    line-height: 4rem;
     background-color: ${theme.color.background};
     padding: 0;
+    vertical-align: middle;
   }
   td {
     ${theme.font["subhead-m-14"]};

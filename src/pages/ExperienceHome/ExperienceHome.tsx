@@ -29,7 +29,7 @@ const ExperienceHome = () => {
       <h1 css={titleStyle}>
         제주체험농장
         <br />
-        체험 과일 택배 접수
+        오늘만 농부(체험) 택배접수
       </h1>
       <div css={chracterDivStyle}>
         <IcMainCharacter />

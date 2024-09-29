@@ -94,7 +94,9 @@ const ProductTable = ({ title, products }: ProductTableProps) => {
                 />
               </td>
               <td css={productNameStyle}>{product.productName}</td>
-              <td css={cellWidth(15)}>{product.productPrice}</td>
+              <td css={cellWidth(15)}>
+                {`${product.productPrice.toLocaleString()}원`}
+              </td>
               <td css={cellWidth(15)}>
                 <Switch
                   checked={product.isSailed}
