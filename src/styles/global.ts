@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import Reset from './reset';
+import Reset from "./reset";
 
 const GlobalStyle = css`
   ${Reset}
@@ -11,6 +11,10 @@ const GlobalStyle = css`
   :root {
     --min-width: 375px;
     --max-width: 430px;
+    --tablet-min-width: 768px;
+    --tablet-max-width: 1366px;
+    --tablet-ratio-width: 1280px;
+    --tablet-ratio-height: 800px;
   }
 
   html,
@@ -49,6 +53,18 @@ const GlobalStyle = css`
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
     }
   }
+
+  /* @media (min-width: var(--tablet-min-width)) and (max-width: var(--tablet-max-width)) {
+    #root {
+      width: 100%;
+      max-width: 100vw;
+      height: calc(
+        100vw * var(--tablet-ratio-height) / var(--tablet-ratio-width)
+      );
+      max-height: 100vh;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    }
+  } */
 
   ::-webkit-scrollbar {
     display: none;
