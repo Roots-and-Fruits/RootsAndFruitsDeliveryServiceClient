@@ -159,7 +159,11 @@ const OrderTable = ({ orders }: OrderTableProps) => {
                 </td>
                 <td>{order.orderReceivedDate}</td>
                 <td>{order.orderNumber}</td>
-                <td>{...order.productList}</td>
+                <td>
+                  {order.productList.map((product) => {
+                    return <div>{product}</div>;
+                  })}
+                </td>
                 <td>{order.senderName}</td>
                 <td>{order.senderPhone}</td>
                 <td>{order.recipientName}</td>
