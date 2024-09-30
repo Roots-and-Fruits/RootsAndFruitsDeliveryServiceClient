@@ -4,6 +4,7 @@ import {
   homeRoutes,
   orderInfoRoutes,
   adminRoutes,
+  orderCheckRoutes,
 } from "@routes";
 import GlobalStyle from "@styles/global";
 import theme from "@styles/theme";
@@ -15,6 +16,7 @@ const allRoutes = [
   ...orderInfoRoutes,
   ...experienceOrderInfoRoutes,
   ...adminRoutes,
+  ...orderCheckRoutes,
 ];
 const router = createBrowserRouter([...allRoutes]);
 

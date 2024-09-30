@@ -12,3 +12,4 @@ export { default as IcFix } from "./IcFix";
 export { default as IcMainCharacter } from "./IcMainCharacter";
 export { default as IcMinus } from "./IcMinus";
 export { default as IcPlus } from "./IcPlus";
+export { default as IcRefresh } from "./IcRefresh";
