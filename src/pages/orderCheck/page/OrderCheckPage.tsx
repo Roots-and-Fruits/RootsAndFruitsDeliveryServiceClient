@@ -1,4 +1,8 @@
-import { iconStyle, orderCheckLayout, refreshButton } from "./OrderCheckPage.style";
+import {
+  iconStyle,
+  orderCheckLayout,
+  refreshButton,
+} from "./OrderCheckPage.style";
 import {
   OrderTrackingSection,
   OrderNumberSearchSection,
@@ -13,7 +17,7 @@ const OrderCheckPage = () => {
       <OrderNumberSearchSection />
       <OrderInfoSection />
       <div css={refreshButton}>
-        <IcRefresh  css={iconStyle}/>
+        <IcRefresh css={iconStyle} />
       </div>
     </div>
   );

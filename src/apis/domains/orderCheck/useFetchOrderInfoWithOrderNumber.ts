@@ -10,7 +10,6 @@ const getOrderInfo = async (
     const response = await get<ApiResponseType<OrderInfoData>>(
       `api/v1/order/${orderNumber}`
     );
-    console.log(response.data);
     return response.data.data;
   } catch {
     return null;
