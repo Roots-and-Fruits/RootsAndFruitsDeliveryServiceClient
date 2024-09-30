@@ -24,6 +24,7 @@ const theme = {
     background2: "#F5F5F5",
 
     orange: "#EC6732",
+    lightorange: "#FFEDE7",
     green: "#3CA178",
   },
   font: {
@@ -133,6 +134,12 @@ const theme = {
     "orderCheck-36": css`
       ${PretendardFont}
       font-size: 3.6rem;
+      font-weight: 700;
+      line-height: normal;
+    `,
+    "orderCheck-32": css`
+      ${PretendardFont}
+      font-size: 3.2rem;
       font-weight: 700;
       line-height: normal;
     `,

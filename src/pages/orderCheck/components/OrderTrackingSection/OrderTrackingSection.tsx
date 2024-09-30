@@ -1,12 +1,23 @@
+import RecentOrderCard from "../RecentOrderCard/RecentOrderCard";
 import { section1Container } from "./OrderTrackingSection.style";
-
+const recentOrderList = [
+  { orderNumber: 1074, senderName: "유태승" },
+  { orderNumber: 1074, senderName: "유태승" },
+  { orderNumber: 1074, senderName: "유태승" },
+  { orderNumber: 1074, senderName: "유태승" },
+  { orderNumber: 1074, senderName: "유태승" },
+  { orderNumber: 1074, senderName: "유태승" },
+];
 const OrderTrackingSection = () => {
   return (
     <section css={section1Container}>
-      <span>1074번 유태승</span>
-      <span>1074번 유태승</span>
-      <span>1074번 유태승</span>
-      <span>1074번 유태승</span>
+      {recentOrderList.map((order, i) => (
+        <RecentOrderCard
+          key={i}
+          orderNumber={order.orderNumber}
+          senderName={order.senderName}
+        />
+      ))}
     </section>
   );
 };
