@@ -44,7 +44,7 @@ export const tableStyle = (theme: Theme) => css`
     line-height: 4rem;
     background-color: ${theme.color.background};
     padding: 0;
-    min-width: 12rem;
+    min-width: 10rem;
   }
   td {
     ${theme.font["subhead-m-14"]};
@@ -64,16 +64,14 @@ export const tableStyle = (theme: Theme) => css`
   }
 
   /* 상품명 */
-  th:nth-of-type(4),
+  /* th:nth-of-type(4),
   td:nth-of-type(4) {
-    min-width: 30rem;
-  }
+  } */
 
   /* 주소 */
-  th:nth-of-type(9),
+  /* th:nth-of-type(9),
   td:nth-of-type(9) {
-    min-width: 30rem;
-  }
+  } */
 `;
 
 export const checkboxStyle = css`
