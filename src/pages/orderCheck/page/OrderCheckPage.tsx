@@ -1,9 +1,10 @@
-import { orderCheckLayout } from "./OrderCheckPage.style";
+import { iconStyle, orderCheckLayout, refreshButton } from "./OrderCheckPage.style";
 import {
   OrderTrackingSection,
   OrderNumberSearchSection,
   OrderInfoSection,
 } from "../components";
+import { IcRefresh } from "@svg";
 
 const OrderCheckPage = () => {
   return (
@@ -11,6 +12,9 @@ const OrderCheckPage = () => {
       <OrderTrackingSection />
       <OrderNumberSearchSection />
       <OrderInfoSection />
+      <div css={refreshButton}>
+        <IcRefresh  css={iconStyle}/>
+      </div>
     </div>
   );
 };

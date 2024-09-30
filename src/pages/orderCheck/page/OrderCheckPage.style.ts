@@ -1,7 +1,7 @@
-import { css } from "@emotion/react";
+import { css, Theme } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
-export const orderCheckLayout = css`
+export const orderCheckLayout = (theme: Theme) => css`
   ${flexGenerator()};
   position: absolute;
   top: 0;
@@ -10,5 +10,21 @@ export const orderCheckLayout = css`
   gap: 3rem;
   width: 100vw;
   height: 100%;
-  background-color: pink;
+  background-color: ${theme.color.white};
+`;
+
+export const refreshButton = (theme: Theme) => css`
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  ${flexGenerator()};
+  width: 8rem;
+  height: 8rem;
+  border-radius: 40px;
+  background-color: ${theme.color.lightorange};
+`;
+
+export const iconStyle = css`
+  width: 3.2rem;
+  height: 3.2rem;
 `;

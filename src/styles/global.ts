@@ -54,18 +54,6 @@ const GlobalStyle = css`
     }
   }
 
-  /* @media (min-width: var(--tablet-min-width)) and (max-width: var(--tablet-max-width)) {
-    #root {
-      width: 100%;
-      max-width: 100vw;
-      height: calc(
-        100vw * var(--tablet-ratio-height) / var(--tablet-ratio-width)
-      );
-      max-height: 100vh;
-      box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-    }
-  } */
-
   ::-webkit-scrollbar {
     display: none;
   }
