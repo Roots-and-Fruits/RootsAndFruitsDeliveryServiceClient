@@ -6,4 +6,5 @@ export const QUERY_KEY = {
   PRODUCT_LIST: "productList",
   PRODUCT_LIST_ALL: "productListAll",
   SAILED_PRODUCT: "sailedProduct",
+  ORDER_INFO_WITH_ORDER_NUMBER: "orderInfoWithOrderNumber",
 } as const;

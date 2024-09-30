@@ -1,4 +1,3 @@
-import { useState } from "react";
 import DialButton from "../DialButton/DialButton";
 import {
   dialButtonWrapper,
@@ -6,9 +5,19 @@ import {
   orderNumberStyle,
   section2Container,
 } from "./OrderNumberSearchSection.style";
+import { useFetchOrderInfoWithOrderNumber } from "@apis/domains/orderCheck/useFetchOrderInfoWithOrderNumber";
+import { useAtom } from "jotai";
+import {
+  orderInfoAtom,
+  orderNumberAtom,
+  previousOrderNumberAtom,
+} from "@stores";
 
 const OrderNumberSearchSection = () => {
-  const [orderNumber, setOrderNumber] = useState("");
+  const [orderNumber, setOrderNumber] = useAtom(orderNumberAtom);
+  const [, setOrderInfo] = useAtom(orderInfoAtom);
+  const [, setPreviousOrderNumber] = useAtom(previousOrderNumberAtom);
+  const { refetch } = useFetchOrderInfoWithOrderNumber(Number(orderNumber));
   const handleButtonClick = (value: string) => {
     if (orderNumber.length < 4) {
       setOrderNumber((prev) => prev + value);
@@ -19,8 +28,14 @@ const OrderNumberSearchSection = () => {
     setOrderNumber((prev) => prev.slice(0, -1));
   };
 
-  const handleSearch = () => {
-    alert(`조회할 번호: ${orderNumber}`);
+  const handleSearch = async () => {
+    const result = await refetch();
+    if (result.data === null) {
+      alert("주문번호에 대한 주문내역이 존재하지 않습니다.");
+    }
+    setOrderInfo(result?.data ?? null);
+    setPreviousOrderNumber(orderNumber);
+    setOrderNumber("");
   };
   return (
     <section css={section2Container}>
