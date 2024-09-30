@@ -6,9 +6,13 @@ import {
   orderNumberStyle,
   section2Container,
 } from "./OrderNumberSearchSection.style";
+import { useFetchOrderInfoWithOrderNumber } from "@apis/domains/orderCheck/useFetchOrderInfoWithOrderNumber";
 
 const OrderNumberSearchSection = () => {
   const [orderNumber, setOrderNumber] = useState("");
+  const { data: orderInfo, refetch } = useFetchOrderInfoWithOrderNumber(
+    Number(orderNumber)
+  );
   const handleButtonClick = (value: string) => {
     if (orderNumber.length < 4) {
       setOrderNumber((prev) => prev + value);
@@ -20,8 +24,10 @@ const OrderNumberSearchSection = () => {
   };
 
   const handleSearch = () => {
-    alert(`조회할 번호: ${orderNumber}`);
+    refetch();
+    setOrderNumber("");
   };
+  console.log(orderInfo);
   return (
     <section css={section2Container}>
       <div css={orderNumberStyle}>
