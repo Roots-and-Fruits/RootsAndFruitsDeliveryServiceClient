@@ -32,3 +32,7 @@ export interface OrderNumberType {
   code: string;
   data: number;
 }
+
+export interface CodeResponseType {
+  code: string;
+}
