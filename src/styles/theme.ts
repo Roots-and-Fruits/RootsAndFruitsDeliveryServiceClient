@@ -14,6 +14,8 @@ const theme = {
     red: "#ff2c2c",
     lightgray1: "#DFE2E7",
     lightgray2: "#D9D9D9",
+    lightgray3: "#C4C4C4",
+    lightgray4: "#B6B6B6",
     midgray1: "#9FA4AE",
     midgray2: "#F1F1F1",
     midgray3: "#6B6F77",
@@ -22,6 +24,7 @@ const theme = {
     background2: "#F5F5F5",
 
     orange: "#EC6732",
+    lightorange: "#FFEDE7",
     green: "#3CA178",
   },
   font: {
@@ -114,6 +117,31 @@ const theme = {
       font-size: 1.5rem;
       font-weight: 400;
       line-height: 140%;
+    `,
+    "dialNumber-56": css`
+      ${PretendardFont}
+      font-size: 5.6rem;
+      font-weight: 600;
+      line-height: normal;
+    `,
+    "dialNumber-72": css`
+      ${PretendardFont}
+      font-size: 7.2rem;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 10px;
+    `,
+    "orderCheck-36": css`
+      ${PretendardFont}
+      font-size: 3.6rem;
+      font-weight: 700;
+      line-height: normal;
+    `,
+    "orderCheck-32": css`
+      ${PretendardFont}
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: normal;
     `,
   },
 };

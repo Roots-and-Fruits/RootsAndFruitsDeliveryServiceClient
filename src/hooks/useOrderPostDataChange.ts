@@ -108,6 +108,16 @@ export const useOrderPostDataChange = () => {
     }
   };
 
+  const resetOrderPostData = () => {
+    setOrderPostDataState({
+      senderName: "",
+      senderPhone: "",
+      isPersonalInfoConsent: false,
+      isMarketingConsent: false,
+      recipientInfo: [],
+    });
+  };
+
   return {
     orderPostDataState,
     currentRecipientIndex,
@@ -119,5 +129,6 @@ export const useOrderPostDataChange = () => {
     orderNumberState,
     setOrderNumberState,
     handleDeleteClick,
+    resetOrderPostData,
   };
 };

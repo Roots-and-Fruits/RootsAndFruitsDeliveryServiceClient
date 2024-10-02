@@ -26,6 +26,10 @@ const authPages = {
   ADMIN_LOGIN: "/admin/login",
 };
 
+const orderCheckPages = {
+  ORDER_CHECK: "/order-check",
+};
+
 export default {
   ...productHomePages,
   ...experienceHomePages,
@@ -33,4 +37,5 @@ export default {
   ...experienceProductOrderInfoPages,
   ...adminPages,
   ...authPages,
+  ...orderCheckPages,
 };

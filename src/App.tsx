@@ -5,6 +5,7 @@ import {
   orderInfoRoutes,
   adminRoutes,
   authRoutes,
+  orderCheckRoutes,
 } from "@routes";
 import GlobalStyle from "@styles/global";
 import theme from "@styles/theme";
@@ -17,6 +18,7 @@ const allRoutes = [
   ...orderInfoRoutes,
   ...experienceOrderInfoRoutes,
   ...authRoutes,
+  ...orderCheckRoutes,
 ];
 
 const protectedRoutes = adminRoutes.map((route) => ({
