@@ -5,7 +5,7 @@ export const cardWrapper = (theme: Theme) => css`
   ${flexGenerator()};
   gap: 1rem;
   width: 100%;
-  padding: 1.5rem;
+  padding: 1.5rem 1.2rem;
   border-radius: 10px;
   background-color: ${theme.color.lightorange};
 `;
