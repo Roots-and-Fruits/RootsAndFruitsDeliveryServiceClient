@@ -1,3 +1,4 @@
+import { useFetchRecentOrderNumber } from "@apis/domains/orderCheck/useFetchRecentOrderNumber";
 import RecentOrderCard from "../RecentOrderCard/RecentOrderCard";
 import { section1Container } from "./OrderTrackingSection.style";
 const recentOrderList = [
@@ -9,6 +10,7 @@ const recentOrderList = [
   { orderNumber: 1074, senderName: "유태승" },
 ];
 const OrderTrackingSection = () => {
+  // const { data: recentOrderList } = useFetchRecentOrderNumber();
   return (
     <section css={section1Container}>
       {recentOrderList.map((order, i) => (
