@@ -2,7 +2,7 @@ import { css, Theme } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
 export const cardWrapper = (theme: Theme) => css`
-  ${flexGenerator()};
+  ${flexGenerator("row", "space-between", "center")};
   gap: 1rem;
   width: 100%;
   padding: 1.5rem 1.2rem;

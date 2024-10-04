@@ -1,11 +1,11 @@
 import { get } from "@apis/api";
 import { QUERY_KEY } from "@apis/queryKeys/queryKeys";
 import { useQuery } from "@tanstack/react-query";
-import { ApiResponseType } from "@types";
+import { ApiResponseType, RecentOrderType } from "@types";
 
-const getRecentOrderNumber = async (): Promise<number[] | null> => {
+const getRecentOrderNumber = async (): Promise<RecentOrderType[] | null> => {
   try {
-    const response = await get<ApiResponseType<number[]>>(
+    const response = await get<ApiResponseType<RecentOrderType[]>>(
       "api/v1/order/recent"
     );
     return response.data.data;
