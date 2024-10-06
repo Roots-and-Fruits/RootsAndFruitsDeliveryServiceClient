@@ -1,5 +1,5 @@
 import { Button, Header, ProgressBar } from "@components";
-import { ErrorType, StepProps } from "@types";
+import { StepProps } from "@types";
 import { buttonSectionStyle, layoutStyle } from "@pages/orderInfo/styles";
 import {
   checkSpanText,
