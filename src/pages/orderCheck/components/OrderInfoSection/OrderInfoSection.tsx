@@ -9,10 +9,22 @@ import {
   section3InfoWrapper,
 } from "./OrderInfoSection.style";
 import { useAtom } from "jotai";
+import { usePatchPayComplete } from "@apis/domains/orderCheck/usePatchPayComplete";
+import { usePatchPayCancel } from "@apis/domains/orderCheck/usePatchPayCancel";
 
 const OrderInfoSection = () => {
   const [previousOrderNumber] = useAtom(previousOrderNumberAtom);
   const [orderInfo] = useAtom(orderInfoAtom);
+
+  const { mutate: mutatePayComplete } = usePatchPayComplete();
+  const { mutate: mutatePayCancel } = usePatchPayCancel();
+
+  const handlePayCancel = () => {
+    mutatePayCancel(Number(previousOrderNumber));
+  };
+  const handlePayComplete = () => {
+    mutatePayComplete(Number(previousOrderNumber));
+  };
   return (
     <section css={section3Container}>
       <div css={section3InfoWrapper}>
@@ -39,10 +51,10 @@ const OrderInfoSection = () => {
         </div>
       </div>
       <div css={buttonWrapper}>
-        <PayButton variant="stroke" onClick={() => {}}>
+        <PayButton variant="stroke" onClick={handlePayCancel}>
           결제취소
         </PayButton>
-        <PayButton variant="fill" onClick={() => {}}>
+        <PayButton variant="fill" onClick={handlePayComplete}>
           결제완료
         </PayButton>
       </div>
