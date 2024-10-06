@@ -22,6 +22,7 @@ export const refreshButton = (theme: Theme) => css`
   height: 8rem;
   border-radius: 40px;
   background-color: ${theme.color.lightorange};
+  cursor: pointer;
 `;
 
 export const iconStyle = css`

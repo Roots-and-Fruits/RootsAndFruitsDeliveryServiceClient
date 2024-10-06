@@ -7,7 +7,7 @@ import {
   tapLayoutStyle,
 } from "./AdminPage.style";
 import { useNavigate, useParams } from "react-router-dom";
-import { OrderCheck, ProductCheck, DeliveryCheck } from "./";
+import { OrderCheck, ProductCheck, DeliveryCheck } from "..";
 
 const Admin = () => {
   const { tab = "order" } = useParams<{ tab: string }>();

@@ -4,6 +4,13 @@ export const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
 });
 
+export const adminInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  },
+});
+
 export function get<T>(...args: Parameters<typeof instance.get>) {
   return instance.get<T>(...args);
 }
