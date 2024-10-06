@@ -22,10 +22,20 @@ const adminPages = {
   ADMIN_TAB: "/admin/:tab",
 };
 
+const authPages = {
+  ADMIN_LOGIN: "/admin/login",
+};
+
+const orderCheckPages = {
+  ORDER_CHECK: "/order-check",
+};
+
 export default {
   ...productHomePages,
   ...experienceHomePages,
   ...orderInfoPages,
   ...experienceProductOrderInfoPages,
   ...adminPages,
+  ...authPages,
+  ...orderCheckPages,
 };

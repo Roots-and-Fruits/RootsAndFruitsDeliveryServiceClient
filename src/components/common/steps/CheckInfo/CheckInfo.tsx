@@ -1,5 +1,5 @@
 import { Button, Header, ProgressBar } from "@components";
-import { ErrorType, StepProps } from "@types";
+import { StepProps } from "@types";
 import { buttonSectionStyle, layoutStyle } from "@pages/orderInfo/styles";
 import {
   checkSpanText,
@@ -28,6 +28,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
     handleAddReceiver,
     setOrderNumberState,
     handleDeleteClick,
+    resetOrderPostData,
   } = useOrderPostDataChange();
   const { mutateAsync } = usePostOrder();
   const receivers = orderPostDataState.recipientInfo;
@@ -53,9 +54,13 @@ const CheckInfo = ({ onNext }: StepProps) => {
       .then((data) => {
         setOrderNumberState(data);
         onNext();
+        resetOrderPostData();
       })
-      .catch((error: ErrorType) => {
-        alert(error.message);
+      .catch(() => {
+        alert(
+          `필수 입력칸을 작성하지 않으셨습니다. \n혹은 이미 주문을 완료하지 않으셨나요?`
+        );
+        navigate(`/${category}`);
       });
   };
 

@@ -64,14 +64,10 @@ export const tableStyle = (theme: Theme) => css`
   }
 
   /* 상품명 */
-  /* th:nth-of-type(4),
+  th:nth-of-type(4),
   td:nth-of-type(4) {
-  } */
-
-  /* 주소 */
-  /* th:nth-of-type(9),
-  td:nth-of-type(9) {
-  } */
+    min-width: 20rem;
+  }
 `;
 
 export const checkboxStyle = css`
