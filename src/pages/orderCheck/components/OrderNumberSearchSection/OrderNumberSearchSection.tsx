@@ -15,6 +15,7 @@ import {
 } from "@stores";
 import { RecentOrderType } from "@types";
 import RecentOrderCard from "../RecentOrderCard/RecentOrderCard";
+import { useEffect, useState } from "react";
 
 interface OrderTrackingSectionProps {
   recentOrderList: RecentOrderType[] | null | undefined;
@@ -26,7 +27,16 @@ const OrderNumberSearchSection = ({
   const [orderNumber, setOrderNumber] = useAtom(orderNumberAtom);
   const [, setOrderInfo] = useAtom(orderInfoAtom);
   const [, setPreviousOrderNumber] = useAtom(previousOrderNumberAtom);
+  const [triggerSearch, setTriggerSearch] = useState(false);
   const { refetch } = useFetchOrderInfoWithOrderNumber(Number(orderNumber));
+
+  useEffect(() => {
+    if (triggerSearch) {
+      handleSearch();
+      setTriggerSearch(false);
+    }
+  }, [orderNumber, triggerSearch]);
+
   const handleButtonClick = (value: string) => {
     if (orderNumber.length < 4) {
       setOrderNumber((prev) => prev + value);
@@ -49,7 +59,7 @@ const OrderNumberSearchSection = ({
 
   const handleRecentOrderClick = (orderNumber: string) => {
     setOrderNumber(orderNumber);
-    handleSearch();
+    setTriggerSearch(true);
   };
 
   return (
