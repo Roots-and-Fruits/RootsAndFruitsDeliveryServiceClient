@@ -1,11 +1,11 @@
-import { patch } from "@apis/api";
+import { adminPatch } from "@apis/api";
 import { QUERY_KEY } from "@apis/queryKeys/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorResponse, MutateResponseType } from "@types";
 
 const patchDeliveryDate = async (date: number): Promise<MutateResponseType> => {
   try {
-    const response = await patch<MutateResponseType>(
+    const response = await adminPatch<MutateResponseType>(
       `api/v1/delivery/${date.toString()}`
     );
     return response.data;

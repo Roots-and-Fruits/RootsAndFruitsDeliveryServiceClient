@@ -1,4 +1,4 @@
-import { patch } from "@apis/api";
+import { adminPatch } from "@apis/api";
 import { useMutation } from "@tanstack/react-query";
 import { MutateResponseType } from "@types";
 
@@ -6,7 +6,7 @@ const patchPayCancel = async (
   orderNumber: number
 ): Promise<MutateResponseType | null> => {
   try {
-    const response = await patch<MutateResponseType>(
+    const response = await adminPatch<MutateResponseType>(
       `api/v1/order/cancel/${orderNumber}`
     );
     return response.data;
