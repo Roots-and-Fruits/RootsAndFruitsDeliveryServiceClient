@@ -1,7 +1,7 @@
 export interface OrderInfo {
   productName: string;
   productCount: number;
-  orderState: string;
+  deliveryStatus: string;
   price: number;
 }
 

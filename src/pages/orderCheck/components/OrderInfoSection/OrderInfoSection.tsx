@@ -33,6 +33,10 @@ const OrderInfoSection = () => {
           <span css={blackSpan}>{previousOrderNumber}</span>
         </div>
         <div css={section3Div}>
+          <span css={graySpan}>주문상태</span>
+          <span css={blackSpan}>{orderInfo?.orderList[0].deliveryStatus}</span>
+        </div>
+        <div css={section3Div}>
           <span css={graySpan}>이름</span>
           <span css={blackSpan}>{orderInfo?.senderName}</span>
         </div>
@@ -47,7 +51,9 @@ const OrderInfoSection = () => {
         </div>
         <div css={section3Div}>
           <span css={graySpan}>총 금액</span>
-          <span css={blackSpan}>{orderInfo?.totalPrice}원</span>
+          <span css={blackSpan}>
+            {orderInfo?.totalPrice.toLocaleString()}원
+          </span>
         </div>
       </div>
       <div css={buttonWrapper}>

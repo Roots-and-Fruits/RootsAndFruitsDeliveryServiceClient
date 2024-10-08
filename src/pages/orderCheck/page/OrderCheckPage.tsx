@@ -3,11 +3,7 @@ import {
   orderCheckLayout,
   refreshButton,
 } from "./OrderCheckPage.style";
-import {
-  // OrderTrackingSection,
-  OrderNumberSearchSection,
-  OrderInfoSection,
-} from "../components";
+import { OrderNumberSearchSection, OrderInfoSection } from "../components";
 import { IcRefresh } from "@svg";
 import { useFetchRecentOrderNumber } from "@apis/domains/orderCheck/useFetchRecentOrderNumber";
 
@@ -20,7 +16,6 @@ const OrderCheckPage = () => {
 
   return (
     <div css={orderCheckLayout}>
-      {/* <OrderTrackingSection /> */}
       <OrderNumberSearchSection recentOrderList={recentOrderList} />
       <OrderInfoSection />
       <div css={refreshButton} onClick={handleRefresh}>
