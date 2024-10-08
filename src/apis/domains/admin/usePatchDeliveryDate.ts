@@ -3,7 +3,7 @@ import { QUERY_KEY } from "@apis/queryKeys/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorResponse, MutateResponseType } from "@types";
 
-const patchDeliveryDate = async (date: number): Promise<MutateResponseType> => {
+const patchDeliveryDate = async (date: string): Promise<MutateResponseType> => {
   try {
     const response = await adminPatch<MutateResponseType>(
       `api/v1/delivery/${date.toString()}`
@@ -19,7 +19,7 @@ const patchDeliveryDate = async (date: number): Promise<MutateResponseType> => {
 export const usePatchDeliveryDate = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (date: number) => patchDeliveryDate(date),
+    mutationFn: (date: string) => patchDeliveryDate(date),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DELIVERY_DATE] });
     },

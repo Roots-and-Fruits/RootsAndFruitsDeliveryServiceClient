@@ -13,23 +13,24 @@ import { usePatchDeliveryDate } from "@apis/domains/admin/usePatchDeliveryDate";
 const DeliveryCheck = () => {
   const { data: currentDeliveryDate, isSuccess } = useFetchDeliveryDate();
   const { mutate } = usePatchDeliveryDate();
-  const [deliveryDate, setDeliveryDate] = useState(0);
+  const [deliveryDate, setDeliveryDate] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-
-    if (value > 1) {
-      setDeliveryDate(value);
-    }
+    const value = e.target.value;
+    setDeliveryDate(value);
   };
 
   const handleButtonClick = () => {
-    mutate(deliveryDate);
+    if (Number(deliveryDate) > 1) {
+      mutate(deliveryDate);
+    } else {
+      alert("최소 2일 이상으로 설정해주세요.");
+    }
   };
 
   useEffect(() => {
     if (isSuccess && currentDeliveryDate) {
-      setDeliveryDate(currentDeliveryDate);
+      setDeliveryDate(currentDeliveryDate.toString());
     }
   }, [currentDeliveryDate, isSuccess]);
 
@@ -58,7 +59,7 @@ const DeliveryCheck = () => {
         </div>
         <p css={deliveryDateTitleStyle}>일</p>
         <div css={wrapper}>
-          {currentDeliveryDate !== deliveryDate && (
+          {currentDeliveryDate?.toString() !== deliveryDate && (
             <Button variant="fill" onClick={handleButtonClick}>
               저장
             </Button>
