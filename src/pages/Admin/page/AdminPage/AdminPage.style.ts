@@ -42,6 +42,23 @@ export const activeTabButtonStyle = (theme: Theme) => css`
   color: ${theme.color.white};
 `;
 
+export const logoutButton = (theme: Theme) => css`
+  width: 100%;
+  ${flexGenerator()};
+  margin-top: auto;
+  margin-bottom: 2rem;
+  ${theme.font["subhead-m-18"]}
+
+  cursor: pointer;
+
+  &:hover {
+    color: ${theme.color.orange};
+    path {
+      fill: ${theme.color.orange};
+    }
+  }
+`;
+
 export const pageLayout = () => css`
   width: calc(100vw - 20rem);
   padding: 5rem 10rem;
