@@ -19,3 +19,7 @@ export const chracterDivStyle = css`
   margin-top: 2.5rem;
   margin-bottom: 10.6rem;
 `;
+
+export const chracterImg = css`
+  width: 100%;
+`;
