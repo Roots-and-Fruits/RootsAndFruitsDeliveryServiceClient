@@ -12,6 +12,7 @@ const theme = {
     white: "#FFFFFF",
     black: "#000000",
     red: "#ff2c2c",
+    red2: "#FFD0D0",
     lightgray1: "#DFE2E7",
     lightgray2: "#D9D9D9",
     lightgray3: "#C4C4C4",
@@ -26,6 +27,7 @@ const theme = {
     orange: "#EC6732",
     lightorange: "#FFEDE7",
     green: "#3CA178",
+    lightgreen: "#D1F2E4",
   },
   font: {
     "head01-b-24": css`

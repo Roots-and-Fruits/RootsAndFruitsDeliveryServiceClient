@@ -1,4 +1,4 @@
-import { post } from "@apis/api";
+import { adminPost } from "@apis/api";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorResponse, CodeResponseType } from "@types";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const postAdminLogin = async (
   loginData: LoginDataType
 ): Promise<CodeResponseType> => {
   try {
-    const response = await post<CodeResponseType>(
+    const response = await adminPost<CodeResponseType>(
       `/api/v1/admin/authenticate`,
       loginData
     );
@@ -30,7 +30,7 @@ export const usePostAdminLogin = () => {
     mutationFn: (loginData: LoginDataType) => postAdminLogin(loginData),
     onSuccess: (data) => {
       if (data.code === "success") {
-        localStorage.setItem("accessToken", data.code);
+        localStorage.setItem("accessToken", data.data.token);
         navigate("/admin");
       }
     },

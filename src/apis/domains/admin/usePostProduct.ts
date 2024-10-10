@@ -1,4 +1,4 @@
-import { post } from "@apis/api";
+import { adminPost } from "@apis/api";
 import { QUERY_KEY } from "@apis/queryKeys/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorResponse, MutateResponseType, ProductAddType } from "@types";
@@ -7,7 +7,7 @@ const postProduct = async (
   productData: ProductAddType
 ): Promise<MutateResponseType> => {
   try {
-    const response = await post<MutateResponseType>(
+    const response = await adminPost<MutateResponseType>(
       `api/v1/product`,
       productData
     );

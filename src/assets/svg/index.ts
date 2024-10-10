@@ -9,6 +9,7 @@ export { default as IcComplete } from "./IcComplete";
 export { default as IcDelete } from "./IcDelete";
 export { default as IcDownload } from "./IcDownload";
 export { default as IcFix } from "./IcFix";
+export { default as IcLogout } from "./IcLogout";
 export { default as IcMainCharacter } from "./IcMainCharacter";
 export { default as IcMinus } from "./IcMinus";
 export { default as IcPlus } from "./IcPlus";

@@ -1,4 +1,4 @@
-import { del } from "@apis/api";
+import { adminDelete } from "@apis/api";
 import { QUERY_KEY } from "@apis/queryKeys/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorResponse, MutateResponseType } from "@types";
@@ -7,7 +7,7 @@ const deleteProduct = async (
   productIdList: number[]
 ): Promise<MutateResponseType> => {
   try {
-    const response = await del<MutateResponseType>(`api/v1/product`, {
+    const response = await adminDelete<MutateResponseType>(`api/v1/product`, {
       data: productIdList,
     });
     return response.data;

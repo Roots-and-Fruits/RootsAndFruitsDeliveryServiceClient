@@ -70,6 +70,7 @@ const OrderNumberSearchSection = ({
             key={i}
             orderNumber={order.orderNumber}
             senderName={order.senderName}
+            deliveryStatus={order.deliveryStatus}
             onClick={() => handleRecentOrderClick(order.orderNumber.toString())}
           />
         ))}

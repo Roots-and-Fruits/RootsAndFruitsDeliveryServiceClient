@@ -35,4 +35,7 @@ export interface OrderNumberType {
 
 export interface CodeResponseType {
   code: string;
+  data: {
+    token: string;
+  };
 }
