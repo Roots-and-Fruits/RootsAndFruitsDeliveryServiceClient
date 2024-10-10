@@ -30,3 +30,21 @@ export function patch<T>(...args: Parameters<typeof instance.patch>) {
 export function del<T>(...args: Parameters<typeof instance.delete>) {
   return instance.delete<T>(...args);
 }
+
+export function adminPost<T>(...args: Parameters<typeof adminInstance.post>) {
+  return adminInstance.post<T>(...args);
+}
+
+export function adminPut<T>(...args: Parameters<typeof adminInstance.put>) {
+  return adminInstance.put<T>(...args);
+}
+
+export function adminPatch<T>(...args: Parameters<typeof adminInstance.patch>) {
+  return adminInstance.patch<T>(...args);
+}
+
+export function adminDelete<T>(
+  ...args: Parameters<typeof adminInstance.delete>
+) {
+  return adminInstance.delete<T>(...args);
+}

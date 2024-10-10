@@ -1,6 +1,7 @@
 import {
   activeTabButtonStyle,
   AdminLayout,
+  logoutButton,
   pageLayout,
   tabButtonStyle,
   tabTextStyle,
@@ -8,6 +9,7 @@ import {
 } from "./AdminPage.style";
 import { useNavigate, useParams } from "react-router-dom";
 import { OrderCheck, ProductCheck, DeliveryCheck } from "..";
+import { IcLogout } from "@svg";
 
 const Admin = () => {
   const { tab = "order" } = useParams<{ tab: string }>();
@@ -17,6 +19,11 @@ const Admin = () => {
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
     navigate(`/admin/${event.currentTarget.name}`);
+  };
+
+  const handleLogoutClick = (): void => {
+    localStorage.removeItem("accessToken");
+    navigate("/admin/login");
   };
 
   return (
@@ -44,6 +51,11 @@ const Admin = () => {
         >
           배송 가능 날짜
         </button>
+
+        <div css={logoutButton} onClick={handleLogoutClick}>
+          <IcLogout width={36} />
+          <span>로그아웃</span>
+        </div>
       </div>
 
       <div css={pageLayout}>
