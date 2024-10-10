@@ -1,6 +1,6 @@
-import { IcMainCharacter } from "@svg";
 import {
   chracterDivStyle,
+  chracterImg,
   layoutStyle,
   titleStyle,
 } from "./ExperienceHome.style";
@@ -32,7 +32,11 @@ const ExperienceHome = () => {
         오늘만 농부(체험) 택배접수
       </h1>
       <div css={chracterDivStyle}>
-        <IcMainCharacter />
+        <img
+          css={chracterImg}
+          src="/image/experience-home.png"
+          alt="체험 홈 그림"
+        />
       </div>
       <footer css={buttonSectionStyle}>
         <Button variant="fill" onClick={handleButtonClick}>
