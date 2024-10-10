@@ -7,6 +7,7 @@ import {
   section3Container,
   section3Div,
   section3InfoWrapper,
+  statusStyle,
 } from "./OrderInfoSection.style";
 import { useAtom } from "jotai";
 import { usePatchPayComplete } from "@apis/domains/orderCheck/usePatchPayComplete";
@@ -15,6 +16,7 @@ import { usePatchPayCancel } from "@apis/domains/orderCheck/usePatchPayCancel";
 const OrderInfoSection = () => {
   const [previousOrderNumber] = useAtom(previousOrderNumberAtom);
   const [orderInfo] = useAtom(orderInfoAtom);
+  const orderStatus = orderInfo?.orderList[0].deliveryStatus;
 
   const { mutate: mutatePayComplete } = usePatchPayComplete();
   const { mutate: mutatePayCancel } = usePatchPayCancel();
@@ -34,7 +36,9 @@ const OrderInfoSection = () => {
         </div>
         <div css={section3Div}>
           <span css={graySpan}>주문상태</span>
-          <span css={blackSpan}>{orderInfo?.orderList[0].deliveryStatus}</span>
+          <span css={[blackSpan, statusStyle(orderStatus ?? "")]}>
+            {orderStatus}
+          </span>
         </div>
         <div css={section3Div}>
           <span css={graySpan}>이름</span>

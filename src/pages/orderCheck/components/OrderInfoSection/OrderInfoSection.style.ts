@@ -25,6 +25,15 @@ export const blackSpan = (theme: Theme) => css`
   ${theme.font["orderCheck-36"]}
 `;
 
+export const statusStyle = (statusStyle: string) => (theme: Theme) =>
+  css`
+    color: ${statusStyle === "결제완료"
+      ? theme.color.green
+      : statusStyle === "결제취소"
+      ? theme.color.red
+      : theme.color.orange};
+  `;
+
 export const buttonWrapper = css`
   ${flexGenerator("row", "space-between", "center")};
   width: 100%;

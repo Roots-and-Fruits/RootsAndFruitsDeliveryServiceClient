@@ -1,5 +1,6 @@
 import { adminPatch } from "@apis/api";
-import { useMutation } from "@tanstack/react-query";
+import { QUERY_KEY } from "@apis/queryKeys/queryKeys";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MutateResponseType } from "@types";
 
 const patchPayCancel = async (
@@ -16,7 +17,13 @@ const patchPayCancel = async (
 };
 
 export const usePatchPayCancel = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (orderNumber: number) => patchPayCancel(orderNumber),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.RECENT_ORDER_NUMBER],
+      });
+    },
   });
 };
