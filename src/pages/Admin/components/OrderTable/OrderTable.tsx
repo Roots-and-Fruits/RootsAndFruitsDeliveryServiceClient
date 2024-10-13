@@ -36,8 +36,8 @@ const OrderTable = ({ orders }: OrderTableProps) => {
     const data = selectedData.map((order) => {
       return {
         주문번호: "", // blank
-        "보내는사람(지정)": "문성규", // 고정 값
-        "전화번호1(지정)": "01071177469", // 고정 값
+        "보내는사람(지정)": order.senderName,
+        "전화번호1(지정)": order.senderPhone,
         "전화번호2(지정)": "", // blank
         "우편번호(지정)": "63527", // 우편번호(지정)
         "주소(지정)": "제주특별자치도 서귀포시 안덕면 덕수동로25번길 42-8", // 고정 값
