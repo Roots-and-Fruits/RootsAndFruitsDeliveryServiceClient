@@ -141,7 +141,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
           ))}
         </section>
         <footer css={buttonSectionStyle}>
-          <Button variant="stroke" onClick={handleAddReceiverClick}>
+          <Button variant="fillLightOrange" onClick={handleAddReceiverClick}>
             택배 추가 접수하기
           </Button>
           <Button variant="fill" onClick={handleNextClick}>

@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import { Button, CountProduct, Header, ProgressBar } from "@components";
 import {
+  buttonSectionStyle,
   layoutStyle,
   orangeTextStyle,
   sectionStyle,
   textStyle,
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
-import {
-  buttonSectionStyle,
-  mainSectionStyle,
-  totalPriceStyle,
-} from "./SelectProduct.style";
+import { mainSectionStyle, totalPriceStyle } from "./SelectProduct.style";
 import { useFetchProductList } from "@apis/domains/service/useFetchProductList";
 import { useAtom } from "jotai";
 import { categoryAtom, productListAtom } from "@stores";

@@ -18,4 +18,6 @@ export const buttonSectionStyle = css`
 
 export const totalPriceStyle = (theme: Theme) => css`
   ${theme.font["head01-b-24"]};
+  width: 100%;
+  text-align: end;
 `;

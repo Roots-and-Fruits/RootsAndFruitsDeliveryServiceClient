@@ -2,8 +2,8 @@ import { Theme, css } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
 export const layoutStyle = css`
-  ${flexGenerator("column")};
-  padding: 8.6rem 2rem 3rem;
+  ${flexGenerator("column", "flex-start")};
+  padding: 8.6rem 2rem 15rem;
   width: 100%;
   min-height: 100dvh;
 `;
@@ -29,9 +29,14 @@ export const mainSectionStyle = css`
   margin-top: 5.8rem;
 `;
 
-export const buttonSectionStyle = css`
+export const buttonSectionStyle = (theme: Theme) => css`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 43rem;
+  background-color: ${theme.color.white};
+  padding: 2rem;
   ${flexGenerator("column")};
   gap: 1rem;
-  width: 100%;
-  margin-top: auto;
+  z-index: 3;
 `;
