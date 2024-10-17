@@ -12,11 +12,29 @@ import {
 import { useAtom } from "jotai";
 import { usePatchPayComplete } from "@apis/domains/orderCheck/usePatchPayComplete";
 import { usePatchPayCancel } from "@apis/domains/orderCheck/usePatchPayCancel";
+import { OrderInfo } from "@types";
 
 const OrderInfoSection = () => {
   const [previousOrderNumber] = useAtom(previousOrderNumberAtom);
   const [orderInfo] = useAtom(orderInfoAtom);
   const orderStatus = orderInfo?.orderList[0].deliveryStatus;
+  const orderCount = orderInfo?.orderList.length;
+  const mergedOrders = orderInfo?.orderList.reduce(
+    (acc: OrderInfo[], current: OrderInfo) => {
+      const existingOrder = acc.find(
+        (order) => order.productName === current.productName
+      );
+
+      if (existingOrder) {
+        existingOrder.productCount += current.productCount;
+      } else {
+        acc.push({ ...current });
+      }
+
+      return acc;
+    },
+    []
+  );
 
   const { mutate: mutatePayComplete } = usePatchPayComplete();
   const { mutate: mutatePayCancel } = usePatchPayCancel();
@@ -45,8 +63,8 @@ const OrderInfoSection = () => {
           <span css={blackSpan}>{orderInfo?.senderName}</span>
         </div>
         <div css={section3Div}>
-          <span css={graySpan}>상품</span>
-          {orderInfo?.orderList.map((order, i) => (
+          <span css={graySpan}>{`상품 (${orderCount}건의 주문)`}</span>
+          {(mergedOrders || []).map((order, i) => (
             <span
               key={i}
               css={blackSpan}
