@@ -63,6 +63,16 @@ export const buttonVariant = {
     ${theme.font["pretendard-01"]}
     color: ${theme.color.orange};
   `,
+  fillLightOrange: (theme: Theme) => css`
+    width: 100%;
+    height: 4.8rem;
+
+    border-radius: 5px;
+
+    ${theme.font["pretendard-01"]}
+    color: ${theme.color.orange};
+    background-color: ${theme.color.lightorange};
+  `,
 };
 
 export const disabledStyle = (theme: Theme) => css`

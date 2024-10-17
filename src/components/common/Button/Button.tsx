@@ -8,7 +8,13 @@ import {
 import { IcFix } from "@svg";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: "fill" | "stroke" | "smallStroke" | "smallFill";
+  variant:
+    | "fill"
+    | "stroke"
+    | "smallStroke"
+    | "smallFill"
+    | "delete"
+    | "fillLightOrange";
   disabled?: boolean;
   isIcon?: boolean;
 }
