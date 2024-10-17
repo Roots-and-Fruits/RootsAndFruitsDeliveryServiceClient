@@ -95,3 +95,26 @@ export const head03Style = (theme: Theme) => css`
   ${theme.font["head03-b-15"]}
   color: ${theme.color.black};
 `;
+
+export const confrimModal = css`
+  width: 30rem;
+  ${flexGenerator("column")};
+  padding: 3rem;
+`;
+
+export const confirmModalText = (theme: Theme) => css`
+  ${theme.font["head06-b-16"]}
+  color: ${theme.color.black};
+  text-align: center;
+
+  & > strong {
+    color: ${theme.color.orange};
+  }
+`;
+
+export const buttonWrapper = css`
+  width: 100%;
+  margin-top: 2rem;
+  ${flexGenerator("column")};
+  gap: 1rem;
+`;

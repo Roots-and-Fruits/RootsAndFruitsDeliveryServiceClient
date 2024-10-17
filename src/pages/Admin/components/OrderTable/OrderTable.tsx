@@ -168,7 +168,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
                 <td>{order.senderPhone}</td>
                 <td>{order.recipientName}</td>
                 <td>{order.recipientPhone}</td>
-                <td>{order.recipientAddress}</td>
+                <td>{`${order.recipientAddress} ${order.recipientAddressDetail}`}</td>
                 <td>{order.deliveryDate}</td>
                 <td>{order.deliveryStatus}</td>
               </tr>

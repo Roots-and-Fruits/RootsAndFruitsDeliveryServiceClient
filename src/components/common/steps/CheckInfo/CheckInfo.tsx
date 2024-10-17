@@ -1,9 +1,12 @@
-import { Button, Header, ProgressBar } from "@components";
+import { Button, Header, Modal, ProgressBar } from "@components";
 import { StepProps } from "@types";
 import { buttonSectionStyle, layoutStyle } from "@pages/orderInfo/styles";
 import {
+  buttonWrapper,
   checkSpanText,
   closeIconStyle,
+  confirmModalText,
+  confrimModal,
   editButtonWrapper,
   head03Style,
   infoContainer,
@@ -21,6 +24,7 @@ import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
 import { IcClose } from "@svg";
+import { useState } from "react";
 
 const CheckInfo = ({ onNext }: StepProps) => {
   const {
@@ -34,6 +38,13 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const receivers = orderPostDataState.recipientInfo;
   const navigate = useNavigate();
   const [category] = useAtom(categoryAtom);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const orderCount = receivers.length;
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   const handleSenderEdit = () => {
     navigate(`/${category}/order-info/check-info/edit`, {
@@ -49,19 +60,35 @@ const CheckInfo = ({ onNext }: StepProps) => {
     handleAddReceiver();
     navigate(`/${category}/order-info/receiver1`);
   };
+
+  const handleOrderClick = () => {
+    if (
+      orderCount > 0 &&
+      confirm(
+        `현재 ${orderCount}건의 주문을 진행 중입니다. 추가 주문 없이 이대로 주문을 완료하시겠습니까?`
+      )
+    ) {
+      mutateAsync(orderPostDataState)
+        .then((data) => {
+          setOrderNumberState(data);
+          onNext();
+          resetOrderPostData();
+        })
+        .catch(() => {
+          alert(
+            `필수 입력칸을 작성하지 않으셨습니다. \n혹은 이미 주문을 완료하지 않으셨나요?`
+          );
+          navigate(`/${category}`);
+        });
+    }
+  };
+
   const handleNextClick = () => {
-    mutateAsync(orderPostDataState)
-      .then((data) => {
-        setOrderNumberState(data);
-        onNext();
-        resetOrderPostData();
-      })
-      .catch(() => {
-        alert(
-          `필수 입력칸을 작성하지 않으셨습니다. \n혹은 이미 주문을 완료하지 않으셨나요?`
-        );
-        navigate(`/${category}`);
-      });
+    if (orderCount > 0) {
+      setIsModalOpen(true);
+    } else {
+      alert("주문할 상품을 추가해주세요.");
+    }
   };
 
   return (
@@ -148,6 +175,26 @@ const CheckInfo = ({ onNext }: StepProps) => {
             주문하기
           </Button>
         </footer>
+        {isModalOpen && (
+          <Modal onClose={handleModalClose}>
+            <article css={confrimModal}>
+              <p css={confirmModalText}>
+                현재 <strong>{`${orderCount}건`}</strong>의 주문을 진행
+                중입니다.
+              </p>
+              <p css={confirmModalText}>{`추가 주문 없이 이대로`}</p>
+              <p css={confirmModalText}>{`주문을 완료하시겠습니까?`}</p>
+              <div css={buttonWrapper}>
+                <Button variant="stroke" onClick={handleAddReceiverClick}>
+                  아니오, 더 추가할게요
+                </Button>
+                <Button variant="fill" onClick={handleOrderClick}>
+                  네, 주문할게요
+                </Button>
+              </div>
+            </article>
+          </Modal>
+        )}
       </div>
     </>
   );
