@@ -4,6 +4,7 @@ import {
   checkboxStyle,
   copyIconStyle,
   iconStyle,
+  numberText,
   sectionStyle,
   sectionTitle,
   tableHeader,
@@ -192,16 +193,18 @@ ${order.productList.join(", ")}`;
                     onChange={() => handleCheckboxChange(order.deliveryId)}
                   />
                 </td>
+                <td>{order.orderReceivedDate}</td>
                 <td>
-                  {order.orderReceivedDate}
-                  <span
-                    css={copyIconStyle}
-                    onClick={() => handleCopyClick(order)}
-                  >
-                    <IcCopy />
-                  </span>
+                  <div css={numberText}>
+                    <span>{order.orderNumber}</span>
+                    <span
+                      css={copyIconStyle}
+                      onClick={() => handleCopyClick(order)}
+                    >
+                      <IcCopy />
+                    </span>
+                  </div>
                 </td>
-                <td>{order.orderNumber}</td>
                 <td>
                   {order.productList.map((product) => {
                     return <div>{product}</div>;

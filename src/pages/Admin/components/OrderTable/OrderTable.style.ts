@@ -75,6 +75,10 @@ export const checkboxStyle = css`
   height: 1.6rem;
 `;
 
+export const numberText = css`
+  ${flexGenerator()};
+`;
+
 export const copyIconStyle = (theme: Theme) => css`
   display: inline-block;
   width: 2.4rem;
