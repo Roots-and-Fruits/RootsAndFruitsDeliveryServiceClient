@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   buttonContainer,
   checkboxStyle,
+  copyIconStyle,
   iconStyle,
   sectionStyle,
   sectionTitle,
@@ -11,9 +12,10 @@ import {
 } from "./OrderTable.style";
 import { Order } from "@types";
 import { usePatchDeliveryShipped } from "@apis/domains/admin/usePatchDeliveryShipped";
-import { Button } from "@components";
-import { IcCheckedTrue, IcDownload } from "@svg";
+import { Button, Toast } from "@components";
+import { IcCheckedTrue, IcCopy, IcDownload } from "@svg";
 import * as XLSX from "xlsx";
+import useToast from "src/hooks/useToast";
 
 interface OrderTableProps {
   orders: Order[];
@@ -21,6 +23,8 @@ interface OrderTableProps {
 
 const OrderTable = ({ orders }: OrderTableProps) => {
   const [selectedOrders, setSelectedOrders] = useState<number[]>([]);
+  const { showToast, isToastVisible } = useToast();
+  const [toastMessage, setToastMessage] = useState("");
 
   const { mutate } = usePatchDeliveryShipped();
 
@@ -98,6 +102,37 @@ const OrderTable = ({ orders }: OrderTableProps) => {
     }
   };
 
+  const handleCopyClick = async (order: Order) => {
+    const orderInfoData = `[접수날짜]
+${order.orderReceivedDate}
+
+[보내는 분]
+${order.senderName}
+${order.senderPhone}
+
+[받는 분]
+${order.recipientName}
+${order.recipientPhone}
+${order.recipientAddress} ${order.recipientAddressDetail}
+
+[상품]
+${order.productList.join(", ")}`;
+
+    if (navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(orderInfoData);
+        setToastMessage("주문내역이 복사되었어요.");
+        showToast();
+      } catch {
+        setToastMessage("클립보드 복사 실패");
+        showToast();
+      }
+    } else {
+      setToastMessage("클립보드에 복사할 수 없습니다.");
+      showToast();
+    }
+  };
+
   const isAllSelected =
     selectedOrders.length > 0 &&
     selectedOrders.length ===
@@ -157,7 +192,15 @@ const OrderTable = ({ orders }: OrderTableProps) => {
                     onChange={() => handleCheckboxChange(order.deliveryId)}
                   />
                 </td>
-                <td>{order.orderReceivedDate}</td>
+                <td>
+                  {order.orderReceivedDate}
+                  <span
+                    css={copyIconStyle}
+                    onClick={() => handleCopyClick(order)}
+                  >
+                    <IcCopy />
+                  </span>
+                </td>
                 <td>{order.orderNumber}</td>
                 <td>
                   {order.productList.map((product) => {
@@ -176,6 +219,9 @@ const OrderTable = ({ orders }: OrderTableProps) => {
           </tbody>
         </table>
       </main>
+      <Toast isVisible={isToastVisible} toastBottom={3}>
+        {toastMessage}
+      </Toast>
     </article>
   );
 };
