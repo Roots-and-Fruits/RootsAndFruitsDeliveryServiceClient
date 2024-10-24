@@ -2,7 +2,13 @@ import { useState } from "react";
 import {
   buttonContainer,
   checkboxStyle,
+  confrimModal,
+  copyIconStyle,
   iconStyle,
+  modalNotice,
+  modalTitle,
+  numberText,
+  productText,
   sectionStyle,
   sectionTitle,
   tableHeader,
@@ -11,9 +17,10 @@ import {
 } from "./OrderTable.style";
 import { Order } from "@types";
 import { usePatchDeliveryShipped } from "@apis/domains/admin/usePatchDeliveryShipped";
-import { Button } from "@components";
-import { IcCheckedTrue, IcDownload } from "@svg";
+import { Button, Modal, Toast } from "@components";
+import { IcCheckedTrue, IcCopy, IcDownload } from "@svg";
 import * as XLSX from "xlsx";
+import useToast from "src/hooks/useToast";
 
 interface OrderTableProps {
   orders: Order[];
@@ -22,10 +29,49 @@ interface OrderTableProps {
 const OrderTable = ({ orders }: OrderTableProps) => {
   const [selectedOrders, setSelectedOrders] = useState<number[]>([]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { showToast, isToastVisible } = useToast();
+  const [toastMessage, setToastMessage] = useState("");
+
+  const [productCount, setProductCount] = useState<Record<string, number>>({});
+
   const { mutate } = usePatchDeliveryShipped();
 
   const handleShippedClick = () => {
     mutate(selectedOrders);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleExcelClick = () => {
+    if (selectedOrders.length === 0) {
+      setToastMessage("주문을 선택해주세요.");
+      showToast();
+      return;
+    }
+    const selectedData = orders.filter((order) =>
+      selectedOrders.includes(order.deliveryId)
+    );
+
+    const count = selectedData
+      .map((order) => order.productList)
+      .flat()
+      .reduce((acc, product) => {
+        const match = product.match(/(.+)\s(\d+)EA$/);
+        if (match) {
+          const productName = match[1].trim();
+          const quantity = parseInt(match[2], 10);
+
+          acc[productName] = (acc[productName] || 0) + quantity;
+        }
+        return acc;
+      }, {} as Record<string, number>);
+
+    setIsModalOpen(true);
+    setProductCount(count);
   };
 
   const exportToExcel = () => {
@@ -75,6 +121,8 @@ const OrderTable = ({ orders }: OrderTableProps) => {
     link.href = url;
     link.download = "export.xlsx";
     link.click();
+
+    handleModalClose();
   };
 
   const handleCheckboxChange = (id: number) => {
@@ -98,6 +146,37 @@ const OrderTable = ({ orders }: OrderTableProps) => {
     }
   };
 
+  const handleCopyClick = async (order: Order) => {
+    const orderInfoData = `[접수날짜]
+${order.orderReceivedDate}
+
+[보내는 분]
+${order.senderName}
+${order.senderPhone}
+
+[받는 분]
+${order.recipientName}
+${order.recipientPhone}
+${order.recipientAddress} ${order.recipientAddressDetail}
+
+[상품]
+${order.productList.join(", ")}`;
+
+    if (navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(orderInfoData);
+        setToastMessage("주문내역이 복사되었어요.");
+        showToast();
+      } catch {
+        setToastMessage("클립보드 복사 실패");
+        showToast();
+      }
+    } else {
+      setToastMessage("클립보드에 복사할 수 없습니다.");
+      showToast();
+    }
+  };
+
   const isAllSelected =
     selectedOrders.length > 0 &&
     selectedOrders.length ===
@@ -111,7 +190,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
             <IcCheckedTrue css={iconStyle} />
             <span>선택 발송완료</span>
           </Button>
-          <Button variant="smallStroke" onClick={exportToExcel}>
+          <Button variant="smallStroke" onClick={handleExcelClick}>
             <IcDownload css={iconStyle} />
             <span>엑셀 다운로드</span>
           </Button>
@@ -158,7 +237,17 @@ const OrderTable = ({ orders }: OrderTableProps) => {
                   />
                 </td>
                 <td>{order.orderReceivedDate}</td>
-                <td>{order.orderNumber}</td>
+                <td>
+                  <div css={numberText}>
+                    <span>{order.orderNumber}</span>
+                    <span
+                      css={copyIconStyle}
+                      onClick={() => handleCopyClick(order)}
+                    >
+                      <IcCopy />
+                    </span>
+                  </div>
+                </td>
                 <td>
                   {order.productList.map((product) => {
                     return <div>{product}</div>;
@@ -176,6 +265,30 @@ const OrderTable = ({ orders }: OrderTableProps) => {
           </tbody>
         </table>
       </main>
+      {isModalOpen && (
+        <Modal onClose={handleModalClose}>
+          <article css={confrimModal}>
+            <h3
+              css={modalTitle}
+            >{`총 ${selectedOrders.length}개의 주문을 선택했습니다.`}</h3>
+            <hr />
+            {Object.entries(productCount).map(([productName, count]) => (
+              <div key={productName} css={productText}>
+                <span>{`${productName}: `}</span>
+                <span>{`${count} 개`}</span>
+              </div>
+            ))}
+            <hr />
+            <p css={modalNotice}>이대로 엑셀을 다운로드 하시겠습니까?</p>
+            <Button variant="fill" onClick={exportToExcel}>
+              확인
+            </Button>
+          </article>
+        </Modal>
+      )}
+      <Toast isVisible={isToastVisible} toastBottom={3}>
+        {toastMessage}
+      </Toast>
     </article>
   );
 };

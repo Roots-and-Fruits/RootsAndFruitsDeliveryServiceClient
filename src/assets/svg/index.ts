@@ -6,6 +6,7 @@ export { default as IcCheckedTrue } from "./IcCheckedTrue";
 export { default as IcClipboardCopy } from "./IcClipboardCopy";
 export { default as IcClose } from "./IcClose";
 export { default as IcComplete } from "./IcComplete";
+export { default as IcCopy } from "./IcCopy";
 export { default as IcDelete } from "./IcDelete";
 export { default as IcDownload } from "./IcDownload";
 export { default as IcFix } from "./IcFix";

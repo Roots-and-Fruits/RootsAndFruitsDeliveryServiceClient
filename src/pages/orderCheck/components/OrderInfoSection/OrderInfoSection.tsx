@@ -63,7 +63,7 @@ const OrderInfoSection = () => {
           <span css={blackSpan}>{orderInfo?.senderName}</span>
         </div>
         <div css={section3Div}>
-          <span css={graySpan}>{`상품 (${orderCount}건의 주문)`}</span>
+          <span css={graySpan}>{`상품 (총 ${orderCount}개)`}</span>
           {(mergedOrders || []).map((order, i) => (
             <span
               key={i}
