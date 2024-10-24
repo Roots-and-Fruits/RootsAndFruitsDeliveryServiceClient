@@ -74,3 +74,43 @@ export const checkboxStyle = css`
   width: 1.6rem;
   height: 1.6rem;
 `;
+
+export const numberText = css`
+  ${flexGenerator()};
+`;
+
+export const copyIconStyle = (theme: Theme) => css`
+  display: inline-block;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0.2rem;
+  cursor: pointer;
+  border-radius: 0.4rem;
+
+  &:hover {
+    background-color: ${theme.color.lightgray3};
+  }
+`;
+
+export const confrimModal = css`
+  ${flexGenerator("column")};
+  padding: 2rem;
+  gap: 2rem;
+  width: 35rem;
+
+  & hr {
+    width: 100%;
+  }
+`;
+
+export const modalTitle = (theme: Theme) => css`
+  ${theme.font["head02-b-20"]};
+`;
+
+export const productText = (theme: Theme) => css`
+  ${theme.font["head06-b-16"]};
+`;
+
+export const modalNotice = (theme: Theme) => css`
+  ${theme.font["head06-b-16"]};
+`;
