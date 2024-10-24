@@ -91,3 +91,26 @@ export const copyIconStyle = (theme: Theme) => css`
     background-color: ${theme.color.lightgray3};
   }
 `;
+
+export const confrimModal = css`
+  ${flexGenerator("column")};
+  padding: 2rem;
+  gap: 2rem;
+  width: 35rem;
+
+  & hr {
+    width: 100%;
+  }
+`;
+
+export const modalTitle = (theme: Theme) => css`
+  ${theme.font["head02-b-20"]};
+`;
+
+export const productText = (theme: Theme) => css`
+  ${theme.font["head06-b-16"]};
+`;
+
+export const modalNotice = (theme: Theme) => css`
+  ${theme.font["head06-b-16"]};
+`;
