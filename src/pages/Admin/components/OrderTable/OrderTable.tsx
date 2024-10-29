@@ -115,11 +115,19 @@ const OrderTable = ({ orders }: OrderTableProps) => {
     });
 
     // 엑셀 파일로 다운로드
+    const date = new Date();
+    const fileName = `택배송장_${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}_${date
+      .getHours()
+      .toString()
+      .padStart(2, "0")}-${date.getMinutes().toString().padStart(2, "0")}.xlsx`;
+
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "export.xlsx";
+    link.download = fileName;
     link.click();
 
     handleModalClose();
