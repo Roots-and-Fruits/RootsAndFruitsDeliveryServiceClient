@@ -1,3 +1,3 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const currentRecipient = atom(0);
+export const currentRecipient = atomWithStorage("currentRecipient", 0);

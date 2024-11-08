@@ -9,21 +9,20 @@ import { Button } from "@components";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
-import { useEffect } from "react";
 
 const ExperienceHome = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [category, setCategory] = useAtom(categoryAtom);
+  const [, setCategory] = useAtom(categoryAtom);
 
-  useEffect(() => {
-    const pathSegments = location.pathname.split("/");
-    setCategory(pathSegments[1]);
-  }, [location.pathname, setCategory]);
   const handleButtonClick = () => {
-    navigate(`/${category}/order-info/sender`);
+    const categoryName = location.pathname.split("/")[1];
+    localStorage.clear();
+    setCategory(categoryName);
+    navigate(`/${categoryName}/order-info/sender`);
   };
+
   return (
     <div css={layoutStyle}>
       <h1 css={titleStyle}>

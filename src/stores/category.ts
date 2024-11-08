@@ -1,3 +1,3 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const categoryAtom = atom<string>("");
+export const categoryAtom = atomWithStorage<string>("categoryAtom", "");

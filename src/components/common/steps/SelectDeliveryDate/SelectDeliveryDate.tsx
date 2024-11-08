@@ -33,8 +33,8 @@ const SelectDeliveryDate = ({ onNext }: StepProps) => {
   } = useOrderPostDataChange();
 
   const selectedOption =
-    orderPostDataState.recipientInfo[currentRecipientIndex].selectedOption ??
-    "regular";
+    (orderPostDataState.recipientInfo[currentRecipientIndex] ?? {})
+      .selectedOption ?? "regular";
   const [selectedDate, setSelectedDate] = useState(getTwoDaysLaterDate());
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {

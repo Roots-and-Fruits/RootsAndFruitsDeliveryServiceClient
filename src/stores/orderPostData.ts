@@ -1,4 +1,4 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
 export interface ProductInfo {
   productId: number;
@@ -24,10 +24,13 @@ export interface OrderPostDataType {
   recipientInfo: RecipientInfo[];
 }
 
-export const orderPostAtom = atom<OrderPostDataType>({
-  senderName: "",
-  senderPhone: "",
-  isPersonalInfoConsent: false,
-  isMarketingConsent: false,
-  recipientInfo: [],
-});
+export const orderPostAtom = atomWithStorage<OrderPostDataType>(
+  "orderPostAtom",
+  {
+    senderName: "",
+    senderPhone: "",
+    isPersonalInfoConsent: false,
+    isMarketingConsent: false,
+    recipientInfo: [],
+  }
+);
