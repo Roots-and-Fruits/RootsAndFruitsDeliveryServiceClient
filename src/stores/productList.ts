@@ -1,4 +1,4 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
 export interface Product {
   productId: number;
@@ -13,4 +13,10 @@ export interface ProductListResponse {
   sailedproductList: ProductList;
 }
 
-export const productListAtom = atom<ProductListResponse>();
+export const productListAtom = atomWithStorage<ProductListResponse>(
+  "productListAtom",
+  {
+    trialSailedProductList: [],
+    sailedproductList: [],
+  }
+);

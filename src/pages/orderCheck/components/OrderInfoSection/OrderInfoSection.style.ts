@@ -9,7 +9,7 @@ export const section3Container = (theme: Theme) => css`
 `;
 export const section3InfoWrapper = css`
   ${flexGenerator("column", "start", "start")};
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 export const section3Div = css`
@@ -22,7 +22,7 @@ export const graySpan = (theme: Theme) => css`
 `;
 export const blackSpan = (theme: Theme) => css`
   color: ${theme.color.black};
-  ${theme.font["orderCheck-36"]}
+  ${theme.font["orderCheck-32"]}
 `;
 
 export const statusStyle = (statusStyle: string) => (theme: Theme) =>
@@ -31,6 +31,8 @@ export const statusStyle = (statusStyle: string) => (theme: Theme) =>
       ? theme.color.green
       : statusStyle === "결제취소"
       ? theme.color.red
+      : statusStyle === "발송완료"
+      ? theme.color.darkgray
       : theme.color.orange};
   `;
 

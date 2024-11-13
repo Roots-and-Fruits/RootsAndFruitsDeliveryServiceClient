@@ -77,6 +77,7 @@ export const infoContainer = (theme: Theme) => css`
   gap: 0.4rem;
   span {
     ${theme.font["subhead-n-16"]};
+    display: block;
   }
 `;
 

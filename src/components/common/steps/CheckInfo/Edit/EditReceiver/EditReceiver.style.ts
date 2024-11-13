@@ -3,7 +3,7 @@ import { flexGenerator } from "@styles/generator";
 
 export const editReceiverLayout = css`
   ${flexGenerator("column", "start", "start")};
-  padding: 8.6rem 2rem 3rem;
+  padding: 8.6rem 2rem 8rem;
   width: 100%;
   min-height: 100dvh;
 `;

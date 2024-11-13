@@ -32,6 +32,8 @@ const SelectProduct = ({ onNext }: StepProps) => {
   );
 
   const calculateTotalPrice = (products: ProductList, order: RecipientInfo) => {
+    console.log("RecipientInfo", order);
+
     return (order.productInfo || []).reduce((total, orderProduct) => {
       const product = products.find(
         (p) => p.productId === orderProduct.productId
@@ -47,7 +49,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
 
   const totalPrice = calculateTotalPrice(
     displayedProductList,
-    orderPostDataState.recipientInfo[currentRecipientIndex]
+    orderPostDataState.recipientInfo[currentRecipientIndex] ?? {}
   );
 
   useEffect(() => {
