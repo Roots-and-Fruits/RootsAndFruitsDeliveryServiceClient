@@ -45,7 +45,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
   const { orderPostDataState, handleRecipientInputChange } =
     useOrderPostDataChange();
 
-  const receiver = orderPostDataState.recipientInfo[receiverIndex];
+  const receiver = orderPostDataState.recipientInfo[receiverIndex] ?? {};
   const navigate = useNavigate();
   const [category] = useAtom(categoryAtom);
 
@@ -155,106 +155,109 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     return;
   };
   return (
-    <div css={editReceiverLayout}>
-      <span css={receiverSpan}>받는 분</span>
-      <section css={mainSectionStyle}>
-        <Input
-          value={
-            orderPostDataState.recipientInfo[receiverIndex]?.recipientName || ""
-          }
-          onChange={(e) =>
-            handleRecipientInputChange(e, "recipientName", receiverIndex)
-          }
-          type="text"
-          placeholder="이름을 입력하세요"
-          inputLabel="이름"
-        />
-        <Input
-          value={
-            orderPostDataState.recipientInfo[receiverIndex]?.recipientPhone ||
-            ""
-          }
-          onChange={(e) =>
-            handleRecipientInputChange(e, "recipientPhone", receiverIndex)
-          }
-          type="text"
-          placeholder="휴대폰 번호를 입력하세요"
-          inputLabel="휴대폰 번호"
-        />
-        <div css={addressFormWrapper}>
-          <div css={zonecodeWrapper}>
+    <>
+      <div css={editReceiverLayout}>
+        <span css={receiverSpan}>받는 분</span>
+        <section css={mainSectionStyle}>
+          <Input
+            value={
+              orderPostDataState.recipientInfo[receiverIndex]?.recipientName ||
+              ""
+            }
+            onChange={(e) =>
+              handleRecipientInputChange(e, "recipientName", receiverIndex)
+            }
+            type="text"
+            placeholder="이름을 입력하세요"
+            inputLabel="이름"
+          />
+          <Input
+            value={
+              orderPostDataState.recipientInfo[receiverIndex]?.recipientPhone ||
+              ""
+            }
+            onChange={(e) =>
+              handleRecipientInputChange(e, "recipientPhone", receiverIndex)
+            }
+            type="text"
+            placeholder="휴대폰 번호를 입력하세요"
+            inputLabel="휴대폰 번호"
+          />
+          <div css={addressFormWrapper}>
+            <div css={zonecodeWrapper}>
+              <Input
+                value={form.zonecode}
+                type="text"
+                placeholder="우편번호"
+                inputLabel="우편번호"
+                aria-readonly
+              />
+              <Button variant="fill" onClick={handleClick}>
+                주소 검색
+              </Button>
+            </div>
             <Input
-              value={form.zonecode}
+              value={form.address}
               type="text"
-              placeholder="우편번호"
-              inputLabel="우편번호"
+              placeholder="건물, 지번 또는 도로명 검색"
+              inputLabel="주소"
               aria-readonly
             />
-            <Button variant="fill" onClick={handleClick}>
-              주소 검색
-            </Button>
+            <Input
+              value={form.addressDetail}
+              onChange={(e) =>
+                setForm({ ...form, addressDetail: e.target.value })
+              }
+              name="addressDetail"
+              type="text"
+              placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
+            />
           </div>
-          <Input
-            value={form.address}
-            type="text"
-            placeholder="건물, 지번 또는 도로명 검색"
-            inputLabel="주소"
-            aria-readonly
-          />
-          <Input
-            value={form.addressDetail}
-            onChange={(e) =>
-              setForm({ ...form, addressDetail: e.target.value })
-            }
-            name="addressDetail"
-            type="text"
-            placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
-          />
-        </div>
-        <div css={selectProductContainer}>
-          <span css={subTitleSpan}>선택 상품</span>
-          <div css={selectProductWrapper}>
-            {receiver.productInfo.map((product, i) => (
-              <CountProduct
-                key={i}
-                productName={product.productName}
-                count={product.productCount}
-                onCountChange={(newCount) => handleCountChange(i, newCount)}
-              />
-            ))}
-          </div>
-        </div>
-        {category === "product" && (
-          <div css={deliveryDateContainer}>
-            <span css={subTitle2Span}>배송 날짜</span>
-            <div css={radioWrapper}>
-              <RadioInput
-                name="delivery"
-                value="regular"
-                checked={selectedOption === "regular"}
-                onChange={handleOptionChange}
-                label="일반 배송"
-              />
-              <RadioInput
-                name="delivery"
-                value="scheduled"
-                checked={selectedOption === "scheduled"}
-                onChange={handleOptionChange}
-                label="예약 배송"
-              />
+          <div css={selectProductContainer}>
+            <span css={subTitleSpan}>선택 상품</span>
+            <div css={selectProductWrapper}>
+              {(receiver.productInfo ?? []).map((product, i) => (
+                <CountProduct
+                  key={i}
+                  productName={product.productName}
+                  count={product.productCount}
+                  onCountChange={(newCount) => handleCountChange(i, newCount)}
+                />
+              ))}
             </div>
-            {selectedOption === "scheduled" && (
-              <CustomCalendar onDateChange={handleDateChange} />
-            )}
           </div>
-        )}
-      </section>
+          {category === "product" && (
+            <div css={deliveryDateContainer}>
+              <span css={subTitle2Span}>배송 날짜</span>
+              <div css={radioWrapper}>
+                <RadioInput
+                  name="delivery"
+                  value="regular"
+                  checked={selectedOption === "regular"}
+                  onChange={handleOptionChange}
+                  label="일반 배송"
+                />
+                <RadioInput
+                  name="delivery"
+                  value="scheduled"
+                  checked={selectedOption === "scheduled"}
+                  onChange={handleOptionChange}
+                  label="예약 배송"
+                />
+              </div>
+              {selectedOption === "scheduled" && (
+                <CustomCalendar onDateChange={handleDateChange} />
+              )}
+            </div>
+          )}
+        </section>
+      </div>
       <footer css={buttonSectionStyle}>
         <Button variant="fill" onClick={handleButtonClick}>
           수정 완료
         </Button>
       </footer>
-    </div>
+    </>
   );
 };
 

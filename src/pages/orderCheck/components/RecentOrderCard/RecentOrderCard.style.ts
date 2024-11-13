@@ -12,6 +12,8 @@ export const cardWrapper = (deliveryStatus: string) => (theme: Theme) =>
       ? theme.color.lightgreen
       : deliveryStatus === "결제취소"
       ? theme.color.red2
+      : deliveryStatus === "발송완료"
+      ? theme.color.lightgray1
       : theme.color.lightorange};
   `;
 
@@ -21,6 +23,8 @@ export const numberStyle = (deliveryStatus: string) => (theme: Theme) =>
       ? theme.color.green
       : deliveryStatus === "결제취소"
       ? theme.color.red
+      : deliveryStatus === "발송완료"
+      ? theme.color.darkgray
       : theme.color.orange};
     ${theme.font["orderCheck-32"]}
   `;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Header, Input, ProgressBar } from "@components";
 import {
   buttonSectionStyle,
@@ -32,9 +32,9 @@ const Receiver2 = ({ onNext }: StepProps) => {
   const receiver = orderPostDataState.recipientInfo[currentRecipientIndex];
 
   const [form, setForm] = useState({
-    address: receiver?.recipientAddress || "",
-    addressDetail: receiver?.recipientAddressDetail || "",
-    zonecode: receiver?.recipientPostCode || "",
+    address: "",
+    addressDetail: "",
+    zonecode: "",
   });
 
   const open = useDaumPostcodePopup(scriptUrl);
@@ -94,6 +94,16 @@ const Receiver2 = ({ onNext }: StepProps) => {
   const handleClick = () => {
     open({ onComplete: handleComplete });
   };
+
+  useEffect(() => {
+    if (receiver) {
+      setForm({
+        address: receiver.recipientAddress || "",
+        addressDetail: receiver.recipientAddressDetail || "",
+        zonecode: receiver.recipientPostCode || "",
+      });
+    }
+  }, [receiver]);
 
   return (
     <>

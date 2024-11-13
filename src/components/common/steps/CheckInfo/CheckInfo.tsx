@@ -35,7 +35,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
     resetOrderPostData,
   } = useOrderPostDataChange();
   const { mutateAsync } = usePostOrder();
-  const receivers = orderPostDataState.recipientInfo;
+  const receivers = orderPostDataState.recipientInfo ?? [];
   const navigate = useNavigate();
   const [category] = useAtom(categoryAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,25 +62,19 @@ const CheckInfo = ({ onNext }: StepProps) => {
   };
 
   const handleOrderClick = () => {
-    if (
-      orderCount > 0 &&
-      confirm(
-        `현재 ${orderCount}건의 주문을 진행 중입니다. 추가 주문 없이 이대로 주문을 완료하시겠습니까?`
-      )
-    ) {
-      mutateAsync(orderPostDataState)
-        .then((data) => {
-          setOrderNumberState(data);
-          onNext();
-          resetOrderPostData();
-        })
-        .catch(() => {
-          alert(
-            `필수 입력칸을 작성하지 않으셨습니다. \n혹은 이미 주문을 완료하지 않으셨나요?`
-          );
-          navigate(`/${category}`);
-        });
-    }
+    mutateAsync(orderPostDataState)
+      .then((data) => {
+        setOrderNumberState(data);
+        resetOrderPostData();
+        localStorage.clear();
+        onNext();
+      })
+      .catch(() => {
+        alert(
+          `필수 입력칸을 작성하지 않으셨습니다. \n혹은 이미 주문을 완료하지 않으셨나요?`
+        );
+        navigate(`/${category}`);
+      });
   };
 
   const handleNextClick = () => {

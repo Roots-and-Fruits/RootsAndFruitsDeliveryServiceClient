@@ -19,6 +19,7 @@ const GlobalStyle = css`
 
   html,
   body {
+    overscroll-behavior: none;
     font-size: 62.5%;
     scrollbar-width: none;
     margin: 0;
@@ -50,7 +51,6 @@ const GlobalStyle = css`
   @media (min-width: 430px) {
     #root {
       max-width: var(--max-width);
-      box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
     }
   }
 
