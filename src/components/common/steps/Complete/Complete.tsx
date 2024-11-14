@@ -31,6 +31,7 @@ const Complete = () => {
     setShowAccountInfo(true);
   };
   const handleButtonClick = () => {
+    localStorage.clear();
     navigate(`/${category}`);
   };
   return (
