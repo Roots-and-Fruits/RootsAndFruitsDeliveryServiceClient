@@ -64,9 +64,9 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const handleOrderClick = () => {
     mutateAsync(orderPostDataState)
       .then((data) => {
-        setOrderNumberState(data);
         resetOrderPostData();
         localStorage.clear();
+        setOrderNumberState(data);
         onNext();
       })
       .catch(() => {
