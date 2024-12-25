@@ -1,19 +1,26 @@
 import { css, Theme } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
-export const homeLayout = css`
-  ${flexGenerator("column")}
+export const homeLayout = (theme: Theme) => css`
+  ${flexGenerator("column", "flex-start", "flex-start")}
   padding: 0 2rem;
   min-height: 100dvh;
-  position: relative;
+  background-color: ${theme.color.background0};
+`;
+
+export const homeHeader = css`
+  margin-top: 25dvh;
+  margin-bottom: 4rem;
 `;
 
 export const homeTitle = (theme: Theme) => css`
   color: ${theme.color.black};
   ${theme.font["head01-b-24"]};
-  margin-bottom: 4rem;
-  position: absolute;
-  top: 20rem;
+`;
+
+export const homeSubTitle = (theme: Theme) => css`
+  color: ${theme.color.lightgray4};
+  ${theme.font["head02-b-20"]};
 `;
 
 export const menuContainer = css`
@@ -26,10 +33,18 @@ export const menuButton = (theme: Theme) => css`
   ${flexGenerator("column")}
   width: 100%;
   gap: 0.4rem;
-  border: 1px solid ${theme.color.darkgray};
+  border: 1px solid ${theme.color.lightgray3};
   padding: 1rem;
   border-radius: 1rem;
-  background-color: ${theme.color.white};
+
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  &:first-of-type {
+    background-color: ${theme.color.lightgreen};
+  }
+  &:last-of-type {
+    background-color: ${theme.color.lightorange};
+  }
 `;
 
 export const menuTitle = (theme: Theme) => css`

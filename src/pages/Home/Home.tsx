@@ -1,6 +1,8 @@
 import { IcMainCharacter } from "@svg";
 import {
+  homeHeader,
   homeLayout,
+  homeSubTitle,
   homeTitle,
   menuButton,
   menuContainer,
@@ -24,7 +26,11 @@ const Home = () => {
 
   return (
     <div css={homeLayout}>
-      <h1 css={homeTitle}>제주 체험 농장</h1>
+      <header css={homeHeader}>
+        <h1 css={homeTitle}>제주 체험 농장</h1>
+        <h2 css={homeSubTitle}>필요한 메뉴를 선택해 주세요</h2>
+      </header>
+
       <section css={menuContainer}>
         <article
           css={menuButton}
@@ -34,9 +40,9 @@ const Home = () => {
             <img src="/image/experience-home.png" alt="체험 홈 그림" />
           </div>
           <h3 css={menuTitle}>
-            오늘만 농부(체험)
+            체험한 과일
             <br />
-            택배접수
+            택배 보내기
           </h3>
         </article>
 
@@ -45,8 +51,7 @@ const Home = () => {
             <IcMainCharacter />
           </div>
           <h3 css={menuTitle}>
-            상품 구매 <br />
-            주문서 작성
+            상품 구매 <br /> 택배 접수
           </h3>
         </article>
       </section>
