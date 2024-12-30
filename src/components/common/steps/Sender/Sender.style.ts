@@ -18,10 +18,6 @@ export const textStyle = (theme: Theme) => css`
   color: ${theme.color.black};
 `;
 
-export const orangeTextStyle = (theme: Theme) => css`
-  color: ${theme.color.orange};
-`;
-
 export const mainSectionStyle = css`
   ${flexGenerator("column", "start", "start")};
   gap: 3rem;

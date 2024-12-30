@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, CountProduct, Header, ProgressBar } from "@components";
+import { Button, CountProduct } from "@components";
 import {
   buttonSectionStyle,
   layoutStyle,
-  orangeTextStyle,
+  coloredTextStyle,
   sectionStyle,
   textStyle,
 } from "@pages/orderInfo/styles";
@@ -32,8 +32,6 @@ const SelectProduct = ({ onNext }: StepProps) => {
   );
 
   const calculateTotalPrice = (products: ProductList, order: RecipientInfo) => {
-    console.log("RecipientInfo", order);
-
     return (order.productInfo || []).reduce((total, orderProduct) => {
       const product = products.find(
         (p) => p.productId === orderProduct.productId
@@ -132,48 +130,42 @@ const SelectProduct = ({ onNext }: StepProps) => {
   }
 
   return (
-    <>
-      <Header text="상품 선택" />
-      <ProgressBar progress={57.12} />
-      <div css={layoutStyle}>
-        <section css={sectionStyle}>
-          <div css={textStyle}>
-            보내실 상품의
-            <br />
-            <span css={orangeTextStyle}>수량</span>을 선택해주세요
-          </div>
-        </section>
-        <section css={mainSectionStyle}>
-          {displayedProductList.map((product, i) => {
-            const productCount =
-              orderPostDataState.recipientInfo[currentRecipientIndex]
-                ?.productInfo?.[i]?.productCount ?? 0;
-            return (
-              <CountProduct
-                key={i}
-                productName={`${
-                  product.productName
-                } - ${product.productPrice.toLocaleString()}원`}
-                count={productCount}
-                onCountChange={(newCount) => handleCountChange(i, newCount)}
-              />
-            );
-          })}
-        </section>
-        <footer css={buttonSectionStyle}>
-          <h3
-            css={totalPriceStyle}
-          >{`총 ${totalPrice.toLocaleString()} 원`}</h3>
-          <Button
-            variant="fill"
-            onClick={handleNextClick}
-            disabled={totalPrice === 0}
-          >
-            다음
-          </Button>
-        </footer>
-      </div>
-    </>
+    <div css={layoutStyle}>
+      <section css={sectionStyle}>
+        <div css={textStyle}>
+          보내실 상품의
+          <br />
+          <span css={coloredTextStyle(category)}>수량</span>을 선택해주세요
+        </div>
+      </section>
+      <section css={mainSectionStyle}>
+        {displayedProductList.map((product, i) => {
+          const productCount =
+            orderPostDataState.recipientInfo[currentRecipientIndex]
+              ?.productInfo?.[i]?.productCount ?? 0;
+          return (
+            <CountProduct
+              key={i}
+              productName={`${
+                product.productName
+              } - ${product.productPrice.toLocaleString()}원`}
+              count={productCount}
+              onCountChange={(newCount) => handleCountChange(i, newCount)}
+            />
+          );
+        })}
+      </section>
+      <footer css={buttonSectionStyle}>
+        <h3 css={totalPriceStyle}>{`총 ${totalPrice.toLocaleString()} 원`}</h3>
+        <Button
+          variant="fill"
+          onClick={handleNextClick}
+          disabled={totalPrice === 0}
+        >
+          다음
+        </Button>
+      </footer>
+    </div>
   );
 };
 

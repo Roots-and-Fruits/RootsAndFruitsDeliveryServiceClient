@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Header, Input, ProgressBar } from "@components";
+import { Button, Input } from "@components";
 import {
   buttonSectionStyle,
   layoutStyle,
-  orangeTextStyle,
+  coloredTextStyle,
   sectionStyle,
   textStyle,
 } from "@pages/orderInfo/styles";
@@ -11,6 +11,8 @@ import { StepProps } from "@types";
 import { mainSectionStyle, zonecodeWrapper } from "./Receiver2.style";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
 
 const scriptUrl =
   "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
@@ -24,6 +26,8 @@ interface DaumPostcodeData {
 }
 
 const Receiver2 = ({ onNext }: StepProps) => {
+  const [category] = useAtom(categoryAtom);
+
   const {
     orderPostDataState,
     currentRecipientIndex,
@@ -106,56 +110,50 @@ const Receiver2 = ({ onNext }: StepProps) => {
   }, [receiver]);
 
   return (
-    <>
-      <Header text="받는 분 정보 입력" />
-      <ProgressBar progress={42.84} />
-      <div css={layoutStyle}>
-        <section css={sectionStyle}>
-          <div css={textStyle}>
-            <span css={orangeTextStyle}>받는 분</span>의
-            <br />
-            주소를 입력해주세요
-          </div>
-        </section>
-        <section css={mainSectionStyle}>
-          <div css={zonecodeWrapper}>
-            <Input
-              value={form.zonecode}
-              type="text"
-              placeholder="우편번호"
-              inputLabel="우편번호"
-              aria-readonly
-              disabled
-            />
-            <Button variant="fill" onClick={handleClick}>
-              주소 검색
-            </Button>
-          </div>
+    <div css={layoutStyle}>
+      <section css={sectionStyle}>
+        <div css={textStyle}>
+          <span css={coloredTextStyle(category)}>받는 분</span>의
+          <br />
+          주소를 입력해주세요
+        </div>
+      </section>
+      <section css={mainSectionStyle}>
+        <div css={zonecodeWrapper}>
           <Input
-            value={form.address}
+            value={form.zonecode}
             type="text"
-            placeholder="건물, 지번 또는 도로명 검색"
-            inputLabel="주소"
+            placeholder="우편번호"
+            inputLabel="우편번호"
             aria-readonly
             disabled
           />
-          <Input
-            value={form.addressDetail}
-            onChange={(e) =>
-              setForm({ ...form, addressDetail: e.target.value })
-            }
-            name="addressDetail"
-            type="text"
-            placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
-          />
-        </section>
-        <footer css={buttonSectionStyle}>
-          <Button variant="fill" onClick={handleNextClick}>
-            다음
+          <Button variant="fill" onClick={handleClick}>
+            주소 검색
           </Button>
-        </footer>
-      </div>
-    </>
+        </div>
+        <Input
+          value={form.address}
+          type="text"
+          placeholder="건물, 지번 또는 도로명 검색"
+          inputLabel="주소"
+          aria-readonly
+          disabled
+        />
+        <Input
+          value={form.addressDetail}
+          onChange={(e) => setForm({ ...form, addressDetail: e.target.value })}
+          name="addressDetail"
+          type="text"
+          placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
+        />
+      </section>
+      <footer css={buttonSectionStyle}>
+        <Button variant="fill" onClick={handleNextClick}>
+          다음
+        </Button>
+      </footer>
+    </div>
   );
 };
 

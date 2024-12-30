@@ -1,5 +1,6 @@
 import { Theme, css } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
+import { CategoryType } from "@types";
 
 export const layoutStyle = css`
   ${flexGenerator("column", "flex-start")};
@@ -18,9 +19,12 @@ export const textStyle = (theme: Theme) => css`
   color: ${theme.color.black};
 `;
 
-export const orangeTextStyle = (theme: Theme) => css`
-  color: ${theme.color.orange};
-`;
+export const coloredTextStyle = (category: CategoryType) => (theme: Theme) =>
+  css`
+    color: ${category === "experience"
+      ? theme.color.green
+      : theme.color.orange};
+  `;
 
 export const mainSectionStyle = css`
   ${flexGenerator("column", "start", "start")};

@@ -9,8 +9,8 @@ const Edit = () => {
   const receiverIndex = state.index !== undefined ? state.index : 0;
   return (
     <>
-      <Header text="주문 정보 수정" />
-      <ProgressBar progress={85.68} />
+      <Header />
+      <ProgressBar progress={86} />
       {state.type === "sender" ? (
         <EditSender />
       ) : (

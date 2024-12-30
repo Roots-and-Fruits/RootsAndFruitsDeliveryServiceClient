@@ -9,6 +9,7 @@ import { Button } from "@components";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
+import { CategoryType } from "@types";
 
 const ExperienceHome = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const ExperienceHome = () => {
   const handleButtonClick = () => {
     const categoryName = location.pathname.split("/")[1];
     localStorage.clear();
-    setCategory(categoryName);
+    setCategory(categoryName as CategoryType);
     navigate(`/${categoryName}/order-info/sender`);
   };
 

@@ -5,6 +5,7 @@ import { Button } from "@components";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
+import { CategoryType } from "@types";
 
 const ProductHome = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const ProductHome = () => {
   const handleButtonClick = () => {
     const categoryName = location.pathname.split("/")[1];
     localStorage.clear();
-    setCategory(categoryName);
+    setCategory(categoryName as CategoryType);
     navigate(`/${categoryName}/order-info/sender`);
   };
   return (

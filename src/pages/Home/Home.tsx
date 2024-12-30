@@ -12,13 +12,14 @@ import {
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
 import { useNavigate } from "react-router-dom";
+import { CategoryType } from "@types";
 
 const Home = () => {
   const navigate = useNavigate();
 
   const [, setCategory] = useAtom(categoryAtom);
 
-  const handleButtonClick = (category: "product" | "experience") => {
+  const handleButtonClick = (category: CategoryType) => {
     localStorage.clear();
     setCategory(category);
     navigate(`/${category}/order-info/sender`);
