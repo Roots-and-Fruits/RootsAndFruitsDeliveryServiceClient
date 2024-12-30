@@ -169,11 +169,11 @@ const CheckInfo = ({ onNext }: StepProps) => {
       {isModalOpen && (
         <Modal onClose={handleModalClose}>
           <article css={confrimModal}>
-            <p css={confirmModalText}>
+            <p css={confirmModalText(category)}>
               현재 <strong>{`${orderCount}건`}</strong>의 주문을 진행 중입니다.
             </p>
-            <p css={confirmModalText}>{`추가 주문 없이 이대로`}</p>
-            <p css={confirmModalText}>{`주문을 완료하시겠습니까?`}</p>
+            <p css={confirmModalText(category)}>{`추가 주문 없이 이대로`}</p>
+            <p css={confirmModalText(category)}>{`주문을 완료하시겠습니까?`}</p>
             <div css={buttonWrapper}>
               <Button variant="stroke" onClick={handleAddReceiverClick}>
                 아니오, 더 추가할게요

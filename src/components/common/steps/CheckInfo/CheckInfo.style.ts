@@ -1,5 +1,6 @@
 import { Theme, css } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
+import { CategoryType } from "@types";
 
 export const textSection = css`
   ${flexGenerator("row", "start", "start")};
@@ -103,15 +104,18 @@ export const confrimModal = css`
   padding: 3rem;
 `;
 
-export const confirmModalText = (theme: Theme) => css`
-  ${theme.font["head06-b-16"]}
-  color: ${theme.color.black};
-  text-align: center;
+export const confirmModalText = (category: CategoryType) => (theme: Theme) =>
+  css`
+    ${theme.font["head06-b-16"]}
+    color: ${theme.color.black};
+    text-align: center;
 
-  & > strong {
-    color: ${theme.color.orange};
-  }
-`;
+    & > strong {
+      color: ${category === "experience"
+        ? theme.color.green
+        : theme.color.orange};
+    }
+  `;
 
 export const buttonWrapper = css`
   width: 100%;

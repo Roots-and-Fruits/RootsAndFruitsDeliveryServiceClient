@@ -75,6 +75,21 @@ export const useOrderPostDataChange = () => {
     });
   };
 
+  const handleChangeOrderPrice = (price: number, index: number) => {
+    const recipientIndex = index !== undefined ? index : currentRecipientIndex;
+    setOrderPostDataState((prevState) => {
+      const updatedRecipientInfo = [...prevState.recipientInfo];
+      updatedRecipientInfo[recipientIndex] = {
+        ...updatedRecipientInfo[recipientIndex],
+        orderPrice: price,
+      };
+      return {
+        ...prevState,
+        recipientInfo: updatedRecipientInfo,
+      };
+    });
+  };
+
   const handleAddReceiver = () => {
     const newRecipient: RecipientInfo = {
       recipientName: "",
@@ -85,6 +100,7 @@ export const useOrderPostDataChange = () => {
       selectedOption: "regular",
       deliveryDate: "",
       productInfo: [],
+      orderPrice: 0,
     };
 
     setOrderPostDataState((prevState) => ({
@@ -125,6 +141,7 @@ export const useOrderPostDataChange = () => {
     handleRequiredCheckClick,
     handleOptinalAgreementClick,
     handleRecipientInputChange,
+    handleChangeOrderPrice,
     handleAddReceiver,
     orderNumberState,
     setOrderNumberState,

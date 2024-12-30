@@ -14,7 +14,6 @@ import { useAtom } from "jotai";
 import { categoryAtom, productListAtom } from "@stores";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { ProductList } from "src/stores/productList";
-import { RecipientInfo } from "src/stores/orderPostData";
 import { getTwoDaysLaterDate } from "@utils";
 
 const SelectProduct = ({ onNext }: StepProps) => {
@@ -24,6 +23,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
     orderPostDataState,
     currentRecipientIndex,
     handleRecipientInputChange,
+    handleChangeOrderPrice,
   } = useOrderPostDataChange();
   const { data: productList, isLoading } = useFetchProductList();
   const [productListState, setProductListState] = useAtom(productListAtom);
@@ -31,24 +31,28 @@ const SelectProduct = ({ onNext }: StepProps) => {
     []
   );
 
-  const calculateTotalPrice = (products: ProductList, order: RecipientInfo) => {
-    return (order.productInfo || []).reduce((total, orderProduct) => {
-      const product = products.find(
-        (p) => p.productId === orderProduct.productId
-      );
-
-      if (product) {
-        total += product.productPrice * orderProduct.productCount;
-      }
-
-      return total;
-    }, 0);
-  };
-
-  const totalPrice = calculateTotalPrice(
-    displayedProductList,
-    orderPostDataState.recipientInfo[currentRecipientIndex] ?? {}
+  const [orderPrice, setOrderPrice] = useState(
+    orderPostDataState.recipientInfo[currentRecipientIndex]?.orderPrice ?? 0
   );
+
+  // const calculateTotalPrice = (products: ProductList, order: RecipientInfo) => {
+  //   return (order.productInfo || []).reduce((total, orderProduct) => {
+  //     const product = products.find(
+  //       (p) => p.productId === orderProduct.productId
+  //     );
+
+  //     if (product) {
+  //       total += product.productPrice * orderProduct.productCount;
+  //     }
+
+  //     return total;
+  //   }, 0);
+  // };
+
+  // const totalPrice = calculateTotalPrice(
+  //   displayedProductList,
+  //   orderPostDataState.recipientInfo[currentRecipientIndex] ?? {}
+  // );
 
   useEffect(() => {
     if (productList) {
@@ -78,6 +82,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
         productId: product.productId,
         productName: product.productName,
         productCount: 0,
+        productPrice: product.productPrice,
       }));
 
       handleRecipientInputChange(
@@ -102,13 +107,21 @@ const SelectProduct = ({ onNext }: StepProps) => {
           productId: product.productId,
           productName: product.productName,
           productCount: newCount,
+          productPrice: product.productPrice,
         };
+
+        const totalSum = updatedProductInfo.reduce((sum, product) => {
+          return sum + product.productCount * product.productPrice;
+        }, 0);
 
         handleRecipientInputChange(
           updatedProductInfo,
           "productInfo",
           currentRecipientIndex
         );
+
+        handleChangeOrderPrice(totalSum, currentRecipientIndex);
+        setOrderPrice(totalSum);
       }
     }
   };
@@ -156,11 +169,11 @@ const SelectProduct = ({ onNext }: StepProps) => {
         })}
       </section>
       <footer css={buttonSectionStyle}>
-        <h3 css={totalPriceStyle}>{`총 ${totalPrice.toLocaleString()} 원`}</h3>
+        <h3 css={totalPriceStyle}>{`총 ${orderPrice.toLocaleString()} 원`}</h3>
         <Button
           variant="fill"
           onClick={handleNextClick}
-          disabled={totalPrice === 0}
+          disabled={orderPrice === 0}
         >
           다음
         </Button>
