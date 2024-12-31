@@ -36,11 +36,12 @@ const Complete = () => {
   };
   return (
     <div css={layoutStyle}>
-      <IcComplete css={iconStyle} />
+      <IcComplete css={iconStyle(category)} />
       <div css={spanContainer}>
         <span css={spanStyle}>주문이 완료되었어요</span>
-        <span css={[spanStyle, orderNumberWrapper]}>
-          주문번호: <span css={orderNumberStyle}>{orderNumberState}</span>
+        <span css={[spanStyle, orderNumberWrapper(category)]}>
+          {`주문번호: `}
+          <span css={orderNumberStyle(category)}>{orderNumberState}</span>
         </span>
         <span css={[spanStyle, lastSpanWrapper]}>
           카운터에서 주문번호로 결제해주세요

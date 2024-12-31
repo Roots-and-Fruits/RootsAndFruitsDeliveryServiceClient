@@ -8,6 +8,8 @@ import {
   confirmModalText,
   confrimModal,
   editButtonWrapper,
+  footerButtonWrapper,
+  footerShadow,
   head03Style,
   infoContainer,
   orderItemInfoWrapper,
@@ -17,6 +19,7 @@ import {
   senderSectionLeft,
   senderSectionRight,
   textSection,
+  totalPriceText,
 } from "./CheckInfo.style";
 import { useNavigate } from "react-router-dom";
 import { usePostOrder } from "@apis/domains/service/usePostOrder";
@@ -41,6 +44,11 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const orderCount = receivers.length;
+
+  const totalOrderPrice = receivers.reduce(
+    (acc, receiver) => acc + receiver.orderPrice,
+    0
+  );
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -135,6 +143,10 @@ const CheckInfo = ({ onNext }: StepProps) => {
                     ))}
                 </div>
               </div>
+              <div css={infoContainer}>
+                <h6 css={head03Style}>주문{i + 1} 금액</h6>
+                <span>{`${receiver.orderPrice.toLocaleString()}원`}</span>
+              </div>
               {category === "product" && (
                 <div css={infoContainer}>
                   <h6 css={head03Style}>희망 배송일자</h6>
@@ -158,13 +170,18 @@ const CheckInfo = ({ onNext }: StepProps) => {
           </article>
         ))}
       </section>
-      <footer css={buttonSectionStyle}>
-        <Button variant="fillLightColor" onClick={handleAddReceiverClick}>
-          택배 추가 접수하기
-        </Button>
-        <Button variant="fill" onClick={handleNextClick}>
-          주문하기
-        </Button>
+      <footer css={[buttonSectionStyle, footerShadow]}>
+        <p
+          css={totalPriceText}
+        >{`총 결제금액: ${totalOrderPrice.toLocaleString()}원`}</p>
+        <div css={footerButtonWrapper}>
+          <Button variant="fillLightColor" onClick={handleAddReceiverClick}>
+            택배 추가 접수하기
+          </Button>
+          <Button variant="fill" onClick={handleNextClick}>
+            주문하기
+          </Button>
+        </div>
       </footer>
       {isModalOpen && (
         <Modal onClose={handleModalClose}>

@@ -41,7 +41,6 @@ export const receiverListSection = css`
   width: 100%;
 
   margin-top: 2.3rem;
-  margin-bottom: 2rem;
 `;
 
 export const orderItemWrapper = css`
@@ -123,3 +122,20 @@ export const buttonWrapper = css`
   ${flexGenerator("column")};
   gap: 1rem;
 `;
+
+export const totalPriceText = (theme: Theme) => css`
+  width: 100%;
+  ${theme.font["head02-b-20"]}
+  color: ${theme.color.black};
+  text-align: right;
+`;
+
+export const footerButtonWrapper = css`
+  width: 100%;
+  ${flexGenerator()};
+  gap: 1rem;
+`;
+
+export const footerShadow = css`
+  padding-top: 1rem;
+box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 8px;`;
