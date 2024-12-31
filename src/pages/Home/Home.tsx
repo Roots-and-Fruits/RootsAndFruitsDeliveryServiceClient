@@ -29,6 +29,7 @@ const Home = () => {
     <div css={homeLayout}>
       <header css={homeHeader}>
         <h1 css={homeTitle}>제주 체험 농장</h1>
+        <h2 css={homeSubTitle}>환영합니다 😊</h2>
         <h2 css={homeSubTitle}>필요한 메뉴를 선택해 주세요</h2>
       </header>
 

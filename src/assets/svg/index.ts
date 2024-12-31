@@ -1,3 +1,4 @@
+export { default as IcArrowBack } from "./IcArrowBack";
 export { default as IcArrowDown } from "./IcArrowDown";
 export { default as IcArrowUp } from "./IcArrowUp";
 export { default as IcBack } from "./IcBack";
@@ -10,6 +11,7 @@ export { default as IcCopy } from "./IcCopy";
 export { default as IcDelete } from "./IcDelete";
 export { default as IcDownload } from "./IcDownload";
 export { default as IcFix } from "./IcFix";
+export { default as IcHome } from "./IcHome";
 export { default as IcLogout } from "./IcLogout";
 export { default as IcMainCharacter } from "./IcMainCharacter";
 export { default as IcMinus } from "./IcMinus";
