@@ -4,7 +4,9 @@ export interface ProductInfo {
   productId: number;
   productName: string;
   productCount: number;
+  productPrice: number;
 }
+
 export interface RecipientInfo {
   recipientName: string;
   recipientPhone: string;
@@ -14,6 +16,7 @@ export interface RecipientInfo {
   productInfo: ProductInfo[];
   selectedOption: "regular" | "scheduled";
   deliveryDate: string;
+  orderPrice: number;
 }
 
 export interface OrderPostDataType {

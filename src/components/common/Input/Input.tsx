@@ -1,5 +1,7 @@
 import React, { HTMLAttributes } from "react";
 import { inputStyle, inputWrapper, labelStyle } from "./Input.style";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
 
 export interface InputProps extends HTMLAttributes<HTMLInputElement> {
   value: string | number;
@@ -20,6 +22,8 @@ const Input = ({
   inputLabel,
   disabled,
 }: InputProps) => {
+  const [category] = useAtom(categoryAtom);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e);
@@ -30,7 +34,7 @@ const Input = ({
     <div css={inputWrapper}>
       {inputLabel && <span css={labelStyle}>{inputLabel}</span>}
       <input
-        css={inputStyle}
+        css={inputStyle(category)}
         name={name}
         type={type}
         value={value}

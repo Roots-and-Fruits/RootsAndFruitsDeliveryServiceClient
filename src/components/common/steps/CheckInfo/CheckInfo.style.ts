@@ -1,5 +1,6 @@
 import { Theme, css } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
+import { CategoryType } from "@types";
 
 export const textSection = css`
   ${flexGenerator("row", "start", "start")};
@@ -40,7 +41,6 @@ export const receiverListSection = css`
   width: 100%;
 
   margin-top: 2.3rem;
-  margin-bottom: 2rem;
 `;
 
 export const orderItemWrapper = css`
@@ -103,15 +103,18 @@ export const confrimModal = css`
   padding: 3rem;
 `;
 
-export const confirmModalText = (theme: Theme) => css`
-  ${theme.font["head06-b-16"]}
-  color: ${theme.color.black};
-  text-align: center;
+export const confirmModalText = (category: CategoryType) => (theme: Theme) =>
+  css`
+    ${theme.font["head06-b-16"]}
+    color: ${theme.color.black};
+    text-align: center;
 
-  & > strong {
-    color: ${theme.color.orange};
-  }
-`;
+    & > strong {
+      color: ${category === "experience"
+        ? theme.color.green
+        : theme.color.orange};
+    }
+  `;
 
 export const buttonWrapper = css`
   width: 100%;
@@ -119,3 +122,20 @@ export const buttonWrapper = css`
   ${flexGenerator("column")};
   gap: 1rem;
 `;
+
+export const totalPriceText = (theme: Theme) => css`
+  width: 100%;
+  ${theme.font["head02-b-20"]}
+  color: ${theme.color.black};
+  text-align: right;
+`;
+
+export const footerButtonWrapper = css`
+  width: 100%;
+  ${flexGenerator()};
+  gap: 1rem;
+`;
+
+export const footerShadow = css`
+  padding-top: 1rem;
+box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 8px;`;

@@ -11,6 +11,8 @@ export const productNameStyle = (theme: Theme) => css`
   width: 100%;
   ${theme.font["subhead-n-16"]};
   color: ${theme.color.black};
+  white-space: normal;
+  word-break: keep-all;
 `;
 
 export const productCountWrapper = css`

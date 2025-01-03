@@ -1,6 +1,13 @@
 import { IcCheckbox, IcCheckedTrue } from "@svg";
 import { InputHTMLAttributes, ReactNode } from "react";
-import { checkboxWrapper, iconStyle, textStyle } from "./CheckBox.style";
+import {
+  checkboxWrapper,
+  checkedIconStyle,
+  iconStyle,
+  textStyle,
+} from "./CheckBox.style";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
 
 export interface CheckBoxProps extends InputHTMLAttributes<HTMLInputElement> {
   isChecked: boolean;
@@ -9,10 +16,16 @@ export interface CheckBoxProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const CheckBox = ({ isChecked, onClick, children }: CheckBoxProps) => {
+  const [category] = useAtom(categoryAtom);
+
   return (
     <div css={checkboxWrapper} onClick={onClick}>
       <span css={iconStyle}>
-        {isChecked ? <IcCheckedTrue /> : <IcCheckbox />}
+        {isChecked ? (
+          <IcCheckedTrue css={checkedIconStyle(category)} />
+        ) : (
+          <IcCheckbox />
+        )}
       </span>
       <span css={textStyle}>{children}</span>
     </div>
