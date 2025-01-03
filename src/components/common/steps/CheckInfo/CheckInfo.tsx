@@ -83,7 +83,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
         alert(
           `필수 입력칸을 작성하지 않으셨습니다. \n혹은 이미 주문을 완료하지 않으셨나요?`
         );
-        navigate(`/${category}`);
+        navigate(`/`);
       });
   };
 
