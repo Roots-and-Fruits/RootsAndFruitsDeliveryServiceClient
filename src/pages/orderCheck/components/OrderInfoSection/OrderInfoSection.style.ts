@@ -4,12 +4,14 @@ import { flexGenerator } from "@styles/generator";
 export const section3Container = (theme: Theme) => css`
   ${flexGenerator("column", "start", "start")};
   width: 38rem;
-  min-height: 100%;
+  height: 64rem;
+  overflow-y: auto;
   background-color: ${theme.color.white};
 `;
 export const section3InfoWrapper = css`
   ${flexGenerator("column", "start", "start")};
   gap: 1rem;
+  margin-bottom: 2rem;
 `;
 
 export const section3Div = css`

@@ -6,6 +6,7 @@ export const section1Container = (theme: Theme) => css`
   padding: 2rem;
   width: 27rem;
   height: 100%;
+  min-height: 64rem;
   gap: 1.5rem;
   border: 1px solid ${theme.color.lightgray3};
   background-color: ${theme.color.white};
@@ -17,12 +18,14 @@ export const section2Container = css`
   ${flexGenerator("column")};
   width: 45rem;
   height: 100%;
+  min-height: 64rem;
 `;
 
 export const orderNumberStyle = (theme: Theme) => css`
   ${flexGenerator()}
   width: 100%;
   height: 12.6rem;
+  min-height: 12.6rem;
   padding: 2rem 0;
   border: 1px solid ${theme.color.lightgray3};
   background-color: ${theme.color.white};

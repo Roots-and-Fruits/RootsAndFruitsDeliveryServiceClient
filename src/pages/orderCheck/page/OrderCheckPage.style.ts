@@ -2,7 +2,7 @@ import { css, Theme } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
 export const orderCheckLayout = (theme: Theme) => css`
-  ${flexGenerator()};
+  ${flexGenerator('row', 'center', 'flex-start')};
   position: absolute;
   top: 0;
   left: 0;
