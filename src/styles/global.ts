@@ -33,6 +33,7 @@ const GlobalStyle = css`
 
   a {
     text-decoration: none;
+    color: inherit;
   }
 
   select {
