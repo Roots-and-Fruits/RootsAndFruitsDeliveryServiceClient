@@ -39,3 +39,5 @@ export interface CodeResponseType {
     token: string;
   };
 }
+
+export type CategoryType = "" | "product" | "experience";

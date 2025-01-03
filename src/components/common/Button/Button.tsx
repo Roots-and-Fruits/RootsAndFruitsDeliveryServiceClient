@@ -6,6 +6,8 @@ import {
   iconStyle,
 } from "./Button.style";
 import { IcFix } from "@svg";
+import { useAtom } from "jotai";
+import { categoryAtom } from "@stores";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant:
@@ -14,7 +16,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "smallStroke"
     | "smallFill"
     | "delete"
-    | "fillLightOrange";
+    | "fillLightColor";
   disabled?: boolean;
   isIcon?: boolean;
 }
@@ -26,14 +28,20 @@ const Button = ({
   onClick,
   children,
 }: ButtonProps) => {
+  const [category] = useAtom(categoryAtom);
+
   return (
     <button
-      css={[buttonStyle, buttonVariant[variant], disabled && disabledStyle]}
+      css={[
+        buttonStyle,
+        buttonVariant[variant](category),
+        disabled && disabledStyle,
+      ]}
       onClick={onClick}
       disabled={disabled}
     >
       {children}
-      {isIcon && <IcFix css={iconStyle} />}
+      {isIcon && <IcFix css={iconStyle(category)} />}
     </button>
   );
 };

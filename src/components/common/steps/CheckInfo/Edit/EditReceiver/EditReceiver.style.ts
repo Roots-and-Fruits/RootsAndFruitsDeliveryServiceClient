@@ -25,6 +25,7 @@ export const addressFormWrapper = css`
   ${flexGenerator("column", "start", "start")};
   gap: 1rem;
   width: 100%;
+  margin-bottom: 2rem;
 `;
 
 export const zonecodeWrapper = css`
@@ -36,6 +37,7 @@ export const zonecodeWrapper = css`
 export const selectProductContainer = css`
   ${flexGenerator("column", "start", "start")};
   width: 100%;
+  margin-bottom: 2rem;
 `;
 
 export const selectProductWrapper = css`

@@ -42,8 +42,11 @@ interface EditReceiverProps {
 }
 
 const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
-  const { orderPostDataState, handleRecipientInputChange } =
-    useOrderPostDataChange();
+  const {
+    orderPostDataState,
+    handleRecipientInputChange,
+    handleChangeOrderPrice,
+  } = useOrderPostDataChange();
 
   const receiver = orderPostDataState.recipientInfo[receiverIndex] ?? {};
   const navigate = useNavigate();
@@ -129,11 +132,17 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
       return product;
     });
 
+    const totalSum = updatedProductInfo.reduce((sum, product) => {
+      return sum + product.productCount * product.productPrice;
+    }, 0);
+
     handleRecipientInputChange(
       updatedProductInfo,
       "productInfo",
       receiverIndex
     );
+
+    handleChangeOrderPrice(totalSum, receiverIndex);
   };
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -253,7 +262,13 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
         </section>
       </div>
       <footer css={buttonSectionStyle}>
-        <Button variant="fill" onClick={handleButtonClick}>
+        <Button
+          variant="fill"
+          onClick={handleButtonClick}
+          disabled={
+            orderPostDataState.recipientInfo[receiverIndex]?.orderPrice === 0
+          }
+        >
           수정 완료
         </Button>
       </footer>

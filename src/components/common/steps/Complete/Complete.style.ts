@@ -1,17 +1,24 @@
 import { Theme, css } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
+import { CategoryType } from "@types";
 
 export const layoutStyle = css`
   ${flexGenerator("column", "center", "center")};
   width: 100%;
-  padding: 13.9rem 2rem 3rem;
   min-height: 100dvh;
 `;
 
-export const iconStyle = css`
-  width: 6.4rem;
-  height: 6.4rem;
-`;
+export const iconStyle = (category: CategoryType) => (theme: Theme) =>
+  css`
+    width: 6.4rem;
+    height: 6.4rem;
+
+    & > path {
+      fill: ${category === "experience"
+        ? theme.color.green
+        : theme.color.orange};
+    }
+  `;
 
 export const spanContainer = css`
   ${flexGenerator("column")};
@@ -24,15 +31,21 @@ export const spanStyle = (theme: Theme) => css`
   color: ${theme.color.black};
 `;
 
-export const orderNumberWrapper = css`
-  background-color: #ffede7;
-  padding: 1rem 1.5rem;
-  border-radius: 10px;
-`;
+export const orderNumberWrapper = (category: CategoryType) => (theme: Theme) =>
+  css`
+    background-color: ${category === "experience"
+      ? theme.color.lightgreen
+      : theme.color.lightorange};
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+  `;
 
-export const orderNumberStyle = (theme: Theme) => css`
-  color: ${theme.color.orange};
-`;
+export const orderNumberStyle = (category: CategoryType) => (theme: Theme) =>
+  css`
+    color: ${category === "experience"
+      ? theme.color.green
+      : theme.color.orange};
+  `;
 
 export const lastSpanWrapper = (theme: Theme) => css`
   ${flexGenerator()};
