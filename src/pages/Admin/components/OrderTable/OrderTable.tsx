@@ -7,6 +7,8 @@ import {
   iconStyle,
   modalNotice,
   modalTitle,
+  notesInput,
+  notesSpan,
   numberText,
   productText,
   sectionStyle,
@@ -27,6 +29,12 @@ interface OrderTableProps {
 }
 
 const OrderTable = ({ orders }: OrderTableProps) => {
+  // 비고란 mocking
+  const notes = "비고란입니다.";
+
+  const [notesInputValue, setNotesInputValue] = useState<string>("");
+  const [writingNotesId, setWritingNotesId] = useState<number | null>(null);
+
   const [selectedOrders, setSelectedOrders] = useState<number[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -226,6 +234,7 @@ ${order.productList.join(", ")}`;
               <th>받는 분 주소</th>
               <th>출발 날짜</th>
               <th>결제 내역</th>
+              <th>비고</th>
             </tr>
           </thead>
           <tbody>
@@ -244,7 +253,7 @@ ${order.productList.join(", ")}`;
                     onChange={() => handleCheckboxChange(order.deliveryId)}
                   />
                 </td>
-                <td>{order.orderReceivedDate}</td>
+                <td>{order.orderReceivedDate} 23:30</td>
                 <td>
                   <div css={numberText}>
                     <span>{order.orderNumber}</span>
@@ -268,6 +277,32 @@ ${order.productList.join(", ")}`;
                 <td>{`${order.recipientAddress} ${order.recipientAddressDetail}`}</td>
                 <td>{order.deliveryDate}</td>
                 <td>{order.deliveryStatus}</td>
+                <td>
+                  {writingNotesId === order.deliveryId ? (
+                    <input
+                      css={notesInput}
+                      type="text"
+                      value={notesInputValue}
+                      onChange={(e) => setNotesInputValue(e.target.value)}
+                      autoFocus
+                      onBlur={() => {
+                        // 비고란 저장 API 호출
+                        setWritingNotesId(null);
+                        setNotesInputValue("");
+                      }}
+                    />
+                  ) : (
+                    <span
+                      css={notesSpan}
+                      onClick={() => {
+                        setWritingNotesId(order.deliveryId);
+                        setNotesInputValue(notes);
+                      }}
+                    >
+                      {notes}
+                    </span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
