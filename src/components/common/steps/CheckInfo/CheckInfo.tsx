@@ -40,7 +40,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const { mutateAsync } = usePostOrder();
   const receivers = orderPostDataState.recipientInfo ?? [];
   const navigate = useNavigate();
-  const [category] = useAtom(categoryAtom);
+  const [category, setCategory] = useAtom(categoryAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const orderCount = receivers.length;
@@ -72,8 +72,10 @@ const CheckInfo = ({ onNext }: StepProps) => {
   const handleOrderClick = () => {
     mutateAsync(orderPostDataState)
       .then((data) => {
+        const prevCtergory = category;
         resetOrderPostData();
         localStorage.clear();
+        setCategory(prevCtergory);
         setOrderNumberState(data);
         onNext();
       })
@@ -143,10 +145,6 @@ const CheckInfo = ({ onNext }: StepProps) => {
                     ))}
                 </div>
               </div>
-              <div css={infoContainer}>
-                <h6 css={head03Style}>주문{i + 1} 금액</h6>
-                <span>{`${receiver.orderPrice.toLocaleString()}원`}</span>
-              </div>
               {category === "product" && (
                 <div css={infoContainer}>
                   <h6 css={head03Style}>희망 배송일자</h6>
@@ -157,6 +155,10 @@ const CheckInfo = ({ onNext }: StepProps) => {
                   </span>
                 </div>
               )}
+              <div css={infoContainer}>
+                <h6 css={head03Style}>주문{i + 1} 금액</h6>
+                <span>{`${receiver.orderPrice.toLocaleString()}원`}</span>
+              </div>
               <span css={editButtonWrapper}>
                 <Button
                   variant="stroke"

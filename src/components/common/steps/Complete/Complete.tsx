@@ -32,7 +32,7 @@ const Complete = () => {
   };
   const handleButtonClick = () => {
     localStorage.clear();
-    navigate(`/${category}`);
+    navigate(`/`);
   };
   return (
     <div css={layoutStyle}>
