@@ -55,7 +55,7 @@ const OrderInfoSection = () => {
       <div css={section3InfoWrapper}>
         <div css={section3Div}>
           <span css={graySpan}>접수일시</span>
-          <span css={blackSpan}>{'2025-01-03 17시 38분'}</span>
+          <span css={blackSpan}>{orderInfo?.orderList[0].orderTimeInfo}</span>
         </div>
         <div css={section3Div}>
           <span css={graySpan}>주문번호</span>

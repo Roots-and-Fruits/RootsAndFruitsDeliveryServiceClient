@@ -253,7 +253,7 @@ ${order.productList.join(", ")}`;
                     onChange={() => handleCheckboxChange(order.deliveryId)}
                   />
                 </td>
-                <td>{order.orderReceivedDate} 23:30</td>
+                <td>{order.orderReceivedDate}</td>
                 <td>
                   <div css={numberText}>
                     <span>{order.orderNumber}</span>
