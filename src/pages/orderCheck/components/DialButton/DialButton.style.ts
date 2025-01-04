@@ -4,9 +4,8 @@ import { flexGenerator } from "@styles/generator";
 export const buttonStyle = (index: number) => (theme: Theme) =>
   css`
     ${flexGenerator()};
-    padding: 1rem;
-    width: 15rem;
-    height: 12.8rem;
+    width: 100%;
+    height: 100%;
     border: 1px solid ${theme.color.lightgray3};
     background-color: ${index === 9 || index === 11
       ? theme.color.lightgray2
@@ -15,5 +14,5 @@ export const buttonStyle = (index: number) => (theme: Theme) =>
 
 export const buttonSpan = (theme: Theme) => css`
   color: ${theme.color.black};
-  ${theme.font["dialNumber-56"]}
+  ${theme.font["dialNumber-56"]};
 `;

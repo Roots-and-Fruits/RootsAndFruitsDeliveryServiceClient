@@ -58,14 +58,14 @@ const OrderInfoSection = () => {
           <span css={blackSpan}>{orderInfo?.orderList[0].orderTimeInfo}</span>
         </div>
         <div css={section3Div}>
-          <span css={graySpan}>주문번호</span>
-          <span css={blackSpan}>{previousOrderNumber}</span>
-        </div>
-        <div css={section3Div}>
-          <span css={graySpan}>주문상태</span>
-          <span css={[blackSpan, statusStyle(orderStatus ?? "")]}>
-            {orderStatus}
-          </span>
+          <span css={graySpan}>주문번호 / 주문상태</span>
+          <div>
+            <span css={blackSpan}>{`${previousOrderNumber} / `}</span>
+
+            <span css={[blackSpan, statusStyle(orderStatus ?? "")]}>
+              {orderStatus}
+            </span>
+          </div>
         </div>
         <div css={section3Div}>
           <span css={graySpan}>이름</span>

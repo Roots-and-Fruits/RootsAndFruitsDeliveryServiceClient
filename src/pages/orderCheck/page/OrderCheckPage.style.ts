@@ -2,11 +2,11 @@ import { css, Theme } from "@emotion/react";
 import { flexGenerator } from "@styles/generator";
 
 export const orderCheckLayout = (theme: Theme) => css`
-  ${flexGenerator('row', 'center', 'flex-start')};
+  ${flexGenerator("row", "space-between", "flex-start")};
   position: absolute;
   top: 0;
   left: 0;
-  padding: 9.3rem 6.1rem 6.7rem;
+  padding: 5rem;
   gap: 3rem;
   width: 100vw;
   height: 100%;
@@ -15,7 +15,7 @@ export const orderCheckLayout = (theme: Theme) => css`
 
 export const refreshButton = (theme: Theme) => css`
   position: absolute;
-  top: 50px;
+  top: 30px;
   right: 50px;
   ${flexGenerator()};
   width: 8rem;
