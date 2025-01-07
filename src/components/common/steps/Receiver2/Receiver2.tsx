@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input } from "@components";
+import { Button, Input, Modal } from "@components";
 import {
   buttonSectionStyle,
   layoutStyle,
@@ -8,7 +8,13 @@ import {
   textStyle,
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
-import { mainSectionStyle, zonecodeWrapper } from "./Receiver2.style";
+import {
+  alertModal,
+  alertModalText,
+  buttonWrapper,
+  mainSectionStyle,
+  zonecodeWrapper,
+} from "./Receiver2.style";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { useAtom } from "jotai";
@@ -41,6 +47,12 @@ const Receiver2 = ({ onNext }: StepProps) => {
     zonecode: "",
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   const open = useDaumPostcodePopup(scriptUrl);
 
   const handleComplete = (data: DaumPostcodeData) => {
@@ -66,8 +78,8 @@ const Receiver2 = ({ onNext }: StepProps) => {
   };
 
   const handleNextClick = () => {
-    if (!form.address || !form.addressDetail || !form.zonecode) {
-      alert("주소와 상세주소를 모두 입력해주세요.");
+    if (!form.address || !form.addressDetail.trim() || !form.zonecode) {
+      setIsModalOpen(true);
       return;
     }
 
@@ -110,50 +122,69 @@ const Receiver2 = ({ onNext }: StepProps) => {
   }, [receiver]);
 
   return (
-    <div css={layoutStyle}>
-      <section css={sectionStyle}>
-        <div css={textStyle}>
-          <span css={coloredTextStyle(category)}>받는 분</span>의
-          <br />
-          주소를 입력해주세요
-        </div>
-      </section>
-      <section css={mainSectionStyle}>
-        <div css={zonecodeWrapper}>
+    <>
+      <div css={layoutStyle}>
+        <section css={sectionStyle}>
+          <div css={textStyle}>
+            <span css={coloredTextStyle(category)}>받는 분</span>의
+            <br />
+            주소를 입력해주세요
+          </div>
+        </section>
+        <section css={mainSectionStyle}>
+          <div css={zonecodeWrapper}>
+            <Input
+              value={form.zonecode}
+              type="text"
+              placeholder="우편번호"
+              inputLabel="우편번호"
+              aria-readonly
+              disabled
+            />
+            <Button variant="fill" onClick={handleClick}>
+              주소 검색
+            </Button>
+          </div>
           <Input
-            value={form.zonecode}
+            value={form.address}
             type="text"
-            placeholder="우편번호"
-            inputLabel="우편번호"
+            placeholder="건물, 지번 또는 도로명 검색"
+            inputLabel="주소"
             aria-readonly
             disabled
           />
-          <Button variant="fill" onClick={handleClick}>
-            주소 검색
+          <Input
+            value={form.addressDetail}
+            onChange={(e) =>
+              setForm({ ...form, addressDetail: e.target.value })
+            }
+            name="addressDetail"
+            type="text"
+            placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
+          />
+        </section>
+        <footer css={buttonSectionStyle}>
+          <Button variant="fill" onClick={handleNextClick}>
+            다음
           </Button>
-        </div>
-        <Input
-          value={form.address}
-          type="text"
-          placeholder="건물, 지번 또는 도로명 검색"
-          inputLabel="주소"
-          aria-readonly
-          disabled
-        />
-        <Input
-          value={form.addressDetail}
-          onChange={(e) => setForm({ ...form, addressDetail: e.target.value })}
-          name="addressDetail"
-          type="text"
-          placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
-        />
-      </section>
-      <footer css={buttonSectionStyle}>
-        <Button variant="fill" onClick={handleNextClick}>
-          다음
-        </Button>
-      </footer>
-    </div>
+        </footer>
+      </div>
+      {isModalOpen && (
+        <Modal onClose={handleModalClose}>
+          <article css={alertModal}>
+            <p css={alertModalText(category)}>
+              <strong>주소</strong>와 <strong>상세주소</strong>를 모두
+              입력해주세요.
+            </p>
+            <div css={buttonWrapper}>
+              <Button variant="fill" onClick={() => setIsModalOpen(false)}>
+                확인
+              </Button>
+            </div>
+          </article>
+        </Modal>
+      )}
+    </>
   );
 };
 

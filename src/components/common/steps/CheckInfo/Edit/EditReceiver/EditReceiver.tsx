@@ -3,10 +3,14 @@ import {
   CountProduct,
   CustomCalendar,
   Input,
+  Modal,
   RadioInput,
 } from "@components";
 import {
   addressFormWrapper,
+  alertModal,
+  alertModalText,
+  buttonWrapper,
   deliveryDateContainer,
   editReceiverLayout,
   mainSectionStyle,
@@ -52,6 +56,13 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
   const navigate = useNavigate();
   const [category] = useAtom(categoryAtom);
 
+  const [alertText, setAlertText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   const [form, setForm] = useState({
     address: receiver?.recipientAddress || "",
     addressDetail: receiver?.recipientAddressDetail || "",
@@ -84,12 +95,26 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     }));
   };
 
-  const handleButtonClick = () => {
-    if (!form.address || !form.addressDetail || !form.zonecode) {
-      alert("주소와 상세주소를 모두 입력해주세요.");
-      return;
+  const checkValidation = () => {
+    if (
+      !orderPostDataState.recipientInfo[receiverIndex]?.recipientName ||
+      !orderPostDataState.recipientInfo[receiverIndex]?.recipientPhone
+    ) {
+      setAlertText("받는 분의 이름과 휴대폰 번호를 모두 입력해주세요.");
+      return false;
+    } else if (!form.address || !form.addressDetail || !form.zonecode) {
+      setAlertText("주소와 상세주소를 모두 입력해주세요.");
+      return false;
     } else if (selectedOption !== "regular" && selectedDate.length < 1) {
-      alert("희망 배송일자를 선택해주세요");
+      setAlertText("희망 배송일자를 선택해주세요");
+      return false;
+    }
+    return true;
+  };
+
+  const handleButtonClick = () => {
+    if (!checkValidation()) {
+      setIsModalOpen(true);
       return;
     }
 
@@ -272,6 +297,18 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
           수정 완료
         </Button>
       </footer>
+      {isModalOpen && (
+        <Modal onClose={handleModalClose}>
+          <article css={alertModal}>
+            <p css={alertModalText}>{alertText}</p>
+            <div css={buttonWrapper}>
+              <Button variant="fill" onClick={() => setIsModalOpen(false)}>
+                확인
+              </Button>
+            </div>
+          </article>
+        </Modal>
+      )}
     </>
   );
 };
