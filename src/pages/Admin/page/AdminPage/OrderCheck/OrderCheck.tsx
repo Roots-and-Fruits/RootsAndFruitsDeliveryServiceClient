@@ -20,9 +20,13 @@ const OrderCheck = () => {
     deliveryDate: "",
     productName: "",
     deliveryStatus: "",
+    nextCursor: "",
   });
 
-  const { data: orderData } = useFetchOrders(query);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useFetchOrders(query);
+
+  const orders = data ?? [];
 
   const handleSearchClick = () => {
     const newQuery = {
@@ -31,6 +35,7 @@ const OrderCheck = () => {
       deliveryDate: deliveryDateRef.current?.format("YYYY-MM-DD") || "",
       productName: productRef.current?.value || "",
       deliveryStatus: statusRef.current?.value || "",
+      nextCursor: "",
     };
     setQuery(newQuery);
   };
@@ -46,6 +51,7 @@ const OrderCheck = () => {
       deliveryDate: "",
       productName: "",
       deliveryStatus: "",
+      nextCursor: "",
     });
   };
 
@@ -62,7 +68,17 @@ const OrderCheck = () => {
           handleResetClick={handleResetClick}
         />
       </section>
-      <OrderTable orders={orderData ?? []} />
+      <OrderTable orders={orders} />
+      <button
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+      >
+        {isFetchingNextPage
+          ? "로딩 중"
+          : hasNextPage
+          ? "더 로드하기"
+          : "더 로드할 것이 없음!"}
+      </button>
     </div>
   );
 };

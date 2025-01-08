@@ -17,5 +17,6 @@ export interface Order {
 
 // 전체 데이터 구조를 위한 타입 정의
 export interface OrderData {
-  orderList: Order[];
+  nextCursor: number | null;
+  orders: Order[];
 }

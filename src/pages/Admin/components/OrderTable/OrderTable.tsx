@@ -238,7 +238,7 @@ ${order.productList.join(", ")}`;
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {orders.map((order, index) => (
               <tr key={order.deliveryId}>
                 <td>
                   <input
@@ -267,7 +267,7 @@ ${order.productList.join(", ")}`;
                 </td>
                 <td>
                   {order.productList.map((product) => {
-                    return <div>{product}</div>;
+                    return <div key={`${index}-${product}`}>{product}</div>;
                   })}
                 </td>
                 <td>{order.senderName}</td>
