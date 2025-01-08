@@ -27,7 +27,6 @@ const OrderCheck = () => {
     deliveryDate: "",
     productName: "",
     deliveryStatus: "",
-    nextCursor: "",
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -69,7 +68,6 @@ const OrderCheck = () => {
       deliveryDate: deliveryDateRef.current?.format("YYYY-MM-DD") || "",
       productName: productRef.current?.value || "",
       deliveryStatus: statusRef.current?.value || "",
-      nextCursor: "",
     };
     setQuery(newQuery);
   };
@@ -85,7 +83,6 @@ const OrderCheck = () => {
       deliveryDate: "",
       productName: "",
       deliveryStatus: "",
-      nextCursor: "",
     });
   };
 
