@@ -3,12 +3,12 @@ import { flexGenerator } from "@styles/generator";
 
 export const buttonStyle = (theme: Theme) => css`
   ${flexGenerator()};
-  width: 18rem;
-  height: 8.8rem;
+  width: 100%;
+  height: 7rem;
   padding: 1rem;
   border: 1px solid ${theme.color.black};
   border-radius: 20px;
-  ${theme.font["orderCheck-36"]}
+  ${theme.font["orderCheck-32"]};
 `;
 
 export const buttonVariant = {

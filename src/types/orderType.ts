@@ -1,4 +1,5 @@
 export interface Order {
+  orderId: number;
   deliveryId: number;
   orderNumber: number;
   senderName: string;
@@ -13,9 +14,11 @@ export interface Order {
   deliveryStatus: string;
   orderReceivedDate: string; // 날짜를 문자열로 표현
   deliveryDate: string; // 날짜를 문자열로 표현
+  note: string;
 }
 
 // 전체 데이터 구조를 위한 타입 정의
 export interface OrderData {
-  orderList: Order[];
+  nextCursor: number | null;
+  orders: Order[];
 }

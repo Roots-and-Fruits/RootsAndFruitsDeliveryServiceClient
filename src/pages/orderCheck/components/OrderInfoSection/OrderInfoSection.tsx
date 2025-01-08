@@ -36,6 +36,11 @@ const OrderInfoSection = () => {
     []
   );
 
+  const productCount = (mergedOrders || []).reduce(
+    (acc, current) => acc + current.productCount,
+    0
+  );
+
   const { mutate: mutatePayComplete } = usePatchPayComplete();
   const { mutate: mutatePayCancel } = usePatchPayCancel();
 
@@ -49,21 +54,27 @@ const OrderInfoSection = () => {
     <section css={section3Container}>
       <div css={section3InfoWrapper}>
         <div css={section3Div}>
-          <span css={graySpan}>주문번호</span>
-          <span css={blackSpan}>{previousOrderNumber}</span>
+          <span css={graySpan}>접수일시</span>
+          <span css={blackSpan}>{orderInfo?.orderList[0].orderTimeInfo}</span>
         </div>
         <div css={section3Div}>
-          <span css={graySpan}>주문상태</span>
-          <span css={[blackSpan, statusStyle(orderStatus ?? "")]}>
-            {orderStatus}
-          </span>
+          <span css={graySpan}>주문번호 / 주문상태</span>
+          <div>
+            <span css={blackSpan}>{`${previousOrderNumber} / `}</span>
+
+            <span css={[blackSpan, statusStyle(orderStatus ?? "")]}>
+              {orderStatus}
+            </span>
+          </div>
         </div>
         <div css={section3Div}>
           <span css={graySpan}>이름</span>
           <span css={blackSpan}>{orderInfo?.senderName}</span>
         </div>
         <div css={section3Div}>
-          <span css={graySpan}>{`상품 (총 ${orderCount}개)`}</span>
+          <span
+            css={graySpan}
+          >{`상품 (주문 ${orderCount}개 / 총 상품 ${productCount}개)`}</span>
           {(mergedOrders || []).map((order, i) => (
             <span
               key={i}

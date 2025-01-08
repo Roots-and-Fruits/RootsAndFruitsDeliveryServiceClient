@@ -72,3 +72,23 @@ export const radioWrapper = css`
   margin-top: 1rem;
   margin-bottom: 1.2rem;
 `;
+
+export const alertModal = css`
+  width: 30rem;
+  ${flexGenerator("column")};
+  padding: 3rem;
+`;
+
+export const alertModalText = (theme: Theme) =>
+  css`
+    ${theme.font["head06-b-16"]}
+    color: ${theme.color.black};
+    text-align: center;
+  `;
+
+export const buttonWrapper = css`
+  width: 100%;
+  margin-top: 2rem;
+  ${flexGenerator("column")};
+  gap: 1rem;
+`;

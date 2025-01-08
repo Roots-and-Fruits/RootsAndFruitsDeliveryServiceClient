@@ -1,8 +1,15 @@
 import { Filter, OrderTable } from "@pages/Admin/components";
-import { pageLayout, sectionStyle, sectionTitle } from "./OrderCheck.style";
-import { useRef, useState } from "react";
+import {
+  observerRefDiv,
+  orderDataSpinner,
+  pageLayout,
+  sectionStyle,
+  sectionTitle,
+} from "./OrderCheck.style";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Dayjs } from "dayjs";
 import { useFetchOrders } from "@apis/domains/admin/useFetchOrders";
+import { ClipLoader } from "react-spinners";
 
 interface Option {
   value: string;
@@ -20,9 +27,40 @@ const OrderCheck = () => {
     deliveryDate: "",
     productName: "",
     deliveryStatus: "",
+    nextCursor: "",
   });
 
-  const { data: orderData } = useFetchOrders(query);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useFetchOrders(query);
+
+  const orders = data ?? [];
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const onIntersect = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage]
+  );
+
+  useEffect(() => {
+    if (!observerRef.current) return;
+
+    const observer = new IntersectionObserver(onIntersect, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0,
+    });
+
+    observer.observe(observerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [onIntersect]);
 
   const handleSearchClick = () => {
     const newQuery = {
@@ -31,6 +69,7 @@ const OrderCheck = () => {
       deliveryDate: deliveryDateRef.current?.format("YYYY-MM-DD") || "",
       productName: productRef.current?.value || "",
       deliveryStatus: statusRef.current?.value || "",
+      nextCursor: "",
     };
     setQuery(newQuery);
   };
@@ -46,6 +85,7 @@ const OrderCheck = () => {
       deliveryDate: "",
       productName: "",
       deliveryStatus: "",
+      nextCursor: "",
     });
   };
 
@@ -62,7 +102,16 @@ const OrderCheck = () => {
           handleResetClick={handleResetClick}
         />
       </section>
-      <OrderTable orders={orderData ?? []} />
+      <OrderTable orders={orders} />
+      <div ref={observerRef} css={observerRefDiv} />
+      {hasNextPage && !isFetchingNextPage && (
+        <ClipLoader
+          color={"#EC6732"}
+          size={50}
+          aria-label="Loading Spinner"
+          css={orderDataSpinner}
+        />
+      )}
     </div>
   );
 };

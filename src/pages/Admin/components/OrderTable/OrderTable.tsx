@@ -7,6 +7,8 @@ import {
   iconStyle,
   modalNotice,
   modalTitle,
+  notesInput,
+  noteTdBox,
   numberText,
   productText,
   sectionStyle,
@@ -21,12 +23,18 @@ import { Button, Modal, Toast } from "@components";
 import { IcCheckedTrue, IcCopy, IcDownload } from "@svg";
 import * as XLSX from "xlsx";
 import useToast from "src/hooks/useToast";
+import { usePatchOrderNote } from "@apis/domains/admin/usePatchOrderNote";
 
 interface OrderTableProps {
   orders: Order[];
 }
 
 const OrderTable = ({ orders }: OrderTableProps) => {
+  const [notesInputValue, setNotesInputValue] = useState<string>("");
+  const [writingNotesOrderId, setWritingNotesOrderId] = useState<number | null>(
+    null
+  );
+
   const [selectedOrders, setSelectedOrders] = useState<number[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +44,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
 
   const [productCount, setProductCount] = useState<Record<string, number>>({});
 
+  const { mutate: patchOrderNote } = usePatchOrderNote();
   const { mutate } = usePatchDeliveryShipped();
 
   const handleShippedClick = () => {
@@ -226,10 +235,11 @@ ${order.productList.join(", ")}`;
               <th>받는 분 주소</th>
               <th>출발 날짜</th>
               <th>결제 내역</th>
+              <th>비고</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {orders.map((order, index) => (
               <tr key={order.deliveryId}>
                 <td>
                   <input
@@ -258,7 +268,7 @@ ${order.productList.join(", ")}`;
                 </td>
                 <td>
                   {order.productList.map((product) => {
-                    return <div>{product}</div>;
+                    return <div key={`${index}-${product}`}>{product}</div>;
                   })}
                 </td>
                 <td>{order.senderName}</td>
@@ -268,6 +278,41 @@ ${order.productList.join(", ")}`;
                 <td>{`${order.recipientAddress} ${order.recipientAddressDetail}`}</td>
                 <td>{order.deliveryDate}</td>
                 <td>{order.deliveryStatus}</td>
+                <td
+                  css={noteTdBox}
+                  onClick={() => {
+                    setWritingNotesOrderId(order.orderId);
+                    setNotesInputValue(order.note);
+                  }}
+                >
+                  {writingNotesOrderId === order.orderId ? (
+                    <input
+                      css={notesInput}
+                      type="text"
+                      value={notesInputValue}
+                      onChange={(e) => setNotesInputValue(e.target.value)}
+                      autoFocus
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          e.currentTarget.blur();
+                        }
+                      }}
+                      onBlur={() => {
+                        if (notesInputValue !== order.note) {
+                          patchOrderNote({
+                            orderId: order.orderId,
+                            note: notesInputValue,
+                          });
+                        }
+                        setWritingNotesOrderId(null);
+                        setNotesInputValue("");
+                      }}
+                    />
+                  ) : (
+                    order.note
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
