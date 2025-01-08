@@ -42,7 +42,7 @@ const getOrders = async (
 
 export const useFetchOrders = (query: queryType) => {
   return useInfiniteQuery({
-    queryKey: [QUERY_KEY.ORDER_LIST],
+    queryKey: [QUERY_KEY.ORDER_LIST, query],
     queryFn: ({ pageParam = null }) => getOrders(query, pageParam?.toString()),
     getNextPageParam: (lastPage) => {
       return lastPage?.nextCursor === null ? undefined : lastPage?.nextCursor;
