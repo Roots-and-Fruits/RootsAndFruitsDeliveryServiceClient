@@ -1,7 +1,7 @@
 import { get } from "@apis/api";
 import { QUERY_KEY } from "@apis/queryKeys/queryKeys";
-import { useQuery } from "@tanstack/react-query";
-import { ApiResponseType, ErrorResponse, Order, OrderData } from "@types";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { ApiResponseType, ErrorResponse, OrderData } from "@types";
 
 interface queryType {
   orderReceivedDate: string;
@@ -22,12 +22,17 @@ const buildQuery = (query: queryType): string => {
   return queryString ? `${queryString}` : "";
 };
 
-const getOrders = async (query: queryType): Promise<Order[] | null> => {
+const getOrders = async (
+  query: queryType,
+  pageParam?: string
+): Promise<OrderData> => {
   try {
+    const extendedQuery =
+      pageParam === "-1" ? query : { ...query, cursorOrderId: pageParam };
     const response = await get<ApiResponseType<OrderData>>(
-      `api/v1/order?${buildQuery(query)}`
+      `api/v1/orders?${buildQuery(extendedQuery)}`
     );
-    return response.data.data.orderList;
+    return response.data.data;
   } catch (error) {
     const errorResponse = error as ErrorResponse;
     const errorData = errorResponse.response.data;
@@ -36,8 +41,13 @@ const getOrders = async (query: queryType): Promise<Order[] | null> => {
 };
 
 export const useFetchOrders = (query: queryType) => {
-  return useQuery({
-    queryKey: [QUERY_KEY.ORDER_LIST, query],
-    queryFn: () => getOrders(query),
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEY.ORDER_LIST],
+    queryFn: ({ pageParam = null }) => getOrders(query, pageParam?.toString()),
+    getNextPageParam: (lastPage) => {
+      return lastPage?.nextCursor === null ? undefined : lastPage?.nextCursor;
+    },
+    initialPageParam: -1, // 초기 페이지 파라미터 설정
+    select: (data) => (data.pages ?? []).flatMap((page) => page?.orders),
   });
 };

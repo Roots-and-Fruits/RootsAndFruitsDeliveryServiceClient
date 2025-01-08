@@ -19,5 +19,6 @@ export const useFetchProductAll = () => {
   return useQuery({
     queryKey: [QUERY_KEY.PRODUCT_LIST_ALL],
     queryFn: () => getProductList(),
+    staleTime: 1000 * 60 * 60, // 1시간
   });
 };

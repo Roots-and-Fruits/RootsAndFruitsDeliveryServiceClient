@@ -3,6 +3,7 @@ export interface OrderInfo {
   productCount: number;
   deliveryStatus: string;
   price: number;
+  orderTimeInfo: string;
 }
 
 export interface OrderInfoData {

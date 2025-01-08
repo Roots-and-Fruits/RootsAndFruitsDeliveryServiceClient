@@ -6,7 +6,7 @@ export const filterContainer = css`
   ${flexGenerator("column")};
   gap: 2rem;
   width: 100%;
-  margin-bottom: 7.5rem;
+  margin-bottom: 5rem;
 `;
 
 export const filterTable = (theme: Theme) => css`

@@ -39,7 +39,6 @@ export const tableStyle = (theme: Theme) => css`
   td {
     border: 1px solid ${theme.color.black};
     text-align: center;
-    height: 4rem;
     ${theme.font["subhead-b-14"]};
     line-height: 4rem;
     background-color: ${theme.color.background};
@@ -50,6 +49,7 @@ export const tableStyle = (theme: Theme) => css`
     ${theme.font["subhead-m-14"]};
     background-color: ${theme.color.white};
     padding: 0.8rem 0.5rem;
+    vertical-align: middle;
   }
 
   th:first-of-type,
@@ -66,7 +66,21 @@ export const tableStyle = (theme: Theme) => css`
   /* 상품명 */
   th:nth-of-type(4),
   td:nth-of-type(4) {
-    min-width: 20rem;
+    width: 20rem;
+  }
+
+  /* 접수 날짜 */
+  th:nth-of-type(2),
+  td:nth-of-type(2),
+  /* 전화번호 */
+  th:nth-of-type(6),
+  td:nth-of-type(6),
+  th:nth-of-type(8),
+  td:nth-of-type(8),
+  /* 비고 */
+  th:nth-of-type(12),
+  td:nth-of-type(12) {
+    width: 15rem;
   }
 `;
 
@@ -113,4 +127,17 @@ export const productText = (theme: Theme) => css`
 
 export const modalNotice = (theme: Theme) => css`
   ${theme.font["head06-b-16"]};
+`;
+
+export const noteTdBox = (theme: Theme) => css`
+  transition: 0.3s;
+
+  &:hover {
+    background-color: ${theme.color.lightgray1};
+  }
+`;
+
+export const notesInput = css`
+  width: 100%;
+  height: 100%;
 `;
