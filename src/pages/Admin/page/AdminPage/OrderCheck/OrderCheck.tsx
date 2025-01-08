@@ -1,8 +1,15 @@
 import { Filter, OrderTable } from "@pages/Admin/components";
-import { pageLayout, sectionStyle, sectionTitle } from "./OrderCheck.style";
-import { useRef, useState } from "react";
+import {
+  observerRefDiv,
+  orderDataSpinner,
+  pageLayout,
+  sectionStyle,
+  sectionTitle,
+} from "./OrderCheck.style";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Dayjs } from "dayjs";
 import { useFetchOrders } from "@apis/domains/admin/useFetchOrders";
+import { ClipLoader } from "react-spinners";
 
 interface Option {
   value: string;
@@ -27,6 +34,33 @@ const OrderCheck = () => {
     useFetchOrders(query);
 
   const orders = data ?? [];
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const onIntersect = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage]
+  );
+
+  useEffect(() => {
+    if (!observerRef.current) return;
+
+    const observer = new IntersectionObserver(onIntersect, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0,
+    });
+
+    observer.observe(observerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [onIntersect]);
 
   const handleSearchClick = () => {
     const newQuery = {
@@ -69,16 +103,15 @@ const OrderCheck = () => {
         />
       </section>
       <OrderTable orders={orders} />
-      <button
-        onClick={() => fetchNextPage()}
-        disabled={!hasNextPage || isFetchingNextPage}
-      >
-        {isFetchingNextPage
-          ? "로딩 중"
-          : hasNextPage
-          ? "더 로드하기"
-          : "더 로드할 것이 없음!"}
-      </button>
+      <div ref={observerRef} css={observerRefDiv} />
+      {!isFetchingNextPage && (
+        <ClipLoader
+          color={"#EC6732"}
+          size={50}
+          aria-label="Loading Spinner"
+          css={orderDataSpinner}
+        />
+      )}
     </div>
   );
 };
