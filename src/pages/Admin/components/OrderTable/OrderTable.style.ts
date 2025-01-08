@@ -39,7 +39,6 @@ export const tableStyle = (theme: Theme) => css`
   td {
     border: 1px solid ${theme.color.black};
     text-align: center;
-    height: 4rem;
     ${theme.font["subhead-b-14"]};
     line-height: 4rem;
     background-color: ${theme.color.background};
@@ -50,6 +49,7 @@ export const tableStyle = (theme: Theme) => css`
     ${theme.font["subhead-m-14"]};
     background-color: ${theme.color.white};
     padding: 0.8rem 0.5rem;
+    vertical-align: middle;
   }
 
   th:first-of-type,
@@ -129,16 +129,15 @@ export const modalNotice = (theme: Theme) => css`
   ${theme.font["head06-b-16"]};
 `;
 
-export const notesInput = css`
-  width: 100%;
-`;
-
-export const notesSpan = (theme: Theme) => css`
-  display: inline-block;
-  width: 100%;
+export const noteTdBox = (theme: Theme) => css`
   transition: 0.3s;
 
   &:hover {
-    border: 1px solid ${theme.color.darkgray};
+    background-color: ${theme.color.lightgray1};
   }
+`;
+
+export const notesInput = css`
+  width: 100%;
+  height: 100%;
 `;

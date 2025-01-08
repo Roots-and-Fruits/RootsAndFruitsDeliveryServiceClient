@@ -104,7 +104,7 @@ const OrderCheck = () => {
       </section>
       <OrderTable orders={orders} />
       <div ref={observerRef} css={observerRefDiv} />
-      {!isFetchingNextPage && (
+      {hasNextPage && !isFetchingNextPage && (
         <ClipLoader
           color={"#EC6732"}
           size={50}

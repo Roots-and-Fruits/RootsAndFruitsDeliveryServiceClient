@@ -8,7 +8,7 @@ import {
   modalNotice,
   modalTitle,
   notesInput,
-  notesSpan,
+  noteTdBox,
   numberText,
   productText,
   sectionStyle,
@@ -23,17 +23,17 @@ import { Button, Modal, Toast } from "@components";
 import { IcCheckedTrue, IcCopy, IcDownload } from "@svg";
 import * as XLSX from "xlsx";
 import useToast from "src/hooks/useToast";
+import { usePatchOrderNote } from "@apis/domains/admin/usePatchOrderNote";
 
 interface OrderTableProps {
   orders: Order[];
 }
 
 const OrderTable = ({ orders }: OrderTableProps) => {
-  // 비고란 mocking
-  const notes = "비고란입니다.";
-
   const [notesInputValue, setNotesInputValue] = useState<string>("");
-  const [writingNotesId, setWritingNotesId] = useState<number | null>(null);
+  const [writingNotesOrderId, setWritingNotesOrderId] = useState<number | null>(
+    null
+  );
 
   const [selectedOrders, setSelectedOrders] = useState<number[]>([]);
 
@@ -44,6 +44,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
 
   const [productCount, setProductCount] = useState<Record<string, number>>({});
 
+  const { mutate: patchOrderNote } = usePatchOrderNote();
   const { mutate } = usePatchDeliveryShipped();
 
   const handleShippedClick = () => {
@@ -277,30 +278,39 @@ ${order.productList.join(", ")}`;
                 <td>{`${order.recipientAddress} ${order.recipientAddressDetail}`}</td>
                 <td>{order.deliveryDate}</td>
                 <td>{order.deliveryStatus}</td>
-                <td>
-                  {writingNotesId === order.deliveryId ? (
+                <td
+                  css={noteTdBox}
+                  onClick={() => {
+                    setWritingNotesOrderId(order.orderId);
+                    setNotesInputValue(order.note);
+                  }}
+                >
+                  {writingNotesOrderId === order.orderId ? (
                     <input
                       css={notesInput}
                       type="text"
                       value={notesInputValue}
                       onChange={(e) => setNotesInputValue(e.target.value)}
                       autoFocus
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          e.currentTarget.blur();
+                        }
+                      }}
                       onBlur={() => {
-                        // 비고란 저장 API 호출
-                        setWritingNotesId(null);
+                        if (notesInputValue !== order.note) {
+                          patchOrderNote({
+                            orderId: order.orderId,
+                            note: notesInputValue,
+                          });
+                        }
+                        setWritingNotesOrderId(null);
                         setNotesInputValue("");
                       }}
                     />
                   ) : (
-                    <span
-                      css={notesSpan}
-                      onClick={() => {
-                        setWritingNotesId(order.deliveryId);
-                        setNotesInputValue(notes);
-                      }}
-                    >
-                      {notes}
-                    </span>
+                    order.note
                   )}
                 </td>
               </tr>
