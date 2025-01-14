@@ -27,6 +27,7 @@ const SortableRow = ({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    cursor: "grab",
   };
 
   const handlePointerDown = (event: React.PointerEvent) => {
