@@ -9,10 +9,12 @@ const ProductCheck = () => {
       <ProductTable
         title={`체험 상품`}
         products={data ? data.trialProductList : []}
+        category="experience"
       />
       <ProductTable
         title={`판매 상품`}
         products={data ? data.productList : []}
+        category="product"
       />
     </div>
   );

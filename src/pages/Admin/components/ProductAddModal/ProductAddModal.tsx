@@ -8,13 +8,15 @@ import {
 } from "./ProductAddModal.style";
 import { useState } from "react";
 import { usePostProduct } from "@apis/domains/admin/usePostProduct";
+import { CategoryType } from "@types";
 
 interface ModalProps {
   onClose: () => void;
+  category: CategoryType;
 }
 
-const ProductAddModal = ({ onClose }: ModalProps) => {
-  const [isTrial, setIsTrial] = useState(true);
+const ProductAddModal = ({ onClose, category }: ModalProps) => {
+  const [isTrial, setIsTrial] = useState(category === "experience");
   const [productName, setProductName] = useState<string>("");
   const [productPrice, setProductPrice] = useState<number>(0);
 

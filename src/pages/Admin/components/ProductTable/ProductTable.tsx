@@ -7,7 +7,7 @@ import {
   tableTitle,
 } from "./ProductTable.style";
 import { Button, Modal } from "@components";
-import { ProductWithSailed } from "@types";
+import { CategoryType, ProductWithSailed } from "@types";
 import { usePatchProduct } from "@apis/domains/admin/usePatchProduct";
 import { useDeleteProduct } from "@apis/domains/admin/useDeleteProduct";
 import ProductAddModal from "../ProductAddModal/ProductAddModal";
@@ -31,9 +31,10 @@ import { usePatchSequence } from "@apis/domains/admin/usePatchSequence";
 interface ProductTableProps {
   title: "체험 상품" | "판매 상품";
   products: ProductWithSailed[];
+  category: CategoryType;
 }
 
-const ProductTable = ({ title, products }: ProductTableProps) => {
+const ProductTable = ({ title, products, category }: ProductTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [productList, setProductList] = useState(products);
@@ -156,7 +157,7 @@ const ProductTable = ({ title, products }: ProductTableProps) => {
 
       {isModalOpen && (
         <Modal onClose={handleModalClose}>
-          <ProductAddModal onClose={handleModalClose} />
+          <ProductAddModal onClose={handleModalClose} category={category} />
         </Modal>
       )}
     </section>
