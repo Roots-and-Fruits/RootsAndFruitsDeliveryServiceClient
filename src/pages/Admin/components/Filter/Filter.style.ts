@@ -25,8 +25,12 @@ export const rowStyle = (theme: Theme) => css`
   background-color: ${theme.color.white};
 `;
 
+export const inputWrapper = css`
+  width: 20rem;
+`;
+
 export const productSelectStyle = (theme: Theme) => css`
-  width: 40rem;
+  width: 30rem;
   ${theme.font["subhead-m-14"]}
 
   & #react-select-3-listbox {
