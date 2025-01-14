@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, DateSelect } from "@components";
+import { Button, DateSelect, Input } from "@components";
 import FilterAttribute from "../FilterAttribute/FilterAttribute";
 import {
   buttonContainer,
   filterContainer,
   filterTable,
+  inputWrapper,
   productSelectStyle,
   rowStyle,
   statusSelectStyle,
@@ -28,10 +29,15 @@ const statusOptions: Option[] = [
 ];
 
 interface FilterProps {
-  orderReceivedDateRef: React.MutableRefObject<Dayjs | null>;
-  deliveryDateRef: React.MutableRefObject<Dayjs | null>;
-  productRef: React.MutableRefObject<Option | null>;
-  statusRef: React.MutableRefObject<Option | null>;
+  filterRef: {
+    orderNumberRef: React.MutableRefObject<string | null>;
+    senderNameRef: React.MutableRefObject<string | null>;
+    recipientNameRef: React.MutableRefObject<string | null>;
+    orderReceivedDateRef: React.MutableRefObject<Dayjs | null>;
+    deliveryDateRef: React.MutableRefObject<Dayjs | null>;
+    productRef: React.MutableRefObject<Option | null>;
+    statusRef: React.MutableRefObject<Option | null>;
+  };
   handleSearchClick: () => void;
   handleResetClick: () => void;
 }
@@ -42,10 +48,7 @@ interface GroupedOption {
 }
 
 const Filter = ({
-  orderReceivedDateRef,
-  deliveryDateRef,
-  productRef,
-  statusRef,
+  filterRef,
   handleSearchClick,
   handleResetClick,
 }: FilterProps) => {
@@ -60,6 +63,9 @@ const Filter = ({
     },
   ]);
 
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
+  const [senderName, setSenderName] = useState<string | null>(null);
+  const [recipientName, setRecipientName] = useState<string | null>(null);
   const [orderReceivedDate, setOrderReceivedDate] = useState<Dayjs | null>(
     null
   );
@@ -91,6 +97,9 @@ const Filter = ({
   }, [isSuccessProduct, productData]);
 
   const handleResetState = () => {
+    setOrderNumber(null);
+    setSenderName(null);
+    setRecipientName(null);
     setOrderReceivedDate(null);
     setDeliveryDate(null);
     setProduct(null);
@@ -103,11 +112,54 @@ const Filter = ({
     <article css={filterContainer}>
       <div css={filterTable}>
         <div css={rowStyle}>
+          <FilterAttribute label="주문 번호">
+            <div css={inputWrapper}>
+              <Input
+                type="text"
+                value={orderNumber?.toString() || ""}
+                placeholder="주문 번호"
+                onChange={(e) => {
+                  filterRef.orderNumberRef.current = e.target.value;
+                  setOrderNumber(e.target.value);
+                }}
+              />
+            </div>
+          </FilterAttribute>
+        </div>
+        <div css={rowStyle}>
+          <FilterAttribute label="보내는 분">
+            <div css={inputWrapper}>
+              <Input
+                type="text"
+                value={senderName || ""}
+                placeholder="보내는 분"
+                onChange={(e) => {
+                  filterRef.senderNameRef.current = e.target.value;
+                  setSenderName(e.target.value);
+                }}
+              />
+            </div>
+          </FilterAttribute>
+          <FilterAttribute label="받는 분">
+            <div css={inputWrapper}>
+              <Input
+                type="text"
+                value={recipientName || ""}
+                placeholder="받는 분"
+                onChange={(e) => {
+                  filterRef.recipientNameRef.current = e.target.value;
+                  setRecipientName(e.target.value);
+                }}
+              />
+            </div>
+          </FilterAttribute>
+        </div>
+        <div css={rowStyle}>
           <FilterAttribute label="접수 날짜">
             <DateSelect
               selected={orderReceivedDate}
               onChange={(date) => {
-                orderReceivedDateRef.current = date;
+                filterRef.orderReceivedDateRef.current = date;
                 setOrderReceivedDate(date);
               }}
             />
@@ -116,7 +168,7 @@ const Filter = ({
             <DateSelect
               selected={deliveryDate}
               onChange={(date) => {
-                deliveryDateRef.current = date;
+                filterRef.deliveryDateRef.current = date;
                 setDeliveryDate(date);
               }}
             />
@@ -131,13 +183,11 @@ const Filter = ({
               value={product}
               onChange={(selectedOption) => {
                 const selectValue = selectedOption as Option | null;
-                productRef.current = selectedOption as Option | null;
+                filterRef.productRef.current = selectedOption as Option | null;
                 setProduct(selectValue);
               }}
             />
           </FilterAttribute>
-        </div>
-        <div css={rowStyle}>
           <FilterAttribute label="상태">
             <Select
               css={statusSelectStyle}
@@ -146,7 +196,7 @@ const Filter = ({
               value={status}
               onChange={(selectedOption) => {
                 const selectValue = selectedOption as Option | null;
-                statusRef.current = selectValue;
+                filterRef.statusRef.current = selectValue;
                 setStatus(selectValue);
               }}
             />
