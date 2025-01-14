@@ -8,6 +8,7 @@ export const AdminLayout = (theme: Theme) => css`
   top: 0;
   left: 0;
   width: 100vw;
+  min-width: 140rem;
   height: 100%;
   background-color: ${theme.color.white};
 `;

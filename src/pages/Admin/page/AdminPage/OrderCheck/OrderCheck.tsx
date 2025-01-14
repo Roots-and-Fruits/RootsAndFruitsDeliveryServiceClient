@@ -17,12 +17,18 @@ interface Option {
 }
 
 const OrderCheck = () => {
+  const orderNumberRef = useRef<string | null>(null);
+  const senderNameRef = useRef<string | null>(null);
+  const recipientNameRef = useRef<string | null>(null);
   const orderReceivedDateRef = useRef<Dayjs | null>(null);
   const deliveryDateRef = useRef<Dayjs | null>(null);
   const productRef = useRef<Option | null>(null);
   const statusRef = useRef<Option | null>(null);
 
   const [query, setQuery] = useState({
+    orderNumber: "",
+    senderName: "",
+    recipientName: "",
     orderReceivedDate: "",
     deliveryDate: "",
     productName: "",
@@ -63,6 +69,9 @@ const OrderCheck = () => {
 
   const handleSearchClick = () => {
     const newQuery = {
+      orderNumber: orderNumberRef.current?.toString() || "",
+      senderName: senderNameRef.current || "",
+      recipientName: recipientNameRef.current || "",
       orderReceivedDate:
         orderReceivedDateRef.current?.format("YYYY-MM-DD") || "",
       deliveryDate: deliveryDateRef.current?.format("YYYY-MM-DD") || "",
@@ -73,12 +82,18 @@ const OrderCheck = () => {
   };
 
   const handleResetClick = () => {
+    orderNumberRef.current = null;
+    senderNameRef.current = null;
+    recipientNameRef.current = null;
     orderReceivedDateRef.current = null;
     deliveryDateRef.current = null;
     statusRef.current = null;
     productRef.current = null;
 
     setQuery({
+      orderNumber: "",
+      senderName: "",
+      recipientName: "",
       orderReceivedDate: "",
       deliveryDate: "",
       productName: "",
@@ -91,10 +106,15 @@ const OrderCheck = () => {
       <section css={sectionStyle}>
         <h3 css={sectionTitle}>검색필터</h3>
         <Filter
-          orderReceivedDateRef={orderReceivedDateRef}
-          deliveryDateRef={deliveryDateRef}
-          productRef={productRef}
-          statusRef={statusRef}
+          filterRef={{
+            orderNumberRef,
+            senderNameRef,
+            recipientNameRef,
+            orderReceivedDateRef,
+            deliveryDateRef,
+            productRef,
+            statusRef,
+          }}
           handleSearchClick={handleSearchClick}
           handleResetClick={handleResetClick}
         />
