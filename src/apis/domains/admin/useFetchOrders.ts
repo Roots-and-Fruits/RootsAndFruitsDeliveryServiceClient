@@ -49,5 +49,6 @@ export const useFetchOrders = (query: queryType) => {
     },
     initialPageParam: -1, // 초기 페이지 파라미터 설정
     select: (data) => (data.pages ?? []).flatMap((page) => page?.orders),
+    staleTime: 1000 * 60,
   });
 };
