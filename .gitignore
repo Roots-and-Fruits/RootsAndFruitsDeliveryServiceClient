@@ -23,4 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# TypeScript 빌드 캐시 파일
+*.tsbuildinfo
+
 .env
+# Sentry Config File
+.env.sentry-build-plugin
