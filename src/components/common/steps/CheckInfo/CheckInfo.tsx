@@ -9,7 +9,6 @@ import {
   confrimModal,
   editButtonWrapper,
   footerButtonWrapper,
-  footerShadow,
   head03Style,
   infoContainer,
   orderItemInfoWrapper,
@@ -172,7 +171,7 @@ const CheckInfo = ({ onNext }: StepProps) => {
           </article>
         ))}
       </section>
-      <footer css={[buttonSectionStyle, footerShadow]}>
+      <footer css={buttonSectionStyle}>
         <p
           css={totalPriceText}
         >{`총 결제금액: ${totalOrderPrice.toLocaleString()}원`}</p>

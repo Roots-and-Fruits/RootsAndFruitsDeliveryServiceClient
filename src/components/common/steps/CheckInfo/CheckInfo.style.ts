@@ -135,7 +135,3 @@ export const footerButtonWrapper = css`
   ${flexGenerator()};
   gap: 1rem;
 `;
-
-export const footerShadow = css`
-  padding-top: 1rem;
-box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 8px;`;

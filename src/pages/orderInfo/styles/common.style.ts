@@ -43,4 +43,5 @@ export const buttonSectionStyle = (theme: Theme) => css`
   ${flexGenerator("column")};
   gap: 1rem;
   z-index: 3;
+  box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.08);
 `;
