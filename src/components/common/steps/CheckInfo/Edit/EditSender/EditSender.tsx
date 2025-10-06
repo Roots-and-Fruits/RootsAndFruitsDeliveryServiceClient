@@ -16,7 +16,9 @@ const EditSender = () => {
   const [category] = useAtom(categoryAtom);
 
   const handleButtonClick = () => {
-    navigate(`/${category}/order-info/check-info`);
+    navigate(`/${category}/order-info/check-info`, {
+      replace: true,
+    });
   };
   return (
     <>
