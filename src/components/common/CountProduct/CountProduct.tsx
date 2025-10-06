@@ -11,7 +11,7 @@ import {
 interface CountProductProps {
   productName: string;
   count: number;
-  onCountChange: (newCount: number) => void;
+  onCountChange: (type: "increase" | "decrease") => void;
 }
 
 const CountProduct = ({
@@ -20,11 +20,11 @@ const CountProduct = ({
   onCountChange,
 }: CountProductProps) => {
   const handleIncrease = () => {
-    onCountChange(count + 1);
+    onCountChange("increase");
   };
   const handleDecrease = () => {
     if (count > 0) {
-      onCountChange(count - 1);
+      onCountChange("decrease");
     }
   };
   return (

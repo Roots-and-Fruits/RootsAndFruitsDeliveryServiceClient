@@ -16,8 +16,17 @@ export const buttonSectionStyle = css`
   margin-top: auto;
 `;
 
+export const priceWrapperStyle = css`
+  ${flexGenerator("column", "center", "flex-end")};
+  width: 100%;
+  gap: 0.6rem;
+`;
+
+export const discountPriceStyle = (theme: Theme) => css`
+  ${theme.font["subhead-n-16"]};
+  text-align: end;
+`;
+
 export const totalPriceStyle = (theme: Theme) => css`
   ${theme.font["head01-b-24"]};
-  width: 100%;
-  text-align: end;
 `;
