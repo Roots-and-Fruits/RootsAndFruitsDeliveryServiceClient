@@ -4,7 +4,7 @@ import { CategoryType } from "@types";
 
 export const layoutStyle = css`
   ${flexGenerator("column", "flex-start")};
-  padding: 8.6rem 2rem 15rem;
+  padding: 8.6rem 2rem 17rem;
   width: 100%;
   min-height: 100dvh;
 `;
@@ -30,7 +30,7 @@ export const mainSectionStyle = css`
   ${flexGenerator("column", "start", "start")};
   gap: 3rem;
   width: 100%;
-  margin-top: 5.8rem;
+  margin-top: 4rem;
 `;
 
 export const buttonSectionStyle = (theme: Theme) => css`
