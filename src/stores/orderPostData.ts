@@ -17,6 +17,7 @@ export interface RecipientInfo {
   selectedOption: "regular" | "scheduled";
   deliveryDate: string;
   orderPrice: number;
+  bundleProductCount: number;
 }
 
 export interface OrderPostDataType {

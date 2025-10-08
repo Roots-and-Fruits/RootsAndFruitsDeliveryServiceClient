@@ -101,6 +101,7 @@ export const useOrderPostDataChange = () => {
       deliveryDate: "",
       productInfo: [],
       orderPrice: 0,
+      bundleProductCount: 0,
     };
 
     setOrderPostDataState((prevState) => ({

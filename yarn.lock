@@ -913,6 +913,11 @@
     "@sentry/bundler-plugin-core" "3.1.2"
     unplugin "1.0.1"
 
+"@suspensive/react@^3.10.1":
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/@suspensive/react/-/react-3.10.1.tgz#1ace79c710b55210ad26728383e346f3379ad2e3"
+  integrity sha512-k1YPa5hpuYu1yOyOPqgVCWXsNqiYQI+g7cNfRSbMT4VLKQtqbbhm0xQa6rpjy99kA4oI+9Pzgt622aIW8Hsaww==
+
 "@svgr/babel-plugin-add-jsx-attribute@8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-8.0.0.tgz#4001f5d5dd87fa13303e36ee106e3ff3a7eb8b22"

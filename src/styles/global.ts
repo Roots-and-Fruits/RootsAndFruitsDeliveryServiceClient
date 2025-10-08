@@ -10,7 +10,7 @@ const GlobalStyle = css`
 
   :root {
     --min-width: 375px;
-    --max-width: 430px;
+    --max-width: 600px;
     --tablet-min-width: 768px;
     --tablet-max-width: 1366px;
     --tablet-ratio-width: 1280px;

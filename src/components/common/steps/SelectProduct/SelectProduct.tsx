@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, CountProduct } from "@components";
+import { Button, CountProduct, Modal } from "@components";
 import {
   buttonSectionStyle,
   layoutStyle,
@@ -8,13 +8,38 @@ import {
   textStyle,
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
-import { mainSectionStyle, totalPriceStyle } from "./SelectProduct.style";
+import {
+  discountModalContainer,
+  discountPriceStyle,
+  discountWrapperStyle,
+  infoIconStyle,
+  mainSectionStyle,
+  priceWrapperStyle,
+  totalPriceStyle,
+} from "./SelectProduct.style";
 import { useFetchProductList } from "@apis/domains/service/useFetchProductList";
 import { useAtom } from "jotai";
 import { categoryAtom, productListAtom } from "@stores";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { ProductList } from "src/stores/productList";
 import { getTwoDaysLaterDate } from "@utils";
+import {
+  BUNDLE_KEYWORDS,
+  PRODUCT_BUNDLE_DISCOUNT_ID,
+  TRIAL_BUNDLE_DISCOUNT_ID,
+} from "@constants";
+import { ProductInfo } from "src/stores/orderPostData";
+import { IcInfo } from "@svg";
+
+const getTotalSum = (productInfo: ProductInfo[]) => {
+  return productInfo.reduce((sum, product) => {
+    return sum + product.productCount * product.productPrice;
+  }, 0);
+};
+
+const getiscountCount = (bundleProductCount: number) => {
+  return Math.floor(bundleProductCount / 2);
+};
 
 const SelectProduct = ({ onNext }: StepProps) => {
   const [category] = useAtom(categoryAtom);
@@ -31,28 +56,15 @@ const SelectProduct = ({ onNext }: StepProps) => {
     []
   );
 
+  const [discountPrice, setDiscountPrice] = useState(0);
   const [orderPrice, setOrderPrice] = useState(
     orderPostDataState.recipientInfo[currentRecipientIndex]?.orderPrice ?? 0
   );
 
-  // const calculateTotalPrice = (products: ProductList, order: RecipientInfo) => {
-  //   return (order.productInfo || []).reduce((total, orderProduct) => {
-  //     const product = products.find(
-  //       (p) => p.productId === orderProduct.productId
-  //     );
-
-  //     if (product) {
-  //       total += product.productPrice * orderProduct.productCount;
-  //     }
-
-  //     return total;
-  //   }, 0);
-  // };
-
-  // const totalPrice = calculateTotalPrice(
-  //   displayedProductList,
-  //   orderPostDataState.recipientInfo[currentRecipientIndex] ?? {}
-  // );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     if (productList) {
@@ -67,8 +79,31 @@ const SelectProduct = ({ onNext }: StepProps) => {
           ? productListState.trialSailedProductList
           : productListState.sailedproductList;
       setDisplayedProductList(listToSet);
+
+      const currentrecipientInfo =
+        orderPostDataState.recipientInfo[currentRecipientIndex];
+
+      if (currentrecipientInfo && currentrecipientInfo?.productInfo) {
+        const totalSum = getTotalSum(currentrecipientInfo?.productInfo);
+        setOrderPrice(totalSum);
+      }
+
+      if (
+        currentrecipientInfo &&
+        currentrecipientInfo?.bundleProductCount > 0
+      ) {
+        const discountCount = getiscountCount(
+          currentrecipientInfo.bundleProductCount
+        );
+        setDiscountPrice(discountCount * 3000);
+      }
     }
-  }, [productListState, category]);
+  }, [
+    productListState,
+    category,
+    orderPostDataState.recipientInfo,
+    currentRecipientIndex,
+  ]);
 
   useEffect(() => {
     const currentProductInfo =
@@ -91,28 +126,64 @@ const SelectProduct = ({ onNext }: StepProps) => {
         currentRecipientIndex
       );
     }
-  }, [currentRecipientIndex, displayedProductList]);
+  }, [
+    currentRecipientIndex,
+    displayedProductList,
+    handleRecipientInputChange,
+    orderPostDataState.recipientInfo,
+  ]);
 
-  const handleCountChange = (productIndex: number, newCount: number) => {
-    const currentProductInfo =
-      orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo ||
-      [];
+  const handleCountChange = (
+    productIndex: number,
+    type: "increase" | "decrease"
+  ) => {
+    const currentRecipient =
+      orderPostDataState.recipientInfo[currentRecipientIndex];
+    const currentProductInfo = currentRecipient?.productInfo || [];
     const updatedProductInfo = [...currentProductInfo];
 
     if (productList) {
       const product = displayedProductList[productIndex];
+      const currentProductCount = currentProductInfo[productIndex].productCount;
 
       if (product) {
         updatedProductInfo[productIndex] = {
           productId: product.productId,
           productName: product.productName,
-          productCount: newCount,
+          productCount:
+            type === "increase"
+              ? currentProductCount + 1
+              : currentProductCount - 1,
           productPrice: product.productPrice,
         };
 
-        const totalSum = updatedProductInfo.reduce((sum, product) => {
-          return sum + product.productCount * product.productPrice;
-        }, 0);
+        const isBundleProduct = BUNDLE_KEYWORDS.some((keyword) =>
+          product.productName.toLowerCase().includes(keyword)
+        );
+
+        if (isBundleProduct) {
+          orderPostDataState.recipientInfo[
+            currentRecipientIndex
+          ].bundleProductCount =
+            type === "increase"
+              ? (currentRecipient.bundleProductCount || 0) + 1
+              : (currentRecipient.bundleProductCount || 0) - 1;
+        }
+        const bundleDiscoutCount = getiscountCount(
+          currentRecipient.bundleProductCount || 0
+        );
+
+        updatedProductInfo.forEach((product) => {
+          if (
+            product.productId === PRODUCT_BUNDLE_DISCOUNT_ID ||
+            product.productId === TRIAL_BUNDLE_DISCOUNT_ID
+          ) {
+            product.productCount = bundleDiscoutCount;
+          }
+        });
+        setDiscountPrice(bundleDiscoutCount * 3000);
+
+        const totalSum = getTotalSum(updatedProductInfo);
 
         handleRecipientInputChange(
           updatedProductInfo,
@@ -156,20 +227,37 @@ const SelectProduct = ({ onNext }: StepProps) => {
           const productCount =
             orderPostDataState.recipientInfo[currentRecipientIndex]
               ?.productInfo?.[i]?.productCount ?? 0;
-          return (
+
+          const isProduct =
+            product.productId !== PRODUCT_BUNDLE_DISCOUNT_ID &&
+            product.productId !== TRIAL_BUNDLE_DISCOUNT_ID;
+
+          return isProduct ? (
             <CountProduct
               key={i}
               productName={`${
                 product.productName
               } - ${product.productPrice.toLocaleString()}원`}
               count={productCount}
-              onCountChange={(newCount) => handleCountChange(i, newCount)}
+              onCountChange={(type: "increase" | "decrease") =>
+                handleCountChange(i, type)
+              }
             />
-          );
+          ) : null;
         })}
       </section>
       <footer css={buttonSectionStyle}>
-        <h3 css={totalPriceStyle}>{`총 ${orderPrice.toLocaleString()} 원`}</h3>
+        <div css={priceWrapperStyle}>
+          <div css={discountWrapperStyle}>
+            <IcInfo css={infoIconStyle} onClick={() => setIsModalOpen(true)} />
+            <p
+              css={discountPriceStyle}
+            >{`묶음 배송 할인: ${discountPrice.toLocaleString()} 원`}</p>
+          </div>
+          <h3 css={totalPriceStyle}>
+            {`총 ${orderPrice.toLocaleString()} 원`}
+          </h3>
+        </div>
         <Button
           variant="fill"
           onClick={handleNextClick}
@@ -178,6 +266,27 @@ const SelectProduct = ({ onNext }: StepProps) => {
           다음
         </Button>
       </footer>
+      {isModalOpen && (
+        <Modal onClose={handleModalClose}>
+          <div css={discountModalContainer(category)}>
+            <h4>🍊 묶음 배송 할인 안내</h4>
+            <p>
+              <strong>3kg</strong>과 <strong>5kg</strong> 상품은
+            </p>
+            <p>
+              <strong>2개당</strong> 배송비가 <strong>3,000원</strong>씩
+              할인돼요
+            </p>
+            <br />
+            <p>10kg 상품은 할인 대상이 아니에요</p>
+            <br />
+            <br />
+            <Button variant="fill" onClick={handleModalClose}>
+              확인
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
