@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, CountProduct } from "@components";
+import { Button, CountProduct, Modal } from "@components";
 import {
   buttonSectionStyle,
   layoutStyle,
@@ -9,7 +9,10 @@ import {
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
 import {
+  discountModalContainer,
   discountPriceStyle,
+  discountWrapperStyle,
+  infoIconStyle,
   mainSectionStyle,
   priceWrapperStyle,
   totalPriceStyle,
@@ -26,6 +29,7 @@ import {
   TRIAL_BUNDLE_DISCOUNT_ID,
 } from "@constants";
 import { ProductInfo } from "src/stores/orderPostData";
+import { IcInfo } from "@svg";
 
 const getTotalSum = (productInfo: ProductInfo[]) => {
   return productInfo.reduce((sum, product) => {
@@ -56,6 +60,11 @@ const SelectProduct = ({ onNext }: StepProps) => {
   const [orderPrice, setOrderPrice] = useState(
     orderPostDataState.recipientInfo[currentRecipientIndex]?.orderPrice ?? 0
   );
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     if (productList) {
@@ -239,11 +248,12 @@ const SelectProduct = ({ onNext }: StepProps) => {
       </section>
       <footer css={buttonSectionStyle}>
         <div css={priceWrapperStyle}>
-          {discountPrice > 0 && (
+          <div css={discountWrapperStyle}>
+            <IcInfo css={infoIconStyle} onClick={() => setIsModalOpen(true)} />
             <p
               css={discountPriceStyle}
             >{`묶음 배송 할인: ${discountPrice.toLocaleString()} 원`}</p>
-          )}
+          </div>
           <h3 css={totalPriceStyle}>
             {`총 ${orderPrice.toLocaleString()} 원`}
           </h3>
@@ -256,6 +266,27 @@ const SelectProduct = ({ onNext }: StepProps) => {
           다음
         </Button>
       </footer>
+      {isModalOpen && (
+        <Modal onClose={handleModalClose}>
+          <div css={discountModalContainer(category)}>
+            <h4>🍊 묶음 배송 할인 안내</h4>
+            <p>
+              <strong>3kg</strong>과 <strong>5kg</strong> 상품은
+            </p>
+            <p>
+              <strong>2개당</strong> 배송비가 <strong>3,000원</strong>씩
+              할인돼요
+            </p>
+            <br />
+            <p>10kg 상품은 할인 대상이 아니에요</p>
+            <br />
+            <br />
+            <Button variant="fill" onClick={handleModalClose}>
+              확인
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

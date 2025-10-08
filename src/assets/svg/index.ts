@@ -12,6 +12,7 @@ export { default as IcDelete } from "./IcDelete";
 export { default as IcDownload } from "./IcDownload";
 export { default as IcFix } from "./IcFix";
 export { default as IcHome } from "./IcHome";
+export { default as IcInfo } from "./IcInfo";
 export { default as IcLogout } from "./IcLogout";
 export { default as IcMainCharacter } from "./IcMainCharacter";
 export { default as IcMinus } from "./IcMinus";
