@@ -4,7 +4,7 @@ import { CategoryType } from "@types";
 
 export const layoutStyle = css`
   ${flexGenerator("column", "flex-start")};
-  padding: 8.6rem 2rem 15rem;
+  padding: 8.6rem 2rem 17rem;
   width: 100%;
   min-height: 100dvh;
 `;
@@ -30,17 +30,18 @@ export const mainSectionStyle = css`
   ${flexGenerator("column", "start", "start")};
   gap: 3rem;
   width: 100%;
-  margin-top: 5.8rem;
+  margin-top: 4rem;
 `;
 
 export const buttonSectionStyle = (theme: Theme) => css`
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: 43rem;
+  max-width: 60rem;
   background-color: ${theme.color.white};
   padding: 2rem;
   ${flexGenerator("column")};
   gap: 1rem;
   z-index: 3;
+  box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.08);
 `;

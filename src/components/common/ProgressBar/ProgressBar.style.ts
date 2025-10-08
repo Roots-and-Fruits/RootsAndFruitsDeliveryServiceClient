@@ -6,7 +6,7 @@ export const progressBarContainer = (theme: Theme) => css`
   top: 6rem;
   z-index: 2;
   width: 100%;
-  max-width: 43rem;
+  max-width: 60rem;
   height: 0.6rem;
   background-color: ${theme.color.lightgray1};
 `;

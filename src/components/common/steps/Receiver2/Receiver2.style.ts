@@ -26,6 +26,11 @@ export const zonecodeWrapper = css`
   }
 `;
 
+export const addressButtonWrapper = css`
+  width: 100%;
+  max-width: 20rem;
+`;
+
 export const alertModal = css`
   width: 30rem;
   ${flexGenerator("column")};

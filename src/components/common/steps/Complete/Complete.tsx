@@ -1,8 +1,9 @@
-import { Button, ClipboardButton } from "@components";
+import { Button, ClipboardButton, Modal, PayButton } from "@components";
 import { IcComplete } from "@svg";
 import { useNavigate } from "react-router-dom";
 import {
   accountInfoContainer,
+  accountInfoModal,
   accountInfoNSpan,
   accountInfoSbSpan,
   accountInfoStyle,
@@ -11,6 +12,7 @@ import {
   layoutStyle,
   orderNumberStyle,
   orderNumberWrapper,
+  payButtonWrapper,
   spanContainer,
   spanStyle,
 } from "./Complete.style";
@@ -21,15 +23,25 @@ import { categoryAtom } from "@stores";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 
 const Complete = () => {
-  const { orderNumberState } = useOrderPostDataChange();
+  const { orderPostDataState, orderNumberState } = useOrderPostDataChange();
 
   const [category] = useAtom(categoryAtom);
-  const [showAccountInfo, setShowAccountInfo] = useState(false);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const totalOrderPrice = orderPostDataState.recipientInfo.reduce(
+    (acc, receiver) => acc + receiver.orderPrice,
+    0
+  );
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   const handleAccountClick = () => {
-    setShowAccountInfo(true);
+    setIsModalOpen(true);
   };
+
   const handleButtonClick = () => {
     localStorage.clear();
     navigate(`/`);
@@ -48,26 +60,31 @@ const Complete = () => {
         </span>
       </div>
       <footer css={buttonSectionStyle}>
-        {!showAccountInfo && (
-          <Button variant="stroke" onClick={handleAccountClick}>
-            계좌번호로 입금하시겠어요?
-          </Button>
-        )}
-        {showAccountInfo && (
-          <div css={accountInfoContainer}>
-            <div css={accountInfoStyle}>
-              <span css={accountInfoSbSpan}>NH농협</span>
-              <ClipboardButton />
-            </div>
-            <span css={accountInfoNSpan}>
-              예금주 <span css={accountInfoSbSpan}>제주체험농장</span>
-            </span>
-          </div>
-        )}
+        <Button variant="stroke" onClick={handleAccountClick}>
+          계좌번호로 입금하시겠어요?
+        </Button>
         <Button variant="fill" onClick={handleButtonClick}>
           홈으로
         </Button>
       </footer>
+      {isModalOpen && (
+        <Modal onClose={handleModalClose}>
+          <article css={accountInfoModal}>
+            <div css={accountInfoContainer}>
+              <div css={accountInfoStyle}>
+                <span css={accountInfoSbSpan}>NH농협</span>
+                <ClipboardButton />
+              </div>
+              <span css={accountInfoNSpan}>
+                예금주 <span css={accountInfoSbSpan}>제주체험농장</span>
+              </span>
+            </div>
+            <div css={payButtonWrapper}>
+              <PayButton totalPrice={totalOrderPrice || 0} />
+            </div>
+          </article>
+        </Modal>
+      )}
     </div>
   );
 };

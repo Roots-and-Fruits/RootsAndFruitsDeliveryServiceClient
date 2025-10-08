@@ -20,6 +20,8 @@ import EditSender from "./steps/CheckInfo/Edit/EditSender/EditSender";
 import EditReceiver from "./steps/CheckInfo/Edit/EditReceiver/EditReceiver";
 import DateSelect from "./DateSelect/DateSelect";
 import Modal from "./Modal/Modal";
+import ErrorFallback from "./ErrorBoundary/ErrorFallback";
+import PayButton from "./PayButton/PayButton";
 
 export {
   Button,
@@ -44,4 +46,6 @@ export {
   EditReceiver,
   DateSelect,
   Modal,
+  ErrorFallback,
+  PayButton,
 };

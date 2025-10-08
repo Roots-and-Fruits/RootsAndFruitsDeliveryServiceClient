@@ -23,13 +23,19 @@ import {
   zonecodeWrapper,
 } from "./EditReceiver.style";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { useNavigate } from "react-router-dom";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
 import { getTwoDaysLaterDate } from "@utils";
+import {
+  BUNDLE_KEYWORDS,
+  PRODUCT_BUNDLE_DISCOUNT_ID,
+  TRIAL_BUNDLE_DISCOUNT_ID,
+} from "@constants";
+import { ProductInfo } from "src/stores/orderPostData";
 
 const scriptUrl =
   "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
@@ -45,6 +51,16 @@ interface EditReceiverProps {
   receiverIndex: number;
 }
 
+const getTotalSum = (productInfo: ProductInfo[]) => {
+  return productInfo.reduce((sum, product) => {
+    return sum + product.productCount * product.productPrice;
+  }, 0);
+};
+
+const getiscountCount = (bundleProductCount: number) => {
+  return Math.floor(bundleProductCount / 2);
+};
+
 const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
   const {
     orderPostDataState,
@@ -52,7 +68,10 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     handleChangeOrderPrice,
   } = useOrderPostDataChange();
 
-  const receiver = orderPostDataState.recipientInfo[receiverIndex] ?? {};
+  const receiver = useMemo(
+    () => orderPostDataState.recipientInfo[receiverIndex] ?? {},
+    [orderPostDataState.recipientInfo, receiverIndex]
+  );
   const navigate = useNavigate();
   const [category] = useAtom(categoryAtom);
 
@@ -70,6 +89,16 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
   });
   const selectedOption = receiver.selectedOption;
   const selectedDate = receiver.deliveryDate;
+
+  useEffect(() => {
+    if (receiver && receiver.recipientAddress) {
+      setForm({
+        address: receiver.recipientAddress,
+        addressDetail: receiver.recipientAddressDetail,
+        zonecode: receiver.recipientPostCode,
+      });
+    }
+  }, [receiver]);
 
   const open = useDaumPostcodePopup(scriptUrl);
 
@@ -141,25 +170,56 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     );
     handleRecipientInputChange(selectedDate, "deliveryDate", receiverIndex);
 
-    navigate(`/${category}/order-info/check-info`);
+    navigate(`/${category}/order-info/check-info`, {
+      replace: true,
+    });
   };
 
   const handleClick = () => {
     open({ onComplete: handleComplete });
   };
 
-  const handleCountChange = (productIndex: number, newCount: number) => {
+  const handleCountChange = (
+    productIndex: number,
+    type: "increase" | "decrease"
+  ) => {
     const currentProductInfo = receiver.productInfo;
-    const updatedProductInfo = currentProductInfo.map((product, index) => {
-      if (index === productIndex) {
-        return { ...product, productCount: newCount };
+
+    const updatedProductInfo = [...currentProductInfo];
+    const product = updatedProductInfo[productIndex];
+    updatedProductInfo[productIndex] = {
+      ...product,
+      productCount:
+        type === "increase"
+          ? product.productCount + 1
+          : product.productCount - 1,
+    };
+
+    const isBundleProduct = BUNDLE_KEYWORDS.some((keyword) =>
+      product.productName.toLowerCase().includes(keyword)
+    );
+
+    if (isBundleProduct) {
+      receiver.bundleProductCount =
+        type === "increase"
+          ? (receiver.bundleProductCount || 0) + 1
+          : (receiver.bundleProductCount || 0) - 1;
+    }
+
+    const bundleDiscoutCount = getiscountCount(
+      receiver.bundleProductCount || 0
+    );
+
+    updatedProductInfo.forEach((product) => {
+      if (
+        product.productId === PRODUCT_BUNDLE_DISCOUNT_ID ||
+        product.productId === TRIAL_BUNDLE_DISCOUNT_ID
+      ) {
+        product.productCount = bundleDiscoutCount;
       }
-      return product;
     });
 
-    const totalSum = updatedProductInfo.reduce((sum, product) => {
-      return sum + product.productCount * product.productPrice;
-    }, 0);
+    const totalSum = getTotalSum(updatedProductInfo);
 
     handleRecipientInputChange(
       updatedProductInfo,
@@ -250,14 +310,24 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
           <div css={selectProductContainer}>
             <span css={subTitleSpan}>선택 상품</span>
             <div css={selectProductWrapper}>
-              {(receiver.productInfo ?? []).map((product, i) => (
-                <CountProduct
-                  key={i}
-                  productName={product.productName}
-                  count={product.productCount}
-                  onCountChange={(newCount) => handleCountChange(i, newCount)}
-                />
-              ))}
+              {(receiver.productInfo ?? []).map((product, i) => {
+                if (
+                  product.productId === PRODUCT_BUNDLE_DISCOUNT_ID ||
+                  product.productId === TRIAL_BUNDLE_DISCOUNT_ID
+                ) {
+                  return null;
+                }
+                return (
+                  <CountProduct
+                    key={i}
+                    productName={product.productName}
+                    count={product.productCount}
+                    onCountChange={(type: "increase" | "decrease") =>
+                      handleCountChange(i, type)
+                    }
+                  />
+                );
+              })}
             </div>
           </div>
           {category === "product" && (

@@ -27,6 +27,10 @@ import {
 } from "@dnd-kit/sortable";
 import SortableRow from "../SortableRow/SortableRow";
 import { usePatchSequence } from "@apis/domains/admin/usePatchSequence";
+import {
+  PRODUCT_BUNDLE_DISCOUNT_ID,
+  TRIAL_BUNDLE_DISCOUNT_ID,
+} from "@constants";
 
 interface ProductTableProps {
   title: "체험 상품" | "판매 상품";
@@ -141,15 +145,18 @@ const ProductTable = ({ title, products, category }: ProductTableProps) => {
               </tr>
             </thead>
             <tbody>
-              {productList.map((product) => (
-                <SortableRow
-                  key={product.productId}
-                  product={product}
-                  selectedProducts={selectedProducts}
-                  handleCheckboxChange={handleCheckboxChange}
-                  patchProduct={patchProduct}
-                />
-              ))}
+              {productList.map((product) =>
+                product.productId === TRIAL_BUNDLE_DISCOUNT_ID ||
+                product.productId === PRODUCT_BUNDLE_DISCOUNT_ID ? null : (
+                  <SortableRow
+                    key={product.productId}
+                    product={product}
+                    selectedProducts={selectedProducts}
+                    handleCheckboxChange={handleCheckboxChange}
+                    patchProduct={patchProduct}
+                  />
+                )
+              )}
             </tbody>
           </table>
         </SortableContext>
