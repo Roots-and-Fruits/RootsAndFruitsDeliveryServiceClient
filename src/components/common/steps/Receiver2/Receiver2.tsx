@@ -9,6 +9,7 @@ import {
 } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
 import {
+  addressButtonWrapper,
   alertModal,
   alertModalText,
   buttonWrapper,
@@ -141,9 +142,11 @@ const Receiver2 = ({ onNext }: StepProps) => {
               aria-readonly
               disabled
             />
-            <Button variant="fill" onClick={handleClick}>
-              주소 검색
-            </Button>
+            <div css={addressButtonWrapper}>
+              <Button variant="fill" onClick={handleClick}>
+                주소 검색
+              </Button>
+            </div>
           </div>
           <Input
             value={form.address}
