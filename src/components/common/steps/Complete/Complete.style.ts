@@ -77,3 +77,20 @@ export const accountInfoNSpan = (theme: Theme) => css`
   ${theme.font["subhead-n-15"]}
   color: ${theme.color.black};
 `;
+
+export const accountInfoModal = (theme: Theme) => css`
+  ${flexGenerator("column")};
+  gap: 2rem;
+  width: 32rem;
+  padding: 2.5rem;
+  background-color: ${theme.color.white};
+  border-radius: 1.2rem;
+  box-shadow: 0 0.4rem 2rem rgba(0, 0, 0, 0.1);
+  border: 1px solid ${theme.color.lightgray1};
+`;
+
+export const payButtonWrapper = css`
+  ${flexGenerator()};
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+`;

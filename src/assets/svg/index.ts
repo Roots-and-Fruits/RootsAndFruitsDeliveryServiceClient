@@ -1,3 +1,4 @@
+export { default as IcTossPay } from "./IcTossPay";
 export { default as IcArrowBack } from "./IcArrowBack";
 export { default as IcArrowDown } from "./IcArrowDown";
 export { default as IcArrowUp } from "./IcArrowUp";
