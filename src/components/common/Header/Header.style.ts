@@ -8,7 +8,7 @@ export const headerContainer = (theme: Theme) => css`
   top: 0;
   z-index: 2;
   width: 100%;
-  max-width: 43rem;
+  max-width: 60rem;
   height: 6rem;
   background-color: ${theme.color.white};
   padding: 0 2rem;

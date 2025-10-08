@@ -37,7 +37,7 @@ export const buttonSectionStyle = (theme: Theme) => css`
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: 43rem;
+  max-width: 60rem;
   background-color: ${theme.color.white};
   padding: 2rem;
   ${flexGenerator("column")};
