@@ -4,6 +4,7 @@ import {
   blackSpan,
   buttonWrapper,
   graySpan,
+  orangeSpan,
   section3Container,
   section3Div,
   section3InfoWrapper,
@@ -13,6 +14,8 @@ import { useAtom } from "jotai";
 import { usePatchPayComplete } from "@apis/domains/orderCheck/usePatchPayComplete";
 import { usePatchPayCancel } from "@apis/domains/orderCheck/usePatchPayCancel";
 import { OrderInfo } from "@types";
+
+const MATCH_BUNDLE_DISCOUNT = "묶음 배송 할인";
 
 const OrderInfoSection = () => {
   const [previousOrderNumber] = useAtom(previousOrderNumberAtom);
@@ -75,12 +78,17 @@ const OrderInfoSection = () => {
           <span
             css={graySpan}
           >{`상품 (주문 ${orderCount}개 / 총 상품 ${productCount}개)`}</span>
-          {(mergedOrders || []).map((order, i) => (
-            <span
-              key={i}
-              css={blackSpan}
-            >{`${order.productName} ${order.productCount}개`}</span>
-          ))}
+          {(mergedOrders || []).map((order, i) => {
+            const isBundleDiscount = order.productName.includes(
+              MATCH_BUNDLE_DISCOUNT
+            );
+            return (
+              <span
+                key={i}
+                css={isBundleDiscount ? orangeSpan : blackSpan}
+              >{`${order.productName} ${order.productCount}개`}</span>
+            );
+          })}
         </div>
         <div css={section3Div}>
           <span css={graySpan}>총 금액</span>
