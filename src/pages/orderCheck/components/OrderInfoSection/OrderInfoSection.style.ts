@@ -30,6 +30,11 @@ export const blackSpan = (theme: Theme) => css`
   ${theme.font["head01-b-24"]};
 `;
 
+export const orangeSpan = (theme: Theme) => css`
+  color: ${theme.color.orange};
+  ${theme.font["head01-b-24"]};
+`;
+
 export const statusStyle = (statusStyle: string) => (theme: Theme) =>
   css`
     color: ${statusStyle === "결제완료"

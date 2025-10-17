@@ -89,6 +89,17 @@ const OrderTable = ({ orders }: OrderTableProps) => {
     );
 
     const data = selectedData.map((order) => {
+      // productList에서 '묶음 배송 할인 nEA' 항목의 n값 추출
+      const MATCH_BUNDLE_DISCOUNT = /묶음 배송 할인 (\d+)EA/;
+      let bundleDiscountCount = 0;
+
+      order.productList.forEach((product) => {
+        const bundleDiscountMatch = product.match(MATCH_BUNDLE_DISCOUNT);
+        if (bundleDiscountMatch) {
+          bundleDiscountCount = parseInt(bundleDiscountMatch[1], 10);
+        }
+      });
+
       return {
         주문번호: "", // blank
         "보내는사람(지정)": order.senderName,
@@ -103,7 +114,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
         주소: `${order.recipientAddress} ${order.recipientAddressDetail}`,
         상품명1: order.productList.join(", "),
         상품상세1: "", // blank
-        "수량(A타입)": order.productTotalCount,
+        "수량(A타입)": order.productTotalCount - 2 * bundleDiscountCount,
         배송메시지: "", // blank
         운임구분: "", // blank
         운임: "", // blank
