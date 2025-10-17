@@ -17,22 +17,21 @@ import {
   spanStyle,
 } from "./Complete.style";
 import { buttonSectionStyle } from "@pages/orderInfo/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
+import { useFetchOrderInfoWithOrderNumber } from "@apis/domains/orderCheck/useFetchOrderInfoWithOrderNumber";
 
 const Complete = () => {
-  const { orderPostDataState, orderNumberState } = useOrderPostDataChange();
-
+  const { orderNumberState } = useOrderPostDataChange();
+  const { refetch: refetchOrderInfo } = useFetchOrderInfoWithOrderNumber(
+    Number(orderNumberState)
+  );
+  const [totalPrice, setTotalPrice] = useState(0);
   const [category] = useAtom(categoryAtom);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const totalOrderPrice = orderPostDataState.recipientInfo.reduce(
-    (acc, receiver) => acc + receiver.orderPrice,
-    0
-  );
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -46,6 +45,18 @@ const Complete = () => {
     localStorage.clear();
     navigate(`/`);
   };
+
+  const handleRefetchOrderInfo = async () => {
+    const result = await refetchOrderInfo();
+    setTotalPrice(result.data?.totalPrice ?? 0);
+  };
+
+  useEffect(() => {
+    if (orderNumberState) {
+      handleRefetchOrderInfo();
+    }
+  }, [orderNumberState]);
+
   return (
     <div css={layoutStyle}>
       <IcComplete css={iconStyle(category)} />
@@ -80,7 +91,7 @@ const Complete = () => {
               </span>
             </div>
             <div css={payButtonWrapper}>
-              <PayButton totalPrice={totalOrderPrice || 0} />
+              <PayButton totalPrice={totalPrice} />
             </div>
           </article>
         </Modal>
