@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, CountProduct, Modal } from "@components";
-import {
-  buttonSectionStyle,
-  layoutStyle,
-  coloredTextStyle,
-  sectionStyle,
-  textStyle,
-} from "@pages/orderInfo/styles";
+import { buttonSectionStyle, layoutStyle, coloredTextStyle, sectionStyle, textStyle } from "@pages/orderInfo/styles";
 import { StepProps } from "@types";
 import {
   discountModalContainer,
@@ -23,11 +17,7 @@ import { categoryAtom, productListAtom } from "@stores";
 import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { ProductList } from "src/stores/productList";
 import { getTwoDaysLaterDate } from "@utils";
-import {
-  BUNDLE_KEYWORDS,
-  PRODUCT_BUNDLE_DISCOUNT_ID,
-  TRIAL_BUNDLE_DISCOUNT_ID,
-} from "@constants";
+import { BUNDLE_KEYWORDS, PRODUCT_BUNDLE_DISCOUNT_ID, TRIAL_BUNDLE_DISCOUNT_ID } from "@constants";
 import { ProductInfo } from "src/stores/orderPostData";
 import { IcInfo } from "@svg";
 
@@ -44,17 +34,11 @@ const getiscountCount = (bundleProductCount: number) => {
 const SelectProduct = ({ onNext }: StepProps) => {
   const [category] = useAtom(categoryAtom);
 
-  const {
-    orderPostDataState,
-    currentRecipientIndex,
-    handleRecipientInputChange,
-    handleChangeOrderPrice,
-  } = useOrderPostDataChange();
+  const { orderPostDataState, currentRecipientIndex, handleRecipientInputChange, handleChangeOrderPrice } =
+    useOrderPostDataChange();
   const { data: productList, isLoading } = useFetchProductList();
   const [productListState, setProductListState] = useAtom(productListAtom);
-  const [displayedProductList, setDisplayedProductList] = useState<ProductList>(
-    []
-  );
+  const [displayedProductList, setDisplayedProductList] = useState<ProductList>([]);
 
   const [discountPrice, setDiscountPrice] = useState(0);
   const [orderPrice, setOrderPrice] = useState(
@@ -75,39 +59,25 @@ const SelectProduct = ({ onNext }: StepProps) => {
   useEffect(() => {
     if (productListState) {
       const listToSet =
-        category === "experience"
-          ? productListState.trialSailedProductList
-          : productListState.sailedproductList;
+        category === "experience" ? productListState.trialSailedProductList : productListState.sailedproductList;
       setDisplayedProductList(listToSet);
 
-      const currentrecipientInfo =
-        orderPostDataState.recipientInfo[currentRecipientIndex];
+      const currentrecipientInfo = orderPostDataState.recipientInfo[currentRecipientIndex];
 
       if (currentrecipientInfo && currentrecipientInfo?.productInfo) {
         const totalSum = getTotalSum(currentrecipientInfo?.productInfo);
         setOrderPrice(totalSum);
       }
 
-      if (
-        currentrecipientInfo &&
-        currentrecipientInfo?.bundleProductCount > 0
-      ) {
-        const discountCount = getiscountCount(
-          currentrecipientInfo.bundleProductCount
-        );
+      if (currentrecipientInfo && currentrecipientInfo?.bundleProductCount > 0) {
+        const discountCount = getiscountCount(currentrecipientInfo.bundleProductCount);
         setDiscountPrice(discountCount * 3000);
       }
     }
-  }, [
-    productListState,
-    category,
-    orderPostDataState.recipientInfo,
-    currentRecipientIndex,
-  ]);
+  }, [productListState, category, orderPostDataState.recipientInfo, currentRecipientIndex]);
 
   useEffect(() => {
-    const currentProductInfo =
-      orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo;
+    const currentProductInfo = orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo;
     if (
       displayedProductList &&
       displayedProductList.length > 0 &&
@@ -120,25 +90,12 @@ const SelectProduct = ({ onNext }: StepProps) => {
         productPrice: product.productPrice,
       }));
 
-      handleRecipientInputChange(
-        initialProductInfo,
-        "productInfo",
-        currentRecipientIndex
-      );
+      handleRecipientInputChange(initialProductInfo, "productInfo", currentRecipientIndex);
     }
-  }, [
-    currentRecipientIndex,
-    displayedProductList,
-    handleRecipientInputChange,
-    orderPostDataState.recipientInfo,
-  ]);
+  }, [currentRecipientIndex, displayedProductList, handleRecipientInputChange, orderPostDataState.recipientInfo]);
 
-  const handleCountChange = (
-    productIndex: number,
-    type: "increase" | "decrease"
-  ) => {
-    const currentRecipient =
-      orderPostDataState.recipientInfo[currentRecipientIndex];
+  const handleCountChange = (productIndex: number, type: "increase" | "decrease") => {
+    const currentRecipient = orderPostDataState.recipientInfo[currentRecipientIndex];
     const currentProductInfo = currentRecipient?.productInfo || [];
     const updatedProductInfo = [...currentProductInfo];
 
@@ -150,34 +107,24 @@ const SelectProduct = ({ onNext }: StepProps) => {
         updatedProductInfo[productIndex] = {
           productId: product.productId,
           productName: product.productName,
-          productCount:
-            type === "increase"
-              ? currentProductCount + 1
-              : currentProductCount - 1,
+          productCount: type === "increase" ? currentProductCount + 1 : currentProductCount - 1,
           productPrice: product.productPrice,
         };
 
-        const isBundleProduct = BUNDLE_KEYWORDS.some((keyword) =>
-          product.productName.toLowerCase().includes(keyword)
-        );
+        const isBundleProduct =
+          !product.productName.toLowerCase().includes("한라봉") &&
+          BUNDLE_KEYWORDS.some((keyword) => product.productName.toLowerCase().includes(keyword));
 
         if (isBundleProduct) {
-          orderPostDataState.recipientInfo[
-            currentRecipientIndex
-          ].bundleProductCount =
+          orderPostDataState.recipientInfo[currentRecipientIndex].bundleProductCount =
             type === "increase"
               ? (currentRecipient.bundleProductCount || 0) + 1
               : (currentRecipient.bundleProductCount || 0) - 1;
         }
-        const bundleDiscoutCount = getiscountCount(
-          currentRecipient.bundleProductCount || 0
-        );
+        const bundleDiscoutCount = getiscountCount(currentRecipient.bundleProductCount || 0);
 
         updatedProductInfo.forEach((product) => {
-          if (
-            product.productId === PRODUCT_BUNDLE_DISCOUNT_ID ||
-            product.productId === TRIAL_BUNDLE_DISCOUNT_ID
-          ) {
+          if (product.productId === PRODUCT_BUNDLE_DISCOUNT_ID || product.productId === TRIAL_BUNDLE_DISCOUNT_ID) {
             product.productCount = bundleDiscoutCount;
           }
         });
@@ -185,11 +132,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
 
         const totalSum = getTotalSum(updatedProductInfo);
 
-        handleRecipientInputChange(
-          updatedProductInfo,
-          "productInfo",
-          currentRecipientIndex
-        );
+        handleRecipientInputChange(updatedProductInfo, "productInfo", currentRecipientIndex);
 
         handleChangeOrderPrice(totalSum, currentRecipientIndex);
         setOrderPrice(totalSum);
@@ -199,11 +142,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
 
   const handleNextClick = () => {
     if (category === "experience") {
-      handleRecipientInputChange(
-        getTwoDaysLaterDate(),
-        "deliveryDate",
-        currentRecipientIndex
-      );
+      handleRecipientInputChange(getTwoDaysLaterDate(), "deliveryDate", currentRecipientIndex);
     }
 
     onNext();
@@ -225,23 +164,17 @@ const SelectProduct = ({ onNext }: StepProps) => {
       <section css={mainSectionStyle}>
         {displayedProductList.map((product, i) => {
           const productCount =
-            orderPostDataState.recipientInfo[currentRecipientIndex]
-              ?.productInfo?.[i]?.productCount ?? 0;
+            orderPostDataState.recipientInfo[currentRecipientIndex]?.productInfo?.[i]?.productCount ?? 0;
 
           const isProduct =
-            product.productId !== PRODUCT_BUNDLE_DISCOUNT_ID &&
-            product.productId !== TRIAL_BUNDLE_DISCOUNT_ID;
+            product.productId !== PRODUCT_BUNDLE_DISCOUNT_ID && product.productId !== TRIAL_BUNDLE_DISCOUNT_ID;
 
           return isProduct ? (
             <CountProduct
               key={i}
-              productName={`${
-                product.productName
-              } - ${product.productPrice.toLocaleString()}원`}
+              productName={`${product.productName} - ${product.productPrice.toLocaleString()}원`}
               count={productCount}
-              onCountChange={(type: "increase" | "decrease") =>
-                handleCountChange(i, type)
-              }
+              onCountChange={(type: "increase" | "decrease") => handleCountChange(i, type)}
             />
           ) : null;
         })}
@@ -250,19 +183,11 @@ const SelectProduct = ({ onNext }: StepProps) => {
         <div css={priceWrapperStyle}>
           <div css={discountWrapperStyle}>
             <IcInfo css={infoIconStyle} onClick={() => setIsModalOpen(true)} />
-            <p
-              css={discountPriceStyle}
-            >{`묶음 배송 할인: ${discountPrice.toLocaleString()} 원`}</p>
+            <p css={discountPriceStyle}>{`묶음 배송 할인: ${discountPrice.toLocaleString()} 원`}</p>
           </div>
-          <h3 css={totalPriceStyle}>
-            {`총 ${orderPrice.toLocaleString()} 원`}
-          </h3>
+          <h3 css={totalPriceStyle}>{`총 ${orderPrice.toLocaleString()} 원`}</h3>
         </div>
-        <Button
-          variant="fill"
-          onClick={handleNextClick}
-          disabled={orderPrice === 0}
-        >
+        <Button variant="fill" onClick={handleNextClick} disabled={orderPrice === 0}>
           다음
         </Button>
       </footer>
@@ -271,14 +196,15 @@ const SelectProduct = ({ onNext }: StepProps) => {
           <div css={discountModalContainer(category)}>
             <h4>🍊 묶음 배송 할인 안내</h4>
             <p>
-              <strong>3kg</strong>과 <strong>5kg</strong> 상품은
+              <strong>3kg</strong>과 <strong>5kg</strong> 귤 상품은
             </p>
             <p>
-              <strong>2개당</strong> 배송비가 <strong>3,000원</strong>씩
-              할인돼요
+              <strong>2개당</strong> 배송비가 <strong>3,000원</strong>씩 할인돼요.
             </p>
             <br />
-            <p>10kg 상품은 할인 대상이 아니에요</p>
+            <p>
+              <strong>한라봉</strong>은 묶음 할인 대상이 아니에요.
+            </p>
             <br />
             <br />
             <Button variant="fill" onClick={handleModalClose}>

@@ -31,9 +31,7 @@ interface OrderTableProps {
 
 const OrderTable = ({ orders }: OrderTableProps) => {
   const [notesInputValue, setNotesInputValue] = useState<string>("");
-  const [writingNotesOrderId, setWritingNotesOrderId] = useState<number | null>(
-    null
-  );
+  const [writingNotesOrderId, setWritingNotesOrderId] = useState<number | null>(null);
 
   const [selectedOrders, setSelectedOrders] = useState<number[]>([]);
 
@@ -43,6 +41,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
   const [toastMessage, setToastMessage] = useState("");
 
   const [productCount, setProductCount] = useState<Record<string, number>>({});
+  const [totalKg, setTotalKg] = useState(0);
 
   const { mutate: patchOrderNote } = usePatchOrderNote();
   const { mutate } = usePatchDeliveryShipped();
@@ -61,9 +60,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
       showToast();
       return;
     }
-    const selectedData = orders.filter((order) =>
-      selectedOrders.includes(order.deliveryId)
-    );
+    const selectedData = orders.filter((order) => selectedOrders.includes(order.deliveryId));
 
     const count = selectedData
       .map((order) => order.productList)
@@ -79,14 +76,23 @@ const OrderTable = ({ orders }: OrderTableProps) => {
         return acc;
       }, {} as Record<string, number>);
 
+    let totalKg = 0;
+    {
+      Object.entries(count).map(([productName, count]) => {
+        const match = productName.match(/(\d+)\s*kg/i);
+        if (match) {
+          totalKg += parseInt(match[1], 10) * count;
+        }
+      });
+    }
+    setTotalKg(totalKg);
+
     setIsModalOpen(true);
     setProductCount(count);
   };
 
   const exportToExcel = () => {
-    const selectedData = orders.filter((order) =>
-      selectedOrders.includes(order.deliveryId)
-    );
+    const selectedData = orders.filter((order) => selectedOrders.includes(order.deliveryId));
 
     const data = selectedData.map((order) => {
       // productList에서 '묶음 배송 할인 nEA' 항목의 n값 추출
@@ -155,9 +161,7 @@ const OrderTable = ({ orders }: OrderTableProps) => {
 
   const handleCheckboxChange = (id: number) => {
     setSelectedOrders((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((orderId) => orderId !== id)
-        : [...prevSelected, id]
+      prevSelected.includes(id) ? prevSelected.filter((orderId) => orderId !== id) : [...prevSelected, id]
     );
   };
 
@@ -207,8 +211,7 @@ ${order.productList.join(", ")}`;
 
   const isAllSelected =
     selectedOrders.length > 0 &&
-    selectedOrders.length ===
-      orders.filter((order) => order.deliveryStatus === "결제완료").length;
+    selectedOrders.length === orders.filter((order) => order.deliveryStatus === "결제완료").length;
   return (
     <article css={sectionStyle}>
       <header css={tableHeader}>
@@ -256,11 +259,7 @@ ${order.productList.join(", ")}`;
                   <input
                     css={checkboxStyle}
                     type="checkbox"
-                    checked={
-                      order.deliveryStatus !== "결제완료"
-                        ? false
-                        : selectedOrders.includes(order.deliveryId)
-                    }
+                    checked={order.deliveryStatus !== "결제완료" ? false : selectedOrders.includes(order.deliveryId)}
                     disabled={order.deliveryStatus !== "결제완료"}
                     onChange={() => handleCheckboxChange(order.deliveryId)}
                   />
@@ -269,10 +268,7 @@ ${order.productList.join(", ")}`;
                 <td>
                   <div css={numberText}>
                     <span>{order.orderNumber}</span>
-                    <span
-                      css={copyIconStyle}
-                      onClick={() => handleCopyClick(order)}
-                    >
+                    <span css={copyIconStyle} onClick={() => handleCopyClick(order)}>
                       <IcCopy />
                     </span>
                   </div>
@@ -332,9 +328,7 @@ ${order.productList.join(", ")}`;
       {isModalOpen && (
         <Modal onClose={handleModalClose}>
           <article css={confrimModal}>
-            <h3
-              css={modalTitle}
-            >{`총 ${selectedOrders.length}개의 주문을 선택했습니다.`}</h3>
+            <h3 css={modalTitle}>{`총 ${selectedOrders.length}개의 주문을 선택했습니다.`}</h3>
             <hr />
             {Object.entries(productCount).map(([productName, count]) => (
               <div key={productName} css={productText}>
@@ -343,6 +337,7 @@ ${order.productList.join(", ")}`;
               </div>
             ))}
             <hr />
+            <div css={productText}>{`총 무게: ${totalKg} kg`}</div>
             <p css={modalNotice}>이대로 엑셀을 다운로드 하시겠습니까?</p>
             <Button variant="fill" onClick={exportToExcel}>
               확인

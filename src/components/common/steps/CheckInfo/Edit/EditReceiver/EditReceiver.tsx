@@ -1,11 +1,4 @@
-import {
-  Button,
-  CountProduct,
-  CustomCalendar,
-  Input,
-  Modal,
-  RadioInput,
-} from "@components";
+import { Button, CountProduct, CustomCalendar, Input, Modal, RadioInput } from "@components";
 import {
   addressFormWrapper,
   alertModal,
@@ -30,15 +23,10 @@ import { useOrderPostDataChange } from "src/hooks/useOrderPostDataChange";
 import { useAtom } from "jotai";
 import { categoryAtom } from "@stores";
 import { getTwoDaysLaterDate } from "@utils";
-import {
-  BUNDLE_KEYWORDS,
-  PRODUCT_BUNDLE_DISCOUNT_ID,
-  TRIAL_BUNDLE_DISCOUNT_ID,
-} from "@constants";
+import { BUNDLE_KEYWORDS, PRODUCT_BUNDLE_DISCOUNT_ID, TRIAL_BUNDLE_DISCOUNT_ID } from "@constants";
 import { ProductInfo } from "src/stores/orderPostData";
 
-const scriptUrl =
-  "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+const scriptUrl = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
 
 interface DaumPostcodeData {
   address: string;
@@ -62,11 +50,7 @@ const getiscountCount = (bundleProductCount: number) => {
 };
 
 const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
-  const {
-    orderPostDataState,
-    handleRecipientInputChange,
-    handleChangeOrderPrice,
-  } = useOrderPostDataChange();
+  const { orderPostDataState, handleRecipientInputChange, handleChangeOrderPrice } = useOrderPostDataChange();
 
   const receiver = useMemo(
     () => orderPostDataState.recipientInfo[receiverIndex] ?? {},
@@ -111,8 +95,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
         extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -179,53 +162,36 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     open({ onComplete: handleComplete });
   };
 
-  const handleCountChange = (
-    productIndex: number,
-    type: "increase" | "decrease"
-  ) => {
+  const handleCountChange = (productIndex: number, type: "increase" | "decrease") => {
     const currentProductInfo = receiver.productInfo;
 
     const updatedProductInfo = [...currentProductInfo];
     const product = updatedProductInfo[productIndex];
     updatedProductInfo[productIndex] = {
       ...product,
-      productCount:
-        type === "increase"
-          ? product.productCount + 1
-          : product.productCount - 1,
+      productCount: type === "increase" ? product.productCount + 1 : product.productCount - 1,
     };
 
-    const isBundleProduct = BUNDLE_KEYWORDS.some((keyword) =>
-      product.productName.toLowerCase().includes(keyword)
-    );
+    const isBundleProduct =
+      !product.productName.toLowerCase().includes("한라봉") &&
+      BUNDLE_KEYWORDS.some((keyword) => product.productName.toLowerCase().includes(keyword));
 
     if (isBundleProduct) {
       receiver.bundleProductCount =
-        type === "increase"
-          ? (receiver.bundleProductCount || 0) + 1
-          : (receiver.bundleProductCount || 0) - 1;
+        type === "increase" ? (receiver.bundleProductCount || 0) + 1 : (receiver.bundleProductCount || 0) - 1;
     }
 
-    const bundleDiscoutCount = getiscountCount(
-      receiver.bundleProductCount || 0
-    );
+    const bundleDiscoutCount = getiscountCount(receiver.bundleProductCount || 0);
 
     updatedProductInfo.forEach((product) => {
-      if (
-        product.productId === PRODUCT_BUNDLE_DISCOUNT_ID ||
-        product.productId === TRIAL_BUNDLE_DISCOUNT_ID
-      ) {
+      if (product.productId === PRODUCT_BUNDLE_DISCOUNT_ID || product.productId === TRIAL_BUNDLE_DISCOUNT_ID) {
         product.productCount = bundleDiscoutCount;
       }
     });
 
     const totalSum = getTotalSum(updatedProductInfo);
 
-    handleRecipientInputChange(
-      updatedProductInfo,
-      "productInfo",
-      receiverIndex
-    );
+    handleRecipientInputChange(updatedProductInfo, "productInfo", receiverIndex);
 
     handleChangeOrderPrice(totalSum, receiverIndex);
   };
@@ -234,11 +200,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
     handleRecipientInputChange(e, "selectedOption", receiverIndex);
 
     if (e.target.value === "regular") {
-      handleRecipientInputChange(
-        getTwoDaysLaterDate(),
-        "deliveryDate",
-        receiverIndex
-      );
+      handleRecipientInputChange(getTwoDaysLaterDate(), "deliveryDate", receiverIndex);
     } else {
       handleRecipientInputChange("", "deliveryDate", receiverIndex);
     }
@@ -254,38 +216,22 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
         <span css={receiverSpan}>받는 분</span>
         <section css={mainSectionStyle}>
           <Input
-            value={
-              orderPostDataState.recipientInfo[receiverIndex]?.recipientName ||
-              ""
-            }
-            onChange={(e) =>
-              handleRecipientInputChange(e, "recipientName", receiverIndex)
-            }
+            value={orderPostDataState.recipientInfo[receiverIndex]?.recipientName || ""}
+            onChange={(e) => handleRecipientInputChange(e, "recipientName", receiverIndex)}
             type="text"
             placeholder="이름을 입력하세요"
             inputLabel="이름"
           />
           <Input
-            value={
-              orderPostDataState.recipientInfo[receiverIndex]?.recipientPhone ||
-              ""
-            }
-            onChange={(e) =>
-              handleRecipientInputChange(e, "recipientPhone", receiverIndex)
-            }
+            value={orderPostDataState.recipientInfo[receiverIndex]?.recipientPhone || ""}
+            onChange={(e) => handleRecipientInputChange(e, "recipientPhone", receiverIndex)}
             type="text"
             placeholder="휴대폰 번호를 입력하세요"
             inputLabel="휴대폰 번호"
           />
           <div css={addressFormWrapper}>
             <div css={zonecodeWrapper}>
-              <Input
-                value={form.zonecode}
-                type="text"
-                placeholder="우편번호"
-                inputLabel="우편번호"
-                aria-readonly
-              />
+              <Input value={form.zonecode} type="text" placeholder="우편번호" inputLabel="우편번호" aria-readonly />
               <Button variant="fill" onClick={handleClick}>
                 주소 검색
               </Button>
@@ -299,9 +245,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
             />
             <Input
               value={form.addressDetail}
-              onChange={(e) =>
-                setForm({ ...form, addressDetail: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, addressDetail: e.target.value })}
               name="addressDetail"
               type="text"
               placeholder="상세주소 (예시: 101동 1201호 / 단독주택)"
@@ -322,9 +266,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
                     key={i}
                     productName={product.productName}
                     count={product.productCount}
-                    onCountChange={(type: "increase" | "decrease") =>
-                      handleCountChange(i, type)
-                    }
+                    onCountChange={(type: "increase" | "decrease") => handleCountChange(i, type)}
                   />
                 );
               })}
@@ -349,9 +291,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
                   label="예약 배송"
                 />
               </div>
-              {selectedOption === "scheduled" && (
-                <CustomCalendar onDateChange={handleDateChange} />
-              )}
+              {selectedOption === "scheduled" && <CustomCalendar onDateChange={handleDateChange} />}
             </div>
           )}
         </section>
@@ -360,9 +300,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
         <Button
           variant="fill"
           onClick={handleButtonClick}
-          disabled={
-            orderPostDataState.recipientInfo[receiverIndex]?.orderPrice === 0
-          }
+          disabled={orderPostDataState.recipientInfo[receiverIndex]?.orderPrice === 0}
         >
           수정 완료
         </Button>
