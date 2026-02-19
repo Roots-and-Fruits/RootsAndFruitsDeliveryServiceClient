@@ -174,6 +174,7 @@ const EditReceiver = ({ receiverIndex }: EditReceiverProps) => {
 
     const isBundleProduct =
       !product.productName.toLowerCase().includes("한라봉") &&
+      !product.productName.toLowerCase().includes("레드향") &&
       BUNDLE_KEYWORDS.some((keyword) => product.productName.toLowerCase().includes(keyword));
 
     if (isBundleProduct) {

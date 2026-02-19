@@ -113,6 +113,7 @@ const SelectProduct = ({ onNext }: StepProps) => {
 
         const isBundleProduct =
           !product.productName.toLowerCase().includes("한라봉") &&
+          !product.productName.toLowerCase().includes("레드향") &&
           BUNDLE_KEYWORDS.some((keyword) => product.productName.toLowerCase().includes(keyword));
 
         if (isBundleProduct) {
@@ -203,7 +204,9 @@ const SelectProduct = ({ onNext }: StepProps) => {
             </p>
             <br />
             <p>
-              <strong>한라봉</strong>은 묶음 할인 대상이 아니에요.
+              <strong>한라봉</strong>과 <strong>레드향</strong>은
+              <br />
+              묶음 할인 대상이 아니에요.
             </p>
             <br />
             <br />
